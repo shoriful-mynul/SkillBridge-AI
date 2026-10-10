@@ -19,6 +19,7 @@ import time
 import uuid
 from collections import OrderedDict
 from functools import lru_cache
+from contextvars import ContextVar
 from typing import Any, Optional
 
 from . import textcheck as tc
@@ -28,6 +29,8 @@ from .schemas import (Claim, ExtractionOut, FeedbackOut, ProbeEvalOut, ProbeGenO
                       Project, ScoreOut, TaskOut)
 
 RUBRIC_PATH = ROOT / "rubrics" / "ai-ml-intern.json"
+ACTIVE_ROLE = ContextVar("assessment_role", default="ai-ml-intern")
+ROLE_IDS = ("ai-ml-intern", "data-analyst-intern", "frontend-developer-intern")
 PROMPT_DIR = ROOT / "prompts"
 
 STRENGTH_ORDER = {"asserted": 0, "contextual": 1, "substantiated": 2}
@@ -50,9 +53,12 @@ class GateError(Exception):
 # --------------------------------------------------------------------------
 # Static resources
 # --------------------------------------------------------------------------
-@lru_cache(maxsize=1)
+@lru_cache(maxsize=3)
+def _load_rubric(role_id: str) -> dict:
+    return json.loads((ROOT / "rubrics" / (role_id + ".json")).read_text(encoding="utf-8"))
+
 def rubric() -> dict:
-    return json.loads(RUBRIC_PATH.read_text(encoding="utf-8"))
+    return _load_rubric(ACTIVE_ROLE.get())
 
 
 @lru_cache(maxsize=8)
@@ -255,6 +261,7 @@ async def extract_claims(cv_text: str) -> dict:
     }
     gate_passed = default_id is not None
     return {
+        "role_id": ACTIVE_ROLE.get(),
         "profile": out.profile.model_dump(),
         "claims": claim_rows,
         "projects": [{**p.model_dump(), "word_count": tc.word_count(p.description_span),
@@ -314,6 +321,7 @@ async def generate_task(extraction: dict, claim_id: str) -> dict:
 
     comm = task.communication_subtask.strip() or DEFAULT_COMM_SUBTASK
     record = {
+        "role_id": ACTIVE_ROLE.get(),
         "task_prompt": task.task_prompt,
         "communication_subtask": comm,
         "embedded_complication": task.embedded_complication,
@@ -554,3 +562,4 @@ async def write_feedback(task_id: str, attempt: int, answer: str, communication:
                    "word_count": tc.word_count(prose)},
         "meta": meta.to_dict(),
     }
+
