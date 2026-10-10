@@ -56,3 +56,12 @@ for(const roleId of ['ai-ml-intern','data-analyst-intern','frontend-developer-in
   assert.ok(nodes(tree).some(n=>n.type==='textarea'&&n.props.id==='cv'&&n.props.value.startsWith('My own Python project')));
  }finally{React.useState=oldState;React.useEffect=oldEffect;globalThis.fetch=oldFetch;globalThis.window=oldWindow;}
 });
+
+test('Understand my project validates inputs and sends a live request even after an unconfigured health check',async()=>{
+ const oldState=React.useState,oldEffect=React.useEffect,oldFetch=globalThis.fetch,oldWindow=globalThis.window;
+ const values=[];let cursor=0,tree,calls=0;
+ React.useState=initial=>{const index=cursor++;if(!(index in values))values[index]=typeof initial==='function'?initial():initial;return [values[index],next=>{values[index]=typeof next==='function'?next(values[index]):next;}];};React.useEffect=()=>{};globalThis.window={scrollTo(){}};
+ globalThis.fetch=async(url,options)=>{assert.equal(url,'/api/backend/api/assessments');const body=JSON.parse(options.body);assert.equal(body.consent,true);assert.equal(body.role_id,'ai-ml-intern');assert.ok(body.text.length>=40);calls++;return {ok:false,json:async()=>({error:{message:'Missing GEMINI_API_KEY. Configure the server secret.'}})};};
+ const render=()=>{cursor=0;tree=Workspace();};const btn=()=>nodes(tree).find(n=>n.type==='button'&&text(n)==='Understand my project →');
+ try{render();assert.equal(btn().props.disabled,false);await btn().props.onClick();render();assert.match(text(tree),/at least 40 characters/);assert.equal(calls,0);nodes(tree).find(n=>n.type==='textarea'&&n.props.id==='cv').props.onChange({target:{value:'I built a React form using local state and chose inline validation for clear feedback.'}});render();await btn().props.onClick();render();assert.match(text(tree),/consent checkbox/);assert.equal(calls,0);nodes(tree).find(n=>n.type==='input'&&n.props.type==='checkbox').props.onChange({target:{checked:true}});render();await btn().props.onClick();render();assert.equal(calls,1);assert.match(text(tree),/Missing GEMINI_API_KEY/);assert.ok(nodes(tree).find(n=>n.type==='textarea'&&n.props.id==='cv').props.value.includes('React form'));}finally{React.useState=oldState;React.useEffect=oldEffect;globalThis.fetch=oldFetch;globalThis.window=oldWindow;}
+});

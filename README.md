@@ -69,3 +69,7 @@ The supplied original pack and visual reference predate this revision. This migr
 - 4:20–5:00: Export report, limitations and future human evaluation.
 
 If provider configuration or quota blocks live AI, explicitly switch to “Synthetic rehearsal · not live AI”. Rehearsal scores are illustrative, not evaluation results.
+
+## Local live-button troubleshooting
+
+The live button now validates input and consent on click and displays explicit server errors rather than staying silently disabled after a health check. The setup panel names missing secrets and includes Recheck connection. Keep `.dev.vars` beside `package.json` (not `.dev.vars.txt`), save actual values, restart `npm run dev`, and refresh. The health check does not send a provider request and never proves model access. Eleven automated tests pass, including the live-button request/error/draft-preservation path. No real provider call was possible without a supplied API key.
