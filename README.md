@@ -12,12 +12,16 @@ The report belongs to the student. It describes evidence on one task, rather tha
 
 SkillBridge AI is a group project developed by four team members:
 
-| # | Team member |
+## Team Gradient
+
+SkillBridge AI is a group project developed by four team members:
+
+| Team member | GitHub |
 |---|---|
-| 1 | Shoriful Islam |
-| 2 | Fatima Salam |
-| 3 | Jabir Sharif |
-| 4 | Zoya Jabeen |
+| Shoriful Islam | [@shoriful-mynul](https://github.com/shoriful-mynul) |
+| Fatima Salam | [@FatimaSalam29](https://github.com/FatimaSalam29) |
+| Jabir Sharif | [@starbucksat4thave](https://github.com/starbucksat4thave) |
+| Zoya Jabeen | [@ZoyaJabeen468](https://github.com/ZoyaJabeen468) |
 
 ## Problem and approach
 
