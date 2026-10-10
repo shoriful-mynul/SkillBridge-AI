@@ -1,0 +1,3 @@
+SYNTHETIC FIXTURE B — written for this event; not a real person.
+Target: AI/ML Intern. Skills listed: Python, SQL, some machine learning.
+Project: Leaf photo classifier. I used MobileNetV2 and TensorFlow Lite. I collected 3,800 leaf photos across three districts. Random image splitting gave 89% accuracy, but a held-out district gave 69%. I added blur and low-light augmentation; held-out district accuracy reached 80%. I kept district labels to compare generalisation, and chose TensorFlow Lite for offline use.

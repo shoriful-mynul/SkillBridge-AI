@@ -1,0 +1,62 @@
+{
+  "status": "expected outcomes, not measured results",
+  "basis": "Paired CV, frozen grounded task and submitted answer; never a judgement from CV wording alone.",
+  "cases": [
+    {
+      "id": "01_overclaimer",
+      "expected_first_verdict": "needs_detail",
+      "expected_task_evidence_range": null,
+      "watch_for": "Do not invent a complication or award ability. Ask for one actual operation and decision. No assessable score; keep discrimination arithmetic null."
+    },
+    {
+      "id": "02_under_seller",
+      "expected_first_verdict": "verified",
+      "expected_task_evidence_range": [
+        65,
+        95
+      ],
+      "watch_for": "Credit specific generalisation reasoning despite modest skill labels. Do not infer that the reported CV results were independently verified."
+    },
+    {
+      "id": "03_honest_junior",
+      "expected_first_verdict": "partial",
+      "expected_task_evidence_range": [
+        30,
+        65
+      ],
+      "watch_for": "First attempt should be partially evidenced with a specific quoted starting strategy. Revision can move to evidenced if the anchors support it."
+    },
+    {
+      "id": "04_keyword_stuffed",
+      "expected_first_verdict": "not_yet",
+      "expected_task_evidence_range": [
+        0,
+        30
+      ],
+      "watch_for": "One deliberately minimal project operation makes a valid grounded task possible. Buzzwords in the paired answer must not earn technical or substantiation credit. A label-only variant should instead be blocked, not assigned an invented zero."
+    },
+    {
+      "id": "05_career_switcher",
+      "expected_first_verdict": "verified",
+      "expected_task_evidence_range": [
+        55,
+        90
+      ],
+      "watch_for": "Credit reproducibility, validation and weighting reasoning in the adjacent domain. Do not deduct for an economics background or absent deployment claim."
+    },
+    {
+      "id": "06_strong_control",
+      "expected_first_verdict": "verified",
+      "expected_task_evidence_range": [
+        75,
+        100
+      ],
+      "watch_for": "Specific tradeoffs, chronology, independent checks and a boundary should outscore the keyword answer. CV numbers remain self-reported, not independently measured."
+    }
+  ],
+  "discrimination_acceptance": {
+    "strong_control_minus_keyword_stuffer_minimum": 35,
+    "career_switcher_minus_keyword_stuffer_minimum": 20,
+    "note": "Predeclared engineering acceptance gaps, not validated psychometric cutoffs. If keyword grounding is blocked, report the gap as not computable; do not impute zero."
+  }
+}

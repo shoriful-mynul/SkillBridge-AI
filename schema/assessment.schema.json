@@ -1,0 +1,730 @@
+{
+  "$defs": {
+    "Attempt": {
+      "additionalProperties": false,
+      "properties": {
+        "attempt": {
+          "maximum": 2,
+          "minimum": 1,
+          "title": "Attempt",
+          "type": "integer"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "self_predicted_score": {
+          "maximum": 4,
+          "minimum": 0,
+          "title": "Self Predicted Score",
+          "type": "number"
+        },
+        "scores": {
+          "items": {
+            "$ref": "#/$defs/Score"
+          },
+          "title": "Scores",
+          "type": "array"
+        },
+        "feedback": {
+          "$ref": "#/$defs/Feedback"
+        },
+        "probes": {
+          "items": {
+            "$ref": "#/$defs/Probe"
+          },
+          "title": "Probes",
+          "type": "array"
+        },
+        "probe_answers": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ProbeAnswer"
+          },
+          "title": "Probe Answers",
+          "type": "array"
+        },
+        "integrity": {
+          "$ref": "#/$defs/Integrity"
+        },
+        "calibration": {
+          "$ref": "#/$defs/Calibration"
+        },
+        "task_evidence_index": {
+          "title": "Task Evidence Index",
+          "type": "number"
+        },
+        "weighted_score": {
+          "title": "Weighted Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "attempt",
+        "text",
+        "self_predicted_score",
+        "scores",
+        "feedback",
+        "probes",
+        "calibration",
+        "task_evidence_index",
+        "weighted_score"
+      ],
+      "title": "Attempt",
+      "type": "object"
+    },
+    "Calibration": {
+      "additionalProperties": false,
+      "properties": {
+        "self_predicted": {
+          "maximum": 4,
+          "minimum": 0,
+          "title": "Self Predicted",
+          "type": "number"
+        },
+        "demonstrated": {
+          "title": "Demonstrated",
+          "type": "number"
+        },
+        "gap": {
+          "title": "Gap",
+          "type": "number"
+        },
+        "framing": {
+          "title": "Framing",
+          "type": "string"
+        }
+      },
+      "required": [
+        "self_predicted",
+        "demonstrated",
+        "gap",
+        "framing"
+      ],
+      "title": "Calibration",
+      "type": "object"
+    },
+    "Choice": {
+      "additionalProperties": false,
+      "properties": {
+        "choice_id": {
+          "title": "Choice Id",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "instruction": {
+          "title": "Instruction",
+          "type": "string"
+        },
+        "dimension_id": {
+          "title": "Dimension Id",
+          "type": "string"
+        },
+        "target_level": {
+          "maximum": 4,
+          "minimum": 0,
+          "title": "Target Level",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "choice_id",
+        "title",
+        "instruction",
+        "dimension_id",
+        "target_level"
+      ],
+      "title": "Choice",
+      "type": "object"
+    },
+    "Claim": {
+      "additionalProperties": false,
+      "properties": {
+        "claim_id": {
+          "title": "Claim Id",
+          "type": "string"
+        },
+        "skill": {
+          "title": "Skill",
+          "type": "string"
+        },
+        "raw_label": {
+          "title": "Raw Label",
+          "type": "string"
+        },
+        "strength": {
+          "enum": [
+            "asserted",
+            "contextual",
+            "substantiated"
+          ],
+          "title": "Strength",
+          "type": "string"
+        },
+        "claimed_level": {
+          "default": "unstated",
+          "enum": [
+            "beginner",
+            "intermediate",
+            "advanced",
+            "unstated"
+          ],
+          "title": "Claimed Level",
+          "type": "string"
+        },
+        "evidence_span": {
+          "title": "Evidence Span",
+          "type": "string"
+        },
+        "linked_project_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Linked Project Id"
+        }
+      },
+      "required": [
+        "claim_id",
+        "skill",
+        "raw_label",
+        "strength",
+        "evidence_span"
+      ],
+      "title": "Claim",
+      "type": "object"
+    },
+    "Delta": {
+      "additionalProperties": false,
+      "properties": {
+        "before": {
+          "title": "Before",
+          "type": "number"
+        },
+        "after": {
+          "title": "After",
+          "type": "number"
+        },
+        "change": {
+          "title": "Change",
+          "type": "number"
+        },
+        "label": {
+          "default": "Change in evidence on the same task; not an employability score.",
+          "title": "Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "before",
+        "after",
+        "change"
+      ],
+      "title": "Delta",
+      "type": "object"
+    },
+    "Feedback": {
+      "additionalProperties": false,
+      "properties": {
+        "opening_quote": {
+          "title": "Opening Quote",
+          "type": "string"
+        },
+        "strength_statement": {
+          "title": "Strength Statement",
+          "type": "string"
+        },
+        "strategy_feedback": {
+          "title": "Strategy Feedback",
+          "type": "string"
+        },
+        "next_step_choices": {
+          "items": {
+            "$ref": "#/$defs/Choice"
+          },
+          "maxItems": 2,
+          "minItems": 2,
+          "title": "Next Step Choices",
+          "type": "array"
+        }
+      },
+      "required": [
+        "opening_quote",
+        "strength_statement",
+        "strategy_feedback",
+        "next_step_choices"
+      ],
+      "title": "Feedback",
+      "type": "object"
+    },
+    "Integrity": {
+      "additionalProperties": false,
+      "properties": {
+        "ownership_score": {
+          "anyOf": [
+            {
+              "maximum": 3,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ownership Score"
+        },
+        "confidence": {
+          "anyOf": [
+            {
+              "enum": [
+                "high",
+                "medium",
+                "low"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Confidence"
+        },
+        "evidence_spans": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Span"
+          },
+          "title": "Evidence Spans",
+          "type": "array"
+        },
+        "advisory_note": {
+          "default": "Ownership confidence is pending your two follow-up answers. This is not an AI-use detector.",
+          "title": "Advisory Note",
+          "type": "string"
+        }
+      },
+      "title": "Integrity",
+      "type": "object"
+    },
+    "Probe": {
+      "additionalProperties": false,
+      "properties": {
+        "probe_id": {
+          "title": "Probe Id",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "choice",
+            "boundary"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "anchored_quote": {
+          "title": "Anchored Quote",
+          "type": "string"
+        },
+        "question": {
+          "title": "Question",
+          "type": "string"
+        }
+      },
+      "required": [
+        "probe_id",
+        "type",
+        "anchored_quote",
+        "question"
+      ],
+      "title": "Probe",
+      "type": "object"
+    },
+    "ProbeAnswer": {
+      "additionalProperties": false,
+      "properties": {
+        "probe_id": {
+          "title": "Probe Id",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 2000,
+          "minLength": 5,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "probe_id",
+        "text"
+      ],
+      "title": "ProbeAnswer",
+      "type": "object"
+    },
+    "Project": {
+      "additionalProperties": false,
+      "properties": {
+        "project_id": {
+          "title": "Project Id",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "description_span": {
+          "title": "Description Span",
+          "type": "string"
+        },
+        "tools_named": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Tools Named",
+          "type": "array"
+        },
+        "stated_approach": {
+          "title": "Stated Approach",
+          "type": "string"
+        },
+        "task_grounding_potential": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ],
+          "title": "Task Grounding Potential",
+          "type": "string"
+        }
+      },
+      "required": [
+        "project_id",
+        "title",
+        "description_span",
+        "tools_named",
+        "stated_approach",
+        "task_grounding_potential"
+      ],
+      "title": "Project",
+      "type": "object"
+    },
+    "Score": {
+      "additionalProperties": false,
+      "properties": {
+        "dimension_id": {
+          "title": "Dimension Id",
+          "type": "string"
+        },
+        "score": {
+          "anyOf": [
+            {
+              "maximum": 4,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Score"
+        },
+        "anchor_matched": {
+          "title": "Anchor Matched",
+          "type": "string"
+        },
+        "evidence_spans": {
+          "items": {
+            "$ref": "#/$defs/Span"
+          },
+          "title": "Evidence Spans",
+          "type": "array"
+        },
+        "missing_for_next_level": {
+          "title": "Missing For Next Level",
+          "type": "string"
+        },
+        "confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ],
+          "title": "Confidence",
+          "type": "string"
+        },
+        "guard_applied": {
+          "default": false,
+          "title": "Guard Applied",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "dimension_id",
+        "anchor_matched",
+        "evidence_spans",
+        "missing_for_next_level",
+        "confidence"
+      ],
+      "title": "Score",
+      "type": "object"
+    },
+    "Span": {
+      "additionalProperties": false,
+      "properties": {
+        "quote": {
+          "title": "Quote",
+          "type": "string"
+        },
+        "why_it_supports": {
+          "title": "Why It Supports",
+          "type": "string"
+        }
+      },
+      "required": [
+        "quote",
+        "why_it_supports"
+      ],
+      "title": "Span",
+      "type": "object"
+    },
+    "Task": {
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {
+          "title": "Task Id",
+          "type": "string"
+        },
+        "targets_claim_id": {
+          "title": "Targets Claim Id",
+          "type": "string"
+        },
+        "grounded_in_project_id": {
+          "title": "Grounded In Project Id",
+          "type": "string"
+        },
+        "grounding_quotes": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 4,
+          "minItems": 2,
+          "title": "Grounding Quotes",
+          "type": "array"
+        },
+        "task_prompt": {
+          "title": "Task Prompt",
+          "type": "string"
+        },
+        "communication_subtask": {
+          "title": "Communication Subtask",
+          "type": "string"
+        },
+        "complication": {
+          "title": "Complication",
+          "type": "string"
+        },
+        "issue_source": {
+          "enum": [
+            "hypothetical",
+            "explicitly_described"
+          ],
+          "title": "Issue Source",
+          "type": "string"
+        },
+        "accessible_entry_point": {
+          "title": "Accessible Entry Point",
+          "type": "string"
+        }
+      },
+      "required": [
+        "task_id",
+        "targets_claim_id",
+        "grounded_in_project_id",
+        "grounding_quotes",
+        "task_prompt",
+        "communication_subtask",
+        "complication",
+        "issue_source",
+        "accessible_entry_point"
+      ],
+      "title": "Task",
+      "type": "object"
+    },
+    "Verification": {
+      "additionalProperties": false,
+      "properties": {
+        "claim_id": {
+          "title": "Claim Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "verified",
+            "partial",
+            "not_yet"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "display_label": {
+          "title": "Display Label",
+          "type": "string"
+        },
+        "assessed": {
+          "title": "Assessed",
+          "type": "boolean"
+        },
+        "caveat": {
+          "title": "Caveat",
+          "type": "string"
+        }
+      },
+      "required": [
+        "claim_id",
+        "status",
+        "display_label",
+        "assessed",
+        "caveat"
+      ],
+      "title": "Verification",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "2.0.0",
+      "default": "2.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "assessment_id": {
+      "title": "Assessment Id",
+      "type": "string"
+    },
+    "role_id": {
+      "title": "Role Id",
+      "type": "string"
+    },
+    "rubric_version": {
+      "title": "Rubric Version",
+      "type": "string"
+    },
+    "created_at": {
+      "title": "Created At",
+      "type": "string"
+    },
+    "state": {
+      "enum": [
+        "claims_ready",
+        "needs_detail",
+        "task_ready",
+        "first_review",
+        "revised_review"
+      ],
+      "title": "State",
+      "type": "string"
+    },
+    "source_text": {
+      "title": "Source Text",
+      "type": "string"
+    },
+    "claims": {
+      "items": {
+        "$ref": "#/$defs/Claim"
+      },
+      "title": "Claims",
+      "type": "array"
+    },
+    "projects": {
+      "items": {
+        "$ref": "#/$defs/Project"
+      },
+      "title": "Projects",
+      "type": "array"
+    },
+    "warnings": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    },
+    "task": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Task"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "attempts": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Attempt"
+      },
+      "maxItems": 2,
+      "title": "Attempts",
+      "type": "array"
+    },
+    "verification": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Verification"
+      },
+      "title": "Verification",
+      "type": "array"
+    },
+    "delta": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Delta"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "engine": {
+      "default": "live_gemini",
+      "enum": [
+        "live_gemini",
+        "synthetic_rehearsal"
+      ],
+      "title": "Engine",
+      "type": "string"
+    },
+    "receipt": {
+      "default": "",
+      "title": "Receipt",
+      "type": "string"
+    }
+  },
+  "required": [
+    "assessment_id",
+    "role_id",
+    "rubric_version",
+    "created_at",
+    "state",
+    "source_text",
+    "claims",
+    "projects"
+  ],
+  "title": "Assessment",
+  "type": "object"
+}

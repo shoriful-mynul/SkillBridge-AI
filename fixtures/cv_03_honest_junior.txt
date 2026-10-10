@@ -1,0 +1,3 @@
+SYNTHETIC FIXTURE C — written for this event; not a real person.
+Target: AI/ML Intern. Skills: Python, pandas and beginner scikit-learn.
+Project: Titanic baseline. I used pandas and logistic regression. Used pandas to fill missing age values with the median. I one-hot encoded the embarked column and reported 78% accuracy. I do not yet have deployment experience. I want to understand whether my preprocessing and evaluation choices were appropriate.

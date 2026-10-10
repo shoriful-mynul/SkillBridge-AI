@@ -1,0 +1,3 @@
+SYNTHETIC FIXTURE F — written for this event; not a real person.
+Target: AI/ML Intern. Skills: Python, SQL, scikit-learn, model evaluation.
+Project: Subscriber churn study. I used SQL and scikit-learn on 80,000 synthetic subscriber rows. I removed a cancellation flag that was only available after the prediction date; held-out AUC moved from 0.94 to 0.80. I grouped splits by subscriber, kept preprocessing inside the training pipeline, and compared a logistic-regression baseline with gradient boosting. I chose the baseline because AUC differed by only 0.01 while calibration and explanation were easier. AUC alone does not establish business benefit.

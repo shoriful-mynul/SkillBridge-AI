@@ -1,0 +1,1101 @@
+{
+  "disclosure": "Synthetic rehearsal: fictional answers and curated illustrative scores, not live Gemini.",
+  "records": [
+    {
+      "schema_version": "2.0.0",
+      "assessment_id": "synthetic-frontend-developer-intern",
+      "role_id": "frontend-developer-intern",
+      "rubric_version": "3.0.0",
+      "created_at": "2026-10-10T00:00:00+05:00",
+      "state": "task_ready",
+      "source_text": "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.",
+      "claims": [
+        {
+          "claim_id": "c1",
+          "skill": "react",
+          "raw_label": "React",
+          "strength": "substantiated",
+          "claimed_level": "unstated",
+          "evidence_span": "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.",
+          "linked_project_id": "p1"
+        }
+      ],
+      "projects": [
+        {
+          "project_id": "p1",
+          "title": "Accessible registration form",
+          "description_span": "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.",
+          "tools_named": [
+            "React"
+          ],
+          "stated_approach": "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.",
+          "task_grounding_potential": "high"
+        }
+      ],
+      "warnings": [],
+      "task": {
+        "task_id": "synthetic-task-frontend-developer-intern",
+        "targets_claim_id": "c1",
+        "grounded_in_project_id": "p1",
+        "grounding_quotes": [
+          "React",
+          "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component."
+        ],
+        "task_prompt": "You named React and described: \"I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.\" The hypothetical change is that keyboard users cannot reach the submit action after a validation error. Explain a state and focus strategy, name an alternative, and give an interaction check. This is an exercise, not a diagnosis of your original project.",
+        "communication_subtask": "Explain your proposed decision to a non-technical project manager in no more than 120 words.",
+        "complication": "The hypothetical change is that keyboard users cannot reach the submit action after a validation error. Explain a state and focus strategy, name an alternative, and give an interaction check.",
+        "issue_source": "hypothetical",
+        "accessible_entry_point": "Quote the relevant step in your stated approach and describe one concrete check."
+      },
+      "attempts": [],
+      "verification": [],
+      "delta": null,
+      "engine": "synthetic_rehearsal",
+      "receipt": ""
+    },
+    {
+      "schema_version": "2.0.0",
+      "assessment_id": "synthetic-frontend-developer-intern",
+      "role_id": "frontend-developer-intern",
+      "rubric_version": "3.0.0",
+      "created_at": "2026-10-10T00:00:00+05:00",
+      "state": "first_review",
+      "source_text": "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.",
+      "claims": [
+        {
+          "claim_id": "c1",
+          "skill": "react",
+          "raw_label": "React",
+          "strength": "substantiated",
+          "claimed_level": "unstated",
+          "evidence_span": "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.",
+          "linked_project_id": "p1"
+        }
+      ],
+      "projects": [
+        {
+          "project_id": "p1",
+          "title": "Accessible registration form",
+          "description_span": "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.",
+          "tools_named": [
+            "React"
+          ],
+          "stated_approach": "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.",
+          "task_grounding_potential": "high"
+        }
+      ],
+      "warnings": [],
+      "task": {
+        "task_id": "synthetic-task-frontend-developer-intern",
+        "targets_claim_id": "c1",
+        "grounded_in_project_id": "p1",
+        "grounding_quotes": [
+          "React",
+          "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component."
+        ],
+        "task_prompt": "You named React and described: \"I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.\" The hypothetical change is that keyboard users cannot reach the submit action after a validation error. Explain a state and focus strategy, name an alternative, and give an interaction check. This is an exercise, not a diagnosis of your original project.",
+        "communication_subtask": "Explain your proposed decision to a non-technical project manager in no more than 120 words.",
+        "complication": "The hypothetical change is that keyboard users cannot reach the submit action after a validation error. Explain a state and focus strategy, name an alternative, and give an interaction check.",
+        "issue_source": "hypothetical",
+        "accessible_entry_point": "Quote the relevant step in your stated approach and describe one concrete check."
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "text": "I would keep the form values in React state and show errors next to the inputs. I would test the form by submitting an empty value and then a valid value.",
+          "self_predicted_score": 3,
+          "scores": [
+            {
+              "dimension_id": "claim_substantiation",
+              "score": 2,
+              "anchor_matched": "The answer shows one relevant routine operation in the described project, without explaining a substantive decision.",
+              "evidence_spans": [
+                {
+                  "quote": "I would keep the form values in React state and show errors next to the inputs.",
+                  "why_it_supports": "Curated illustration of the stated method."
+                }
+              ],
+              "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "technical_correctness",
+              "score": 2,
+              "anchor_matched": "The central method is valid but an important contained assumption, edge case, or validation detail remains unresolved.",
+              "evidence_spans": [
+                {
+                  "quote": "I would keep the form values in React state and show errors next to the inputs.",
+                  "why_it_supports": "Curated illustration of the stated method."
+                }
+              ],
+              "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "reasoning_transparency",
+              "score": 2,
+              "anchor_matched": "The answer gives a plausible reason but does not connect it to a specific project property or meaningful alternative.",
+              "evidence_spans": [
+                {
+                  "quote": "I would keep the form values in React state and show errors next to the inputs.",
+                  "why_it_supports": "Curated illustration of the stated method."
+                }
+              ],
+              "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "communication",
+              "score": 3,
+              "anchor_matched": "The explanation leads with the practical point, uses clear structure, and explains necessary technical terms for the specified audience.",
+              "evidence_spans": [
+                {
+                  "quote": "I would keep the form values in React state and show errors next to the inputs.",
+                  "why_it_supports": "Curated illustration of the stated method."
+                }
+              ],
+              "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "coachability_delta",
+              "score": null,
+              "anchor_matched": "Not observed until revision.",
+              "evidence_spans": [],
+              "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+              "confidence": "medium",
+              "guard_applied": false
+            }
+          ],
+          "feedback": {
+            "opening_quote": "I would keep the form values in React state and show errors next to the inputs.",
+            "strength_statement": "Your answer names a concrete approach in this project.",
+            "strategy_feedback": "Make the validation check and its practical consequence explicit.",
+            "next_step_choices": [
+              {
+                "choice_id": "a",
+                "title": "Make the check observable",
+                "instruction": "Revise the answer with a concrete check and its expected outcome.",
+                "dimension_id": "claim_substantiation",
+                "target_level": 3
+              },
+              {
+                "choice_id": "b",
+                "title": "Handle one boundary",
+                "instruction": "Revise the answer with one project-specific edge case and how you would check it.",
+                "dimension_id": "claim_substantiation",
+                "target_level": 3
+              }
+            ]
+          },
+          "probes": [
+            {
+              "probe_id": "q1",
+              "type": "choice",
+              "anchored_quote": "I would keep the form values in React state and show errors next to the inputs.",
+              "question": "You wrote \"I would keep the form values in React state and show errors next to the inputs.\" Why focus the first invalid input rather than clear the form?"
+            },
+            {
+              "probe_id": "q2",
+              "type": "boundary",
+              "anchored_quote": "I would keep the form values in React state and show errors next to the inputs.",
+              "question": "You wrote \"I would keep the form values in React state and show errors next to the inputs.\" What changes when async validation replies arrive out of order?"
+            }
+          ],
+          "probe_answers": [],
+          "integrity": {
+            "ownership_score": null,
+            "confidence": null,
+            "evidence_spans": [],
+            "advisory_note": "Ownership confidence is pending your two follow-up answers. This is not an AI-use detector."
+          },
+          "calibration": {
+            "self_predicted": 3,
+            "demonstrated": 2.22,
+            "gap": 0.78,
+            "framing": "Curated fictional calibration on this task; not measured model reliability."
+          },
+          "task_evidence_index": 55.56,
+          "weighted_score": 55.56
+        }
+      ],
+      "verification": [
+        {
+          "claim_id": "c1",
+          "status": "partial",
+          "display_label": "Partially evidenced",
+          "assessed": true,
+          "caveat": "Illustrative evidence on a fictional task; not certification."
+        }
+      ],
+      "delta": null,
+      "engine": "synthetic_rehearsal",
+      "receipt": ""
+    },
+    {
+      "schema_version": "2.0.0",
+      "assessment_id": "synthetic-frontend-developer-intern",
+      "role_id": "frontend-developer-intern",
+      "rubric_version": "3.0.0",
+      "created_at": "2026-10-10T00:00:00+05:00",
+      "state": "revised_review",
+      "source_text": "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.",
+      "claims": [
+        {
+          "claim_id": "c1",
+          "skill": "react",
+          "raw_label": "React",
+          "strength": "substantiated",
+          "claimed_level": "unstated",
+          "evidence_span": "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.",
+          "linked_project_id": "p1"
+        }
+      ],
+      "projects": [
+        {
+          "project_id": "p1",
+          "title": "Accessible registration form",
+          "description_span": "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.",
+          "tools_named": [
+            "React"
+          ],
+          "stated_approach": "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.",
+          "task_grounding_potential": "high"
+        }
+      ],
+      "warnings": [],
+      "task": {
+        "task_id": "synthetic-task-frontend-developer-intern",
+        "targets_claim_id": "c1",
+        "grounded_in_project_id": "p1",
+        "grounding_quotes": [
+          "React",
+          "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component."
+        ],
+        "task_prompt": "You named React and described: \"I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.\" The hypothetical change is that keyboard users cannot reach the submit action after a validation error. Explain a state and focus strategy, name an alternative, and give an interaction check. This is an exercise, not a diagnosis of your original project.",
+        "communication_subtask": "Explain your proposed decision to a non-technical project manager in no more than 120 words.",
+        "complication": "The hypothetical change is that keyboard users cannot reach the submit action after a validation error. Explain a state and focus strategy, name an alternative, and give an interaction check.",
+        "issue_source": "hypothetical",
+        "accessible_entry_point": "Quote the relevant step in your stated approach and describe one concrete check."
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "text": "I would keep the form values in React state and show errors next to the inputs. I would test the form by submitting an empty value and then a valid value.",
+          "self_predicted_score": 3,
+          "scores": [
+            {
+              "dimension_id": "claim_substantiation",
+              "score": 2,
+              "anchor_matched": "The answer shows one relevant routine operation in the described project, without explaining a substantive decision.",
+              "evidence_spans": [
+                {
+                  "quote": "I would keep the form values in React state and show errors next to the inputs.",
+                  "why_it_supports": "Curated illustration of the stated method."
+                }
+              ],
+              "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "technical_correctness",
+              "score": 2,
+              "anchor_matched": "The central method is valid but an important contained assumption, edge case, or validation detail remains unresolved.",
+              "evidence_spans": [
+                {
+                  "quote": "I would keep the form values in React state and show errors next to the inputs.",
+                  "why_it_supports": "Curated illustration of the stated method."
+                }
+              ],
+              "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "reasoning_transparency",
+              "score": 2,
+              "anchor_matched": "The answer gives a plausible reason but does not connect it to a specific project property or meaningful alternative.",
+              "evidence_spans": [
+                {
+                  "quote": "I would keep the form values in React state and show errors next to the inputs.",
+                  "why_it_supports": "Curated illustration of the stated method."
+                }
+              ],
+              "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "communication",
+              "score": 3,
+              "anchor_matched": "The explanation leads with the practical point, uses clear structure, and explains necessary technical terms for the specified audience.",
+              "evidence_spans": [
+                {
+                  "quote": "I would keep the form values in React state and show errors next to the inputs.",
+                  "why_it_supports": "Curated illustration of the stated method."
+                }
+              ],
+              "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "coachability_delta",
+              "score": null,
+              "anchor_matched": "Not observed until revision.",
+              "evidence_spans": [],
+              "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+              "confidence": "medium",
+              "guard_applied": false
+            }
+          ],
+          "feedback": {
+            "opening_quote": "I would keep the form values in React state and show errors next to the inputs.",
+            "strength_statement": "Your answer names a concrete approach in this project.",
+            "strategy_feedback": "Make the validation check and its practical consequence explicit.",
+            "next_step_choices": [
+              {
+                "choice_id": "a",
+                "title": "Make the check observable",
+                "instruction": "Revise the answer with a concrete check and its expected outcome.",
+                "dimension_id": "claim_substantiation",
+                "target_level": 3
+              },
+              {
+                "choice_id": "b",
+                "title": "Handle one boundary",
+                "instruction": "Revise the answer with one project-specific edge case and how you would check it.",
+                "dimension_id": "claim_substantiation",
+                "target_level": 3
+              }
+            ]
+          },
+          "probes": [
+            {
+              "probe_id": "q1",
+              "type": "choice",
+              "anchored_quote": "I would keep the form values in React state and show errors next to the inputs.",
+              "question": "You wrote \"I would keep the form values in React state and show errors next to the inputs.\" Why focus the first invalid input rather than clear the form?"
+            },
+            {
+              "probe_id": "q2",
+              "type": "boundary",
+              "anchored_quote": "I would keep the form values in React state and show errors next to the inputs.",
+              "question": "You wrote \"I would keep the form values in React state and show errors next to the inputs.\" What changes when async validation replies arrive out of order?"
+            }
+          ],
+          "probe_answers": [],
+          "integrity": {
+            "ownership_score": null,
+            "confidence": null,
+            "evidence_spans": [],
+            "advisory_note": "Ownership confidence is pending your two follow-up answers. This is not an AI-use detector."
+          },
+          "calibration": {
+            "self_predicted": 3,
+            "demonstrated": 2.22,
+            "gap": 0.78,
+            "framing": "Curated fictional calibration on this task; not measured model reliability."
+          },
+          "task_evidence_index": 55.56,
+          "weighted_score": 55.56
+        },
+        {
+          "attempt": 2,
+          "text": "I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission. An error summary would link to each affected field and be announced with a live region. A global store adds complexity for this single form. I would test Tab and Shift+Tab order, Enter submission, and correction without losing typed values. If async validation completes late, I would discard stale responses so an older error does not replace a corrected value.",
+          "self_predicted_score": 3.5,
+          "scores": [
+            {
+              "dimension_id": "claim_substantiation",
+              "score": 3,
+              "anchor_matched": "Shows a concrete component, state, layout or accessibility decision in this project, with supporting detail.",
+              "evidence_spans": [
+                {
+                  "quote": "I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission.",
+                  "why_it_supports": "Curated illustration of the stated method."
+                }
+              ],
+              "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "technical_correctness",
+              "score": 3,
+              "anchor_matched": "Describes valid component state and event behavior, semantic controls, keyboard access and a reproducible interaction check without claiming code was executed.",
+              "evidence_spans": [
+                {
+                  "quote": "I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission.",
+                  "why_it_supports": "Curated illustration of the stated method."
+                }
+              ],
+              "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "reasoning_transparency",
+              "score": 3,
+              "anchor_matched": "Connects the choice to a user interaction, component state, keyboard access, responsive layout, and rendering behavior and explains a less suitable alternative.",
+              "evidence_spans": [
+                {
+                  "quote": "I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission.",
+                  "why_it_supports": "Curated illustration of the stated method."
+                }
+              ],
+              "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "communication",
+              "score": 3,
+              "anchor_matched": "The explanation leads with the practical point, uses clear structure, and explains necessary technical terms for the specified audience.",
+              "evidence_spans": [
+                {
+                  "quote": "I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission.",
+                  "why_it_supports": "Curated illustration of the stated method."
+                }
+              ],
+              "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "coachability_delta",
+              "score": 3,
+              "anchor_matched": "The revision addresses the critique and applies the same principle consistently across the proposed workflow.",
+              "evidence_spans": [
+                {
+                  "quote": "I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission.",
+                  "why_it_supports": "Curated illustration of the stated method."
+                }
+              ],
+              "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+              "confidence": "medium",
+              "guard_applied": false
+            }
+          ],
+          "feedback": {
+            "opening_quote": "I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission.",
+            "strength_statement": "Your answer names a concrete approach in this project.",
+            "strategy_feedback": "Make the validation check and its practical consequence explicit.",
+            "next_step_choices": [
+              {
+                "choice_id": "a",
+                "title": "Make the check observable",
+                "instruction": "Revise the answer with a concrete check and its expected outcome.",
+                "dimension_id": "claim_substantiation",
+                "target_level": 4
+              },
+              {
+                "choice_id": "b",
+                "title": "Handle one boundary",
+                "instruction": "Revise the answer with one project-specific edge case and how you would check it.",
+                "dimension_id": "claim_substantiation",
+                "target_level": 4
+              }
+            ]
+          },
+          "probes": [
+            {
+              "probe_id": "q1",
+              "type": "choice",
+              "anchored_quote": "I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission.",
+              "question": "You wrote \"I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission.\" Why focus the first invalid input rather than clear the form?"
+            },
+            {
+              "probe_id": "q2",
+              "type": "boundary",
+              "anchored_quote": "I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission.",
+              "question": "You wrote \"I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission.\" What changes when async validation replies arrive out of order?"
+            }
+          ],
+          "probe_answers": [],
+          "integrity": {
+            "ownership_score": null,
+            "confidence": null,
+            "evidence_spans": [],
+            "advisory_note": "Ownership confidence is pending your two follow-up answers. This is not an AI-use detector."
+          },
+          "calibration": {
+            "self_predicted": 3.5,
+            "demonstrated": 3.0,
+            "gap": 0.5,
+            "framing": "Curated fictional calibration on this task; not measured model reliability."
+          },
+          "task_evidence_index": 75,
+          "weighted_score": 75
+        }
+      ],
+      "verification": [
+        {
+          "claim_id": "c1",
+          "status": "verified",
+          "display_label": "Evidenced on this task",
+          "assessed": true,
+          "caveat": "Illustrative evidence on a fictional task; not certification."
+        }
+      ],
+      "delta": {
+        "before": 55.56,
+        "after": 75,
+        "change": 19.44,
+        "label": "Change in evidence on the same task; not an employability score."
+      },
+      "engine": "synthetic_rehearsal",
+      "receipt": ""
+    }
+  ],
+  "probe_answers": [
+    {
+      "probe_id": "q1",
+      "text": "Focusing the first invalid field gives keyboard users a direct next action while preserving the values they already entered. Clearing the form would make them repeat work."
+    },
+    {
+      "probe_id": "q2",
+      "text": "I would associate each request with its current field value and ignore stale replies so earlier requests cannot overwrite corrected input."
+    }
+  ],
+  "ownership_record": {
+    "schema_version": "2.0.0",
+    "assessment_id": "synthetic-frontend-developer-intern",
+    "role_id": "frontend-developer-intern",
+    "rubric_version": "3.0.0",
+    "created_at": "2026-10-10T00:00:00+05:00",
+    "state": "first_review",
+    "source_text": "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.",
+    "claims": [
+      {
+        "claim_id": "c1",
+        "skill": "react",
+        "raw_label": "React",
+        "strength": "substantiated",
+        "claimed_level": "unstated",
+        "evidence_span": "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.",
+        "linked_project_id": "p1"
+      }
+    ],
+    "projects": [
+      {
+        "project_id": "p1",
+        "title": "Accessible registration form",
+        "description_span": "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.",
+        "tools_named": [
+          "React"
+        ],
+        "stated_approach": "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.",
+        "task_grounding_potential": "high"
+      }
+    ],
+    "warnings": [],
+    "task": {
+      "task_id": "synthetic-task-frontend-developer-intern",
+      "targets_claim_id": "c1",
+      "grounded_in_project_id": "p1",
+      "grounding_quotes": [
+        "React",
+        "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component."
+      ],
+      "task_prompt": "You named React and described: \"I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.\" The hypothetical change is that keyboard users cannot reach the submit action after a validation error. Explain a state and focus strategy, name an alternative, and give an interaction check. This is an exercise, not a diagnosis of your original project.",
+      "communication_subtask": "Explain your proposed decision to a non-technical project manager in no more than 120 words.",
+      "complication": "The hypothetical change is that keyboard users cannot reach the submit action after a validation error. Explain a state and focus strategy, name an alternative, and give an interaction check.",
+      "issue_source": "hypothetical",
+      "accessible_entry_point": "Quote the relevant step in your stated approach and describe one concrete check."
+    },
+    "attempts": [
+      {
+        "attempt": 1,
+        "text": "I would keep the form values in React state and show errors next to the inputs. I would test the form by submitting an empty value and then a valid value.",
+        "self_predicted_score": 3,
+        "scores": [
+          {
+            "dimension_id": "claim_substantiation",
+            "score": 2,
+            "anchor_matched": "The answer shows one relevant routine operation in the described project, without explaining a substantive decision.",
+            "evidence_spans": [
+              {
+                "quote": "I would keep the form values in React state and show errors next to the inputs.",
+                "why_it_supports": "Curated illustration of the stated method."
+              }
+            ],
+            "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "technical_correctness",
+            "score": 2,
+            "anchor_matched": "The central method is valid but an important contained assumption, edge case, or validation detail remains unresolved.",
+            "evidence_spans": [
+              {
+                "quote": "I would keep the form values in React state and show errors next to the inputs.",
+                "why_it_supports": "Curated illustration of the stated method."
+              }
+            ],
+            "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "reasoning_transparency",
+            "score": 2,
+            "anchor_matched": "The answer gives a plausible reason but does not connect it to a specific project property or meaningful alternative.",
+            "evidence_spans": [
+              {
+                "quote": "I would keep the form values in React state and show errors next to the inputs.",
+                "why_it_supports": "Curated illustration of the stated method."
+              }
+            ],
+            "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "communication",
+            "score": 3,
+            "anchor_matched": "The explanation leads with the practical point, uses clear structure, and explains necessary technical terms for the specified audience.",
+            "evidence_spans": [
+              {
+                "quote": "I would keep the form values in React state and show errors next to the inputs.",
+                "why_it_supports": "Curated illustration of the stated method."
+              }
+            ],
+            "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "coachability_delta",
+            "score": null,
+            "anchor_matched": "Not observed until revision.",
+            "evidence_spans": [],
+            "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+            "confidence": "medium",
+            "guard_applied": false
+          }
+        ],
+        "feedback": {
+          "opening_quote": "I would keep the form values in React state and show errors next to the inputs.",
+          "strength_statement": "Your answer names a concrete approach in this project.",
+          "strategy_feedback": "Make the validation check and its practical consequence explicit.",
+          "next_step_choices": [
+            {
+              "choice_id": "a",
+              "title": "Make the check observable",
+              "instruction": "Revise the answer with a concrete check and its expected outcome.",
+              "dimension_id": "claim_substantiation",
+              "target_level": 3
+            },
+            {
+              "choice_id": "b",
+              "title": "Handle one boundary",
+              "instruction": "Revise the answer with one project-specific edge case and how you would check it.",
+              "dimension_id": "claim_substantiation",
+              "target_level": 3
+            }
+          ]
+        },
+        "probes": [
+          {
+            "probe_id": "q1",
+            "type": "choice",
+            "anchored_quote": "I would keep the form values in React state and show errors next to the inputs.",
+            "question": "You wrote \"I would keep the form values in React state and show errors next to the inputs.\" Why focus the first invalid input rather than clear the form?"
+          },
+          {
+            "probe_id": "q2",
+            "type": "boundary",
+            "anchored_quote": "I would keep the form values in React state and show errors next to the inputs.",
+            "question": "You wrote \"I would keep the form values in React state and show errors next to the inputs.\" What changes when async validation replies arrive out of order?"
+          }
+        ],
+        "probe_answers": [
+          {
+            "probe_id": "q1",
+            "text": "Focusing the first invalid field gives keyboard users a direct next action while preserving the values they already entered. Clearing the form would make them repeat work."
+          },
+          {
+            "probe_id": "q2",
+            "text": "I would associate each request with its current field value and ignore stale replies so earlier requests cannot overwrite corrected input."
+          }
+        ],
+        "integrity": {
+          "ownership_score": 3,
+          "confidence": "high",
+          "evidence_spans": [
+            {
+              "quote": "Focusing the first invalid field gives keyboard users a direct next action while preserving the values they already entered. Clearing the form would make them repeat work.",
+              "why_it_supports": "Illustrative explanation of a project choice."
+            }
+          ],
+          "advisory_note": "This illustrative explanation accounts for the specific choice, an alternative and a boundary. It does not establish authorship. Nerves, time pressure or language can affect this short probe."
+        },
+        "calibration": {
+          "self_predicted": 3,
+          "demonstrated": 2.22,
+          "gap": 0.78,
+          "framing": "Curated fictional calibration on this task; not measured model reliability."
+        },
+        "task_evidence_index": 55.56,
+        "weighted_score": 55.56
+      }
+    ],
+    "verification": [
+      {
+        "claim_id": "c1",
+        "status": "partial",
+        "display_label": "Partially evidenced",
+        "assessed": true,
+        "caveat": "Illustrative evidence on a fictional task; not certification."
+      }
+    ],
+    "delta": null,
+    "engine": "synthetic_rehearsal",
+    "receipt": ""
+  },
+  "revision_probe_answers": [
+    {
+      "probe_id": "q1",
+      "text": "Focusing the first invalid field gives keyboard users a direct next action while preserving the values they already entered. Clearing the form would make them repeat work."
+    },
+    {
+      "probe_id": "q2",
+      "text": "I would associate each request with its current field value and ignore stale replies so earlier requests cannot overwrite corrected input."
+    }
+  ],
+  "ownership_record_revision": {
+    "schema_version": "2.0.0",
+    "assessment_id": "synthetic-frontend-developer-intern",
+    "role_id": "frontend-developer-intern",
+    "rubric_version": "3.0.0",
+    "created_at": "2026-10-10T00:00:00+05:00",
+    "state": "revised_review",
+    "source_text": "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.",
+    "claims": [
+      {
+        "claim_id": "c1",
+        "skill": "react",
+        "raw_label": "React",
+        "strength": "substantiated",
+        "claimed_level": "unstated",
+        "evidence_span": "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.",
+        "linked_project_id": "p1"
+      }
+    ],
+    "projects": [
+      {
+        "project_id": "p1",
+        "title": "Accessible registration form",
+        "description_span": "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.",
+        "tools_named": [
+          "React"
+        ],
+        "stated_approach": "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.",
+        "task_grounding_potential": "high"
+      }
+    ],
+    "warnings": [],
+    "task": {
+      "task_id": "synthetic-task-frontend-developer-intern",
+      "targets_claim_id": "c1",
+      "grounded_in_project_id": "p1",
+      "grounding_quotes": [
+        "React",
+        "I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component."
+      ],
+      "task_prompt": "You named React and described: \"I built a React registration form with controlled inputs and inline validation. I chose local state because the form lives in one component.\" The hypothetical change is that keyboard users cannot reach the submit action after a validation error. Explain a state and focus strategy, name an alternative, and give an interaction check. This is an exercise, not a diagnosis of your original project.",
+      "communication_subtask": "Explain your proposed decision to a non-technical project manager in no more than 120 words.",
+      "complication": "The hypothetical change is that keyboard users cannot reach the submit action after a validation error. Explain a state and focus strategy, name an alternative, and give an interaction check.",
+      "issue_source": "hypothetical",
+      "accessible_entry_point": "Quote the relevant step in your stated approach and describe one concrete check."
+    },
+    "attempts": [
+      {
+        "attempt": 1,
+        "text": "I would keep the form values in React state and show errors next to the inputs. I would test the form by submitting an empty value and then a valid value.",
+        "self_predicted_score": 3,
+        "scores": [
+          {
+            "dimension_id": "claim_substantiation",
+            "score": 2,
+            "anchor_matched": "The answer shows one relevant routine operation in the described project, without explaining a substantive decision.",
+            "evidence_spans": [
+              {
+                "quote": "I would keep the form values in React state and show errors next to the inputs.",
+                "why_it_supports": "Curated illustration of the stated method."
+              }
+            ],
+            "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "technical_correctness",
+            "score": 2,
+            "anchor_matched": "The central method is valid but an important contained assumption, edge case, or validation detail remains unresolved.",
+            "evidence_spans": [
+              {
+                "quote": "I would keep the form values in React state and show errors next to the inputs.",
+                "why_it_supports": "Curated illustration of the stated method."
+              }
+            ],
+            "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "reasoning_transparency",
+            "score": 2,
+            "anchor_matched": "The answer gives a plausible reason but does not connect it to a specific project property or meaningful alternative.",
+            "evidence_spans": [
+              {
+                "quote": "I would keep the form values in React state and show errors next to the inputs.",
+                "why_it_supports": "Curated illustration of the stated method."
+              }
+            ],
+            "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "communication",
+            "score": 3,
+            "anchor_matched": "The explanation leads with the practical point, uses clear structure, and explains necessary technical terms for the specified audience.",
+            "evidence_spans": [
+              {
+                "quote": "I would keep the form values in React state and show errors next to the inputs.",
+                "why_it_supports": "Curated illustration of the stated method."
+              }
+            ],
+            "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "coachability_delta",
+            "score": null,
+            "anchor_matched": "Not observed until revision.",
+            "evidence_spans": [],
+            "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+            "confidence": "medium",
+            "guard_applied": false
+          }
+        ],
+        "feedback": {
+          "opening_quote": "I would keep the form values in React state and show errors next to the inputs.",
+          "strength_statement": "Your answer names a concrete approach in this project.",
+          "strategy_feedback": "Make the validation check and its practical consequence explicit.",
+          "next_step_choices": [
+            {
+              "choice_id": "a",
+              "title": "Make the check observable",
+              "instruction": "Revise the answer with a concrete check and its expected outcome.",
+              "dimension_id": "claim_substantiation",
+              "target_level": 3
+            },
+            {
+              "choice_id": "b",
+              "title": "Handle one boundary",
+              "instruction": "Revise the answer with one project-specific edge case and how you would check it.",
+              "dimension_id": "claim_substantiation",
+              "target_level": 3
+            }
+          ]
+        },
+        "probes": [
+          {
+            "probe_id": "q1",
+            "type": "choice",
+            "anchored_quote": "I would keep the form values in React state and show errors next to the inputs.",
+            "question": "You wrote \"I would keep the form values in React state and show errors next to the inputs.\" Why focus the first invalid input rather than clear the form?"
+          },
+          {
+            "probe_id": "q2",
+            "type": "boundary",
+            "anchored_quote": "I would keep the form values in React state and show errors next to the inputs.",
+            "question": "You wrote \"I would keep the form values in React state and show errors next to the inputs.\" What changes when async validation replies arrive out of order?"
+          }
+        ],
+        "probe_answers": [],
+        "integrity": {
+          "ownership_score": null,
+          "confidence": null,
+          "evidence_spans": [],
+          "advisory_note": "Ownership confidence is pending your two follow-up answers. This is not an AI-use detector."
+        },
+        "calibration": {
+          "self_predicted": 3,
+          "demonstrated": 2.22,
+          "gap": 0.78,
+          "framing": "Curated fictional calibration on this task; not measured model reliability."
+        },
+        "task_evidence_index": 55.56,
+        "weighted_score": 55.56
+      },
+      {
+        "attempt": 2,
+        "text": "I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission. An error summary would link to each affected field and be announced with a live region. A global store adds complexity for this single form. I would test Tab and Shift+Tab order, Enter submission, and correction without losing typed values. If async validation completes late, I would discard stale responses so an older error does not replace a corrected value.",
+        "self_predicted_score": 3.5,
+        "scores": [
+          {
+            "dimension_id": "claim_substantiation",
+            "score": 3,
+            "anchor_matched": "Shows a concrete component, state, layout or accessibility decision in this project, with supporting detail.",
+            "evidence_spans": [
+              {
+                "quote": "I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission.",
+                "why_it_supports": "Curated illustration of the stated method."
+              }
+            ],
+            "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "technical_correctness",
+            "score": 3,
+            "anchor_matched": "Describes valid component state and event behavior, semantic controls, keyboard access and a reproducible interaction check without claiming code was executed.",
+            "evidence_spans": [
+              {
+                "quote": "I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission.",
+                "why_it_supports": "Curated illustration of the stated method."
+              }
+            ],
+            "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "reasoning_transparency",
+            "score": 3,
+            "anchor_matched": "Connects the choice to a user interaction, component state, keyboard access, responsive layout, and rendering behavior and explains a less suitable alternative.",
+            "evidence_spans": [
+              {
+                "quote": "I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission.",
+                "why_it_supports": "Curated illustration of the stated method."
+              }
+            ],
+            "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "communication",
+            "score": 3,
+            "anchor_matched": "The explanation leads with the practical point, uses clear structure, and explains necessary technical terms for the specified audience.",
+            "evidence_spans": [
+              {
+                "quote": "I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission.",
+                "why_it_supports": "Curated illustration of the stated method."
+              }
+            ],
+            "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "coachability_delta",
+            "score": 3,
+            "anchor_matched": "The revision addresses the critique and applies the same principle consistently across the proposed workflow.",
+            "evidence_spans": [
+              {
+                "quote": "I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission.",
+                "why_it_supports": "Curated illustration of the stated method."
+              }
+            ],
+            "missing_for_next_level": "Add a project-specific edge case and describe an observable check.",
+            "confidence": "medium",
+            "guard_applied": false
+          }
+        ],
+        "feedback": {
+          "opening_quote": "I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission.",
+          "strength_statement": "Your answer names a concrete approach in this project.",
+          "strategy_feedback": "Make the validation check and its practical consequence explicit.",
+          "next_step_choices": [
+            {
+              "choice_id": "a",
+              "title": "Make the check observable",
+              "instruction": "Revise the answer with a concrete check and its expected outcome.",
+              "dimension_id": "claim_substantiation",
+              "target_level": 4
+            },
+            {
+              "choice_id": "b",
+              "title": "Handle one boundary",
+              "instruction": "Revise the answer with one project-specific edge case and how you would check it.",
+              "dimension_id": "claim_substantiation",
+              "target_level": 4
+            }
+          ]
+        },
+        "probes": [
+          {
+            "probe_id": "q1",
+            "type": "choice",
+            "anchored_quote": "I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission.",
+            "question": "You wrote \"I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission.\" Why focus the first invalid input rather than clear the form?"
+          },
+          {
+            "probe_id": "q2",
+            "type": "boundary",
+            "anchored_quote": "I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission.",
+            "question": "You wrote \"I would keep form values and field errors in local React state, use associated labels and a real submit button, and focus the first invalid input after submission.\" What changes when async validation replies arrive out of order?"
+          }
+        ],
+        "probe_answers": [
+          {
+            "probe_id": "q1",
+            "text": "Focusing the first invalid field gives keyboard users a direct next action while preserving the values they already entered. Clearing the form would make them repeat work."
+          },
+          {
+            "probe_id": "q2",
+            "text": "I would associate each request with its current field value and ignore stale replies so earlier requests cannot overwrite corrected input."
+          }
+        ],
+        "integrity": {
+          "ownership_score": 3,
+          "confidence": "high",
+          "evidence_spans": [
+            {
+              "quote": "Focusing the first invalid field gives keyboard users a direct next action while preserving the values they already entered. Clearing the form would make them repeat work.",
+              "why_it_supports": "Illustrative explanation of a project choice."
+            }
+          ],
+          "advisory_note": "This illustrative explanation accounts for the specific choice, an alternative and a boundary. It does not establish authorship. Nerves, time pressure or language can affect this short probe."
+        },
+        "calibration": {
+          "self_predicted": 3.5,
+          "demonstrated": 3.0,
+          "gap": 0.5,
+          "framing": "Curated fictional calibration on this task; not measured model reliability."
+        },
+        "task_evidence_index": 75,
+        "weighted_score": 75
+      }
+    ],
+    "verification": [
+      {
+        "claim_id": "c1",
+        "status": "verified",
+        "display_label": "Evidenced on this task",
+        "assessed": true,
+        "caveat": "Illustrative evidence on a fictional task; not certification."
+      }
+    ],
+    "delta": {
+      "before": 55.56,
+      "after": 75,
+      "change": 19.44,
+      "label": "Change in evidence on the same task; not an employability score."
+    },
+    "engine": "synthetic_rehearsal",
+    "receipt": ""
+  }
+}

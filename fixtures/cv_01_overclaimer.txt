@@ -1,0 +1,6 @@
+SYNTHETIC FIXTURE A — written for this event; not a real person.
+Target: AI/ML Intern. Two months of coursework.
+Claims: advanced Python, pandas, SQL, PyTorch, TensorFlow, NLP, computer vision, cloud deployment, Kubernetes, MLOps and distributed training.
+Project: Smart Predictions. Built an AI model in Python with excellent results.
+Project: Vision Engine. Used deep learning for images.
+No operation, validation method, artifact or personal decision is described.
