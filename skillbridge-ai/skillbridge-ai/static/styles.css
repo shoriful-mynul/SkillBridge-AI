@@ -254,3 +254,22 @@ select {background:#fff;border:1px solid var(--line);padding:10px;border-radius:
 @media(max-width:1150px){.layout{grid-template-columns:180px minmax(0,1fr)}.focus-card{position:static;grid-column:2;}}
 @media(max-width:760px){.layout{grid-template-columns:1fr;padding:16px;gap:12px}.focus-card{grid-column:auto}.rail{padding:6px}.rail ol{display:flex;overflow:auto;gap:12px;position:static}.rail li{white-space:nowrap}.panel{padding:22px}.topbar{padding:16px}h1{font-size:1.7rem}.row{flex-wrap:wrap}}
 @media print{.topbar,.rail,.focus-card,.actions,#banner,footer{display:none!important}.layout{display:block;padding:0;max-width:none}.panel{box-shadow:none;break-inside:avoid}body{background:white}}
+
+/* Final evidence graphs: responsive SVG, existing palette, no animation. */
+.performance-graphs { margin-top: 24px; }
+.performance-chart { display: block; width: 100%; height: auto; max-width: 520px; margin: 12px auto 20px; overflow: visible; }
+.performance-chart text { font-family: var(--sans); font-size: 15px; fill: var(--muted); }
+.performance-chart .graph-label { font-size: 16px; font-weight: 600; fill: var(--pine); }
+.graph-axis { stroke: var(--line); stroke-width: 2; }
+.graph-link { stroke: var(--moss); stroke-width: 3; }
+.graph-before { fill: var(--surface); stroke: var(--slate); stroke-width: 2; }
+.graph-after, .graph-met { fill: var(--moss); }
+.graph-track { fill: var(--line); }
+.graph-progress { fill: var(--amber); }
+.graph-threshold { stroke: var(--pine); stroke-width: 2; stroke-dasharray: 3 2; }
+.roadmap { margin-top: 24px; padding: 18px; border: 1px solid var(--line); border-radius: var(--r-panel); background: var(--paper); overflow-wrap: anywhere; }
+.roadmap h4 { color: var(--pine); margin: 18px 0 8px; }
+.roadmap blockquote { border-left: 3px solid var(--moss); background: var(--marker); margin: 12px 0; padding: 10px 14px; }
+.roadmap li { margin: 8px 0; }
+.roadmap-days { padding-left: 22px; list-style: none; }
+.roadmap-days .small { display: block; }

@@ -16,7 +16,7 @@ from . import pipeline
 from .config import ROOT, get_settings
 from .llm import LLMError, complete_json
 from .schemas import (ExtractRequest, FeedbackRequest, ProbeEvalRequest, ScoreRequest,
-                      Submission, TaskRequest)
+                      Submission, TaskRequest, RoadmapRequest)
 
 VERSION = "1.0.0"
 async def role_context(request: Request):
@@ -163,6 +163,11 @@ async def roles():
     return {"roles": [{"role_id": rid, "title": pipeline._load_rubric(rid)["role_title"],
                        "rubric_version": pipeline._load_rubric(rid)["rubric_version"]}
                       for rid in pipeline.ROLE_IDS]}
+
+
+@app.post("/api/roadmap")
+async def roadmap(req: RoadmapRequest):
+    return await pipeline.write_roadmap(req.task_id, req.answer, req.communication)
 
 
 @app.post("/api/import-pdf")

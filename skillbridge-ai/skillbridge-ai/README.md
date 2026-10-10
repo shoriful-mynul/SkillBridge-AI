@@ -44,6 +44,8 @@ Click **Load demo CV**, then **Read my CV**. The demo profile (`demo/demo_cv.txt
 
 ## How it works
 
+After revision scoring, two accessible inline SVG graphs show dimension changes and the distance to the two Evidenced gates; the comparison table stays available. An optional AI roadmap branches from the server-held revision scores: both gates at 3 or above unlock two growth options and repeatable habits, otherwise a small seven-day practice option identifies the next evidence to try. Quotes and language are checked, prose stays under 320 words, and roadmap retries preserve the scored report. The roadmap is included in Markdown exports and saved offline replays; mock mode remains clearly labelled test output.
+
 ```
 CV text ─► 1 read claims ─► [code: verify quotes, link projects, grounding gate, pick claim]
         ─► 2 grounded task ─► [code: task must name THEIR project or tools]
@@ -152,3 +154,4 @@ SkillBridge AI is not a ranking engine, not a hiring decision system, not a proc
 **Third-party resources.** Open-source libraries: FastAPI, Starlette, Uvicorn, Pydantic, httpx, python-dotenv and pytest. AI model: the Google Gemini API, a proprietary model used through its public API. There are no UI templates or component kits; the frontend is hand-written HTML, CSS and JavaScript.
 
 **Data.** Every CV in `demo/` and `fixtures/` is synthetic, written by the team for this event. No scraped CVs or third-party personal data are used. The app keeps no database: text submitted in live mode goes to the AI provider for that assessment only.
+

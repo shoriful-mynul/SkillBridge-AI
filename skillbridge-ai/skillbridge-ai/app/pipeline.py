@@ -13,6 +13,7 @@ and the banned-word filter.
 from __future__ import annotations
 
 import asyncio
+import copy
 import json
 import re
 import time
@@ -26,7 +27,7 @@ from . import textcheck as tc
 from .config import ROOT
 from .llm import complete_json
 from .schemas import (Claim, ExtractionOut, FeedbackOut, ProbeEvalOut, ProbeGenOut,
-                      Project, ScoreOut, TaskOut)
+                      Project, ScoreOut, TaskOut, RoadmapOut)
 
 RUBRIC_PATH = ROOT / "rubrics" / "ai-ml-intern.json"
 ACTIVE_ROLE = ContextVar("assessment_role", default="ai-ml-intern")
@@ -330,6 +331,9 @@ async def generate_task(extraction: dict, claim_id: str) -> dict:
         "probe_seeds": task.probe_seeds[:4],
         "claim": claim.model_dump(),
         "project": project.model_dump(),
+        "roadmap_claims": copy.deepcopy([c for c in extraction.get("claims", [])
+                                        if c.get("eligible") is True]),
+        "roadmap_projects": [p.model_dump() for p in projects],
     }
     task_id = STORE.put(record)
     return {
@@ -511,6 +515,7 @@ async def score_attempt(task_id: str, attempt: int, answer: str, communication: 
     }
     if attempt == 2:
         payload["reveal"] = reveal(task_id)
+        rec["scored_revision"] = {"submission": submission, "scores": copy.deepcopy(results)}
     return payload
 
 
@@ -563,3 +568,181 @@ async def write_feedback(task_id: str, attempt: int, answer: str, communication:
         "meta": meta.to_dict(),
     }
 
+
+
+# --------------------------------------------------------------------------
+# 6. Revision roadmap: branch and source facts are code-owned.
+# --------------------------------------------------------------------------
+_ROADMAP_UNSAFE = re.compile(
+    r"\b(employ\w*|hire\w*|hiring|job[ -]?ready\w*|certif\w*|talented|gifted|"
+    r"smart|genius|naturally|ranked|ranking)\b|job[ -]?readiness|ready for (work|a job)|"
+    r"qualified for|better than|other (people|students|candidates)|"
+    r"you (?:are|[’\']re) (?:brilliant|intelligent|capable|a natural)", re.I)
+
+
+def _roadmap_strings(value):
+    if isinstance(value, str):
+        yield value
+    elif isinstance(value, dict):
+        for key, item in value.items():
+            if key not in {"dimension_id", "claim_id", "branch"}:
+                yield from _roadmap_strings(item)
+    elif isinstance(value, list):
+        for item in value:
+            yield from _roadmap_strings(item)
+
+
+def _roadmap_clean(value):
+    if isinstance(value, str):
+        return tc.sanitize(value)
+    if isinstance(value, dict):
+        return {k: _roadmap_clean(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_roadmap_clean(v) for v in value]
+    return value
+
+
+def _roadmap_safe_quote(scores, submission):
+    for score in scores:
+        for evidence in score.get("evidence_spans", []):
+            quote = evidence.get("quote", "")
+            # A short, contiguous excerpt stays verifiable and leaves room for the plan.
+            quote = " ".join(quote.split()[:18])
+            if (tc.quote_in_source(quote, submission) and not tc.find_banned(quote)
+                    and not _ROADMAP_UNSAFE.search(quote)):
+                return quote
+    return ""
+
+
+def _roadmap_fallback(branch, growth, gates, quote, candidate):
+    target = gates[0] if gates else growth[0]
+    evidence = truncate_words(tc.sanitize(target.get("missing_for_next_level", "")), 18)
+    evidence = evidence if evidence and not _ROADMAP_UNSAFE.search(evidence) else "a written decision, check and result"
+    return RoadmapOut.model_validate({
+        "branch": branch,
+        "opening_strength": {"quote": quote if branch == "verified" else "",
+            "statement": "Well done documenting this decision on this task; the quoted reasoning supports the gating evidence." if branch == "verified" else ""},
+        "growth_areas": [{"dimension_id": s["dimension_id"],
+            "action": truncate_words(tc.sanitize(s.get("missing_for_next_level", "")), 18) or
+                      "Repeat this documented check on one boundary case."} for s in growth] if branch == "verified" else [],
+        "habits": ["Record the decision and its reason before implementing it.",
+                   "Keep a reproducible check beside each reported result."] if branch == "verified" else [],
+        "days": [{"day": i, "action": action, "outcome": outcome} for i, (action, outcome) in enumerate([
+            ("Choose one next-level check on this task.", evidence),
+            ("Write the decision and its reason.", "Two explanatory sentences."),
+            ("Construct one small input for that check.", "Saved input and expected output."),
+            ("Try the check; record what actually happens.", "Observed output or an explicit untested note."),
+            ("Compare expected and observed results.", "One discrepancy or matching result documented."),
+            ("Explain one constraint on that result.", "A written boundary case."),
+            ("Optionally revise with the recorded evidence.", "A submission quoting the decision and check.")], 1)] if branch == "practice" else [],
+        "next_claim_reason": "This adjacent option has project grounding to explore on this task." if candidate else
+            "Add a project, tool, decision and observable result to unlock another CV claim.",
+        "choice": "Choose this roadmap in 10-minute sessions, or consolidate the same decision first.",
+    })
+
+
+async def write_roadmap(task_id: str, answer: str, communication: str) -> dict:
+    rec = STORE.get(task_id)
+    submission = combine(answer, communication)
+    scored = rec.get("scored_revision")
+    if not scored or scored["submission"] != submission:
+        raise GateError("Score this revision before requesting its roadmap.", "Use the same scored revision.")
+    scores = scored["scores"]
+    by = {s["dimension_id"]: s for s in scores}
+    gating = [by[k] for k in ("claim_substantiation", "technical_correctness")]
+    gates = [s for s in gating if s["score"] < 3]
+    branch = "practice" if gates else "verified"
+    growth = sorted(scores, key=lambda s: s["score"])[:2]
+    projects = {p["project_id"]: p for p in rec.get("roadmap_projects", [])}
+    candidates = [c for c in rec.get("roadmap_claims", [])
+                  if c.get("eligible") is True and c.get("claim_id") != rec["claim"]["claim_id"]
+                  and c.get("linked_project_id") in projects
+                  and project_ok(Project.model_validate(projects[c["linked_project_id"]]))]
+    candidates.sort(key=lambda c: (POTENTIAL_ORDER.get(projects[c["linked_project_id"]].get(
+        "task_grounding_potential"), 3), STRENGTH_ORDER.get(c.get("strength"), 0)))
+    candidate = candidates[0] if candidates else None
+    quote = _roadmap_safe_quote(gating, submission)
+    if branch == "verified" and not quote:
+        raise GateError("No safe source quote is available for this roadmap.", "Keep the scored report and review the evidence spans.")
+    context = {"branch": branch, "submission": submission, "growth": growth,
+               "gates": gates, "quote": quote, "candidate": candidate}
+    base_user = (f"TASK:\n{rec['task_prompt']}\n\nCODE-DECIDED CONTEXT:\n"
+                 f"{json.dumps({k: v for k, v in context.items() if k != 'submission'}, ensure_ascii=False)}\n\n"
+                 f"REVISION:\n{_fenced('SUBMISSION', submission)}")
+    user, meta, fallback = base_user, None, False
+
+    def assemble(out):
+        data = _roadmap_clean(out.model_dump())
+        data["branch"] = branch
+        if branch == "verified":
+            data["growth_areas"] = [{"dimension_id": s["dimension_id"], "label": tc.sanitize(s["label"]),
+                "action": item["action"], "next_level_evidence": tc.sanitize(s["missing_for_next_level"])}
+                for s, item in zip(growth, data["growth_areas"])]
+        data["gating_dimensions"] = [{"dimension_id": s["dimension_id"], "score": s["score"], "needed": 3,
+            "explanation": f"{tc.sanitize(s['label'])} is at {s['score']}; Evidenced needs 3."} for s in gates]
+        data["what_would_flip"] = ({"dimension_id": gates[0]["dimension_id"],
+            "evidence": tc.sanitize(gates[0]["missing_for_next_level"]),
+            "framing": "This is the next-level evidence to try on this task; reaching 3 in both gates needs rescoring."} if gates else None)
+        data["next_claim"] = {"claim_id": candidate["claim_id"] if candidate else None,
+            "label": tc.sanitize(candidate.get("raw_label") or candidate["skill"]) if candidate else "Add CV project evidence",
+            "why": data.pop("next_claim_reason")}
+        data["cap_note"] = ("The scorer's quote could not be found in your answer, so the score was capped. Writing your reasoning explicitly makes it available to check on this task."
+            if any(s.get("capped") for s in scores) else "")
+        data["caveat"] = "Options for evidence on this task only; completion needs a new assessment, not an automatic status change."
+        return data
+
+    def problems(out, data):
+        issues = []
+        if out.branch != branch:
+            issues.append("use the code-decided branch")
+        if branch == "verified":
+            if [g.dimension_id for g in out.growth_areas] != [s["dimension_id"] for s in growth]:
+                issues.append("use exactly the two supplied growth dimensions in order")
+            if not 2 <= len(out.habits) <= 3 or out.days:
+                issues.append("verified needs 2-3 habits and no days")
+            if not tc.quote_in_source(data["opening_strength"]["quote"], submission):
+                issues.append("copy the opening quote verbatim from the revision")
+            if not any(tc.quote_in_source(data["opening_strength"]["quote"], e.get("quote", ""))
+                       for s in gating for e in s.get("evidence_spans", [])):
+                issues.append("quote a line that supports a gating score")
+        elif out.opening_strength.quote or out.opening_strength.statement or out.growth_areas or out.habits:
+            issues.append("practice needs no congratulation, quote, growth list or habits")
+        elif [d.day for d in out.days] != list(range(1, 8)):
+            issues.append("supply exactly days 1-7")
+        texts = list(_roadmap_strings(data))
+        for text in texts:
+            for embedded_quote in re.findall(r'["“]([^"”]+)["”]', text):
+                if not tc.quote_in_source(embedded_quote, submission):
+                    issues.append("remove any embedded quotation not found in the revision")
+        if any(tc.find_banned(t) or _ROADMAP_UNSAFE.search(t) for t in texts):
+            issues.append("remove banned, trait, employment or comparison language")
+        if sum(tc.word_count(t) for t in texts) >= 320:
+            issues.append("all roadmap prose including source facts must be under 320 words")
+        return issues
+
+    for _ in (1, 2):
+        out, meta = await complete_json(prompt("06_roadmap.md"), user, purpose="roadmap",
+                                       context=context, validate=RoadmapOut.model_validate)
+        data = assemble(out)
+        issues = problems(out, data)
+        if not issues:
+            break
+        user = base_user + "\n\nREVISION NEEDED: " + "; ".join(issues) + "."
+    if issues:
+        fallback = True
+        out = _roadmap_fallback(branch, growth, gates, quote, candidate)
+        data = assemble(out)
+        # Source rubric explanations can be long. Keep a literal prefix, rather than inventing evidence.
+        for item in data["growth_areas"]:
+            item["next_level_evidence"] = truncate_words(item["next_level_evidence"], 18)
+        if data["what_would_flip"]:
+            data["what_would_flip"]["evidence"] = truncate_words(data["what_would_flip"]["evidence"], 20)
+        if problems(out, data):
+            raise GateError("The roadmap could not pass its source and language checks.", "Your scored report is preserved; retry the roadmap separately.")
+    texts = list(_roadmap_strings(data))
+    assert not any(tc.find_banned(t) for t in texts)
+    data["checks"] = {"banned_words_present": False, "word_count": sum(tc.word_count(t) for t in texts),
+        "opening_quote_verified": bool(data["opening_strength"]["quote"]) and tc.quote_in_source(data["opening_strength"]["quote"], submission),
+        "fallback_used": fallback}
+    data["meta"] = meta.to_dict()
+    return data

@@ -55,6 +55,8 @@ def respond(purpose: str, ctx: dict) -> Any:
                 "advisory_note": "Test double note: this is not an AI evaluation."}
     if purpose == "feedback":
         return _feedback(ctx.get("submission", ""), ctx.get("scores", []))
+    if purpose == "roadmap":
+        return _roadmap(ctx)
     raise ValueError(f"mock has no handler for purpose '{purpose}'")
 
 
@@ -154,3 +156,31 @@ def _feedback(sub: str, scores: list[dict]) -> dict:
                        "Your answer opens with a clear statement of what you did. The one change that would move "
                        "the result most is to judge the model with a metric that respects how rare the outcome is."),
     }
+
+
+def _roadmap(ctx: dict) -> dict:
+    verified = ctx["branch"] == "verified"
+    steps = [
+        ("Choose one next-level check on this task.", "One check recorded."),
+        ("Write the decision and its reason.", "Two sentences recorded."),
+        ("Construct a small input for the check.", "Input and expected output saved."),
+        ("Try the check and record the result.", "Actual output or untested note saved."),
+        ("Compare the expected and observed output.", "One comparison recorded."),
+        ("Describe a boundary case.", "One constraint recorded."),
+        ("Optionally revise using that evidence.", "A decision and result in writing."),
+    ]
+    return {
+        "branch": ctx["branch"],
+        "opening_strength": {"quote": ctx["quote"] if verified else "",
+            "statement": "TEST MODE: well done documenting this decision on this task; this quote supports the gating evidence." if verified else ""},
+        "growth_areas": [{"dimension_id": s["dimension_id"],
+            "action": s.get("missing_for_next_level") or "Repeat the check on one boundary case."}
+            for s in ctx["growth"]] if verified else [],
+        "habits": ["Write the decision and its reason before implementing it.",
+                   "Save the check alongside its observed result."] if verified else [],
+        "days": [{"day": i, "action": a, "outcome": o} for i, (a, o) in enumerate(steps, 1)] if not verified else [],
+        "next_claim_reason": "This adjacent option has project grounding to explore on this task." if ctx["candidate"] else
+            "Add a project, tool, decision and result to unlock another CV claim.",
+        "choice": "Choose this 10-minute practice option or consolidate the same decision first.",
+    }
+
