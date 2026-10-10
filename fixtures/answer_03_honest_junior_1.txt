@@ -1,0 +1,1 @@
+I would count missing age values with df.isna().sum(). I choose the median for age. I would compute it from observed ages and use it to fill the blank records, then check a held-out score. For the project manager: replacing empty ages gives the model usable inputs, and the held-out check tells us whether it is useful.

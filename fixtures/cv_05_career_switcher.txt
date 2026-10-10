@@ -1,0 +1,3 @@
+SYNTHETIC FIXTURE E — written for this event; not a real person.
+Target: AI/ML Intern. Economics background. Skills: Stata, R, Python, pandas and SQL.
+Project: Household survey analysis. I used Stata to merge 72,000 household records and applied survey weights. I caught a weighting error by comparing weighted and unweighted tables. I wrote scripts so other researchers could rerun every table. I translated the analysis into Python with pandas and statsmodels; coefficients matched to three decimals. I have no production ML experience.

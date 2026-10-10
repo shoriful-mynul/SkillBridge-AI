@@ -1,0 +1,166 @@
+{
+  "role_id": "ai-ml-intern",
+  "role_title": "AI/ML Intern",
+  "rubric_version": "2.0.0",
+  "scale": {
+    "min": 0,
+    "max": 4,
+    "meaning": "Ordinal behavioural anchors for one task; not calibrated psychometrics."
+  },
+  "skill_taxonomy": [
+    "python_fundamentals",
+    "data_wrangling",
+    "classical_ml",
+    "deep_learning",
+    "model_evaluation",
+    "sql",
+    "experiment_hygiene",
+    "technical_communication"
+  ],
+  "dimensions": [
+    {
+      "id": "claim_substantiation",
+      "label": "Claim Substantiation",
+      "weight": 0.3,
+      "question": "Does this answer demonstrate the targeted claim in its stated project?",
+      "evidence_required": true,
+      "requires_resubmission": false,
+      "anchors": {
+        "0": "No relevant operation or explanation in this attempt addresses the targeted claim.",
+        "1": "The answer names a tool or skill but shows no operation, decision, or project-specific use of it.",
+        "2": "The answer shows one relevant routine operation in the described project, without explaining a substantive decision.",
+        "3": "The answer shows a relevant operation and at least one project-specific decision with observable supporting detail.",
+        "4": "The answer applies the targeted skill to a non-trivial project complication, handles it explicitly, and limits the claim to the level actually demonstrated."
+      }
+    },
+    {
+      "id": "technical_correctness",
+      "label": "Technical Correctness",
+      "weight": 0.25,
+      "question": "Is the proposed method valid for the stated task and complication?",
+      "evidence_required": true,
+      "requires_resubmission": false,
+      "anchors": {
+        "0": "The proposed method is off-task or internally inconsistent enough that it cannot address the stated objective.",
+        "1": "The method contains a major task-relevant defect, such as leakage, an invalid comparison, or an unsuitable validation procedure.",
+        "2": "The central method is valid but an important contained assumption, edge case, or validation detail remains unresolved.",
+        "3": "The described method is technically consistent and handles the task complication with a valid validation procedure; executable evidence is not assumed from prose.",
+        "4": "The method meets level 3 and additionally anticipates and handles a distinct relevant edge case, explaining how it would be checked."
+      }
+    },
+    {
+      "id": "reasoning_transparency",
+      "label": "Reasoning Transparency",
+      "weight": 0.2,
+      "question": "Are the reason, alternative, and tradeoff visible in this answer?",
+      "evidence_required": true,
+      "requires_resubmission": false,
+      "anchors": {
+        "0": "The answer provides a conclusion or action without an accompanying reason.",
+        "1": "The answer restates the procedure but does not explain why it fits this project.",
+        "2": "The answer gives a plausible reason but does not connect it to a specific project property or meaningful alternative.",
+        "3": "The answer connects its choice to a project-specific constraint and explains why at least one alternative is less suitable.",
+        "4": "The answer meets level 3 and explains a concrete cost, uncertainty, or boundary at which the selected approach should change."
+      }
+    },
+    {
+      "id": "communication",
+      "label": "Communication",
+      "weight": 0.15,
+      "question": "Can the specified non-technical audience understand and act on the explanation?",
+      "evidence_required": true,
+      "requires_resubmission": false,
+      "anchors": {
+        "0": "The answer does not convey a task-relevant point to the specified audience.",
+        "1": "The explanation relies on unexplained technical terms or omits the practical consequence of the proposed method.",
+        "2": "The main idea is understandable, but its structure or consequence requires the reader to infer an important connection.",
+        "3": "The explanation leads with the practical point, uses clear structure, and explains necessary technical terms for the specified audience.",
+        "4": "The explanation meets level 3 and includes a concrete project example or analogy plus an actionable implication without overstating certainty."
+      }
+    },
+    {
+      "id": "coachability_delta",
+      "label": "Coachability Delta",
+      "weight": 0.1,
+      "question": "Does the revision use the critique to change the strategy in this task?",
+      "evidence_required": true,
+      "requires_resubmission": true,
+      "anchors": {
+        "0": "The revision makes no task-relevant change in response to the critique.",
+        "1": "The revision acknowledges the critique in words but leaves the relevant strategy materially unchanged.",
+        "2": "The revision corrects the exact instance identified by the critique but does not apply its underlying principle elsewhere.",
+        "3": "The revision addresses the critique and applies the same principle consistently across the proposed workflow.",
+        "4": "The revision meets level 3 and identifies and addresses a related limitation that was not named in the critique."
+      }
+    }
+  ],
+  "verification_status": {
+    "rules": [
+      {
+        "status": "verified",
+        "label": "Evidenced on this task",
+        "minimum_scores": {
+          "claim_substantiation": 3,
+          "technical_correctness": 3
+        },
+        "display_caveat": "Evidenced at the demonstrated level on this one task. Not a general proficiency certification."
+      },
+      {
+        "status": "partial",
+        "label": "Partially evidenced",
+        "minimum_scores": {
+          "claim_substantiation": 2,
+          "technical_correctness": 2
+        },
+        "display_caveat": "Some supporting evidence is present on this task; further depth can be sampled."
+      },
+      {
+        "status": "not_yet",
+        "label": "Not yet evidenced",
+        "minimum_scores": {},
+        "display_caveat": "This attempt has not yet evidenced this claim. Absence in a sample is not absence of ability."
+      }
+    ]
+  },
+  "scoring_protocol": {
+    "temperature": 0.0,
+    "one_dimension_per_call": true,
+    "repeat_runs": 3,
+    "max_without_literal_submission_quote": 1,
+    "coachability_first_attempt": null,
+    "initial_weight_denominator": 0.9,
+    "delta_dimension_ids": [
+      "claim_substantiation",
+      "technical_correctness",
+      "reasoning_transparency",
+      "communication"
+    ],
+    "banned_generated_words": [
+      "failed",
+      "inadequate",
+      "poor",
+      "weak",
+      "unqualified",
+      "lacks"
+    ],
+    "quote_filter_exception": "Verbatim candidate evidence is never rewritten; filter generated prose only."
+  },
+  "ownership_rubric": {
+    "min": 0,
+    "max": 3,
+    "anchors": {
+      "0": "The probe answers do not engage with the quoted choice or boundary from the submitted work.",
+      "1": "The probe answers restate general concepts without connecting them to the actual submitted choice.",
+      "2": "The probe answers explain the specific choice but leave its tradeoff or boundary unresolved.",
+      "3": "The probe answers account for the specific choice, an alternative or tradeoff, and the condition where it changes."
+    },
+    "innocent_reading": "Nerves, time pressure, or language can affect this short probe. This is confidence in explaining an answer, not evidence of misconduct."
+  },
+  "humane_layer": {
+    "autonomy": "Offer two equally valid choices.",
+    "next_level": "Target current anchored level + 1. At the scale maximum, offer transfer practice and explicitly state that no higher numeric anchor exists.",
+    "quoted_strength": "Acknowledge one actual quoted strategy or visible starting point; never invent correctness.",
+    "temporal_framing": "Not yet evidenced on this attempt.",
+    "research_status": "Design principles from research, not validated psychometrics."
+  }
+}

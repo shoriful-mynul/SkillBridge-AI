@@ -1,0 +1,395 @@
+[
+  {
+    "id": "01_overclaimer",
+    "kind": "Over-claimer",
+    "cv": "SYNTHETIC FIXTURE A \u2014 written for this event; not a real person.\nTarget: AI/ML Intern. Two months of coursework.\nClaims: advanced Python, pandas, SQL, PyTorch, TensorFlow, NLP, computer vision, cloud deployment, Kubernetes, MLOps and distributed training.\nProject: Smart Predictions. Built an AI model in Python with excellent results.\nProject: Vision Engine. Used deep learning for images.\nNo operation, validation method, artifact or personal decision is described.",
+    "tool": "Python",
+    "skill": "python_fundamentals",
+    "approach": "Built an AI model in Python with excellent results.",
+    "initial": "I know all these technologies and can use any AI framework. I would build a scalable pipeline and optimize accuracy.",
+    "revised": "I would build a scalable AI pipeline and optimize its accuracy.",
+    "expected": "needs_detail",
+    "range": null,
+    "detail": "Do not invent a complication or award ability. Ask for one actual operation and decision. No assessable score; keep discrimination arithmetic null.",
+    "extraction": {
+      "claims": [
+        {
+          "claim_id": "c1",
+          "skill": "python_fundamentals",
+          "raw_label": "Python",
+          "strength": "asserted",
+          "claimed_level": "unstated",
+          "evidence_span": "Built an AI model in Python with excellent results.",
+          "linked_project_id": "p1"
+        }
+      ],
+      "projects": [
+        {
+          "project_id": "p1",
+          "title": "Smart Predictions",
+          "description_span": "Project: Smart Predictions. Built an AI model in Python with excellent results.\nProject: Vision Engine. Used deep learning for images.\nNo operation, validation method, artifact or personal decision is described.",
+          "tools_named": [
+            "Python"
+          ],
+          "stated_approach": "Built an AI model in Python with excellent results.",
+          "task_grounding_potential": "low"
+        }
+      ],
+      "extraction_warnings": []
+    },
+    "task": {
+      "task_id": "t-01_overclaimer",
+      "targets_claim_id": "c1",
+      "grounded_in_project_id": "p1",
+      "grounding_quotes": [
+        "Python",
+        "Built an AI model in Python with excellent results."
+      ],
+      "task_prompt": "You named \"Python\" and wrote: \"Built an AI model in Python with excellent results.\" For this exercise, consider a hypothetical change: source detail is insufficient. Explain how you would check and address that change within your stated project, name one alternative, and describe a validation check. This is an exercise, not a claim that your original work contains this issue.",
+      "communication_subtask": "Explain your proposed decision to a non-technical project manager in no more than 120 words.",
+      "complication": "source detail is insufficient",
+      "issue_source": "hypothetical",
+      "accessible_entry_point": "Quote the relevant step in your stated approach and describe one concrete check."
+    },
+    "probe_answers": [
+      {
+        "probe_id": "q1",
+        "text": "I chose the train-only workflow because held-out information should not determine values used for training; an all-data fit would make the evaluation less independent."
+      },
+      {
+        "probe_id": "q2",
+        "text": "If the training column contains no observed values, I would flag that condition, use a documented fixed fallback or remove the feature, and keep held-out records out of that choice."
+      }
+    ]
+  },
+  {
+    "id": "02_under_seller",
+    "kind": "Under-seller",
+    "cv": "SYNTHETIC FIXTURE B \u2014 written for this event; not a real person.\nTarget: AI/ML Intern. Skills listed: Python, SQL, some machine learning.\nProject: Leaf photo classifier. I used MobileNetV2 and TensorFlow Lite. I collected 3,800 leaf photos across three districts. Random image splitting gave 89% accuracy, but a held-out district gave 69%. I added blur and low-light augmentation; held-out district accuracy reached 80%. I kept district labels to compare generalisation, and chose TensorFlow Lite for offline use.",
+    "tool": "MobileNetV2",
+    "skill": "model_evaluation",
+    "approach": "Random image splitting gave 89% accuracy, but a held-out district gave 69%.",
+    "initial": "I would keep an entire district outside training and compare both random-split and district-held-out accuracy. MobileNetV2 is practical for a phone. I would keep augmentation inside training and check recall for each disease, since accuracy could hide rare disease misses. A district holdout tests transfer to a different setting; a random split only tests photos close to training conditions.",
+    "revised": "I would keep an entire district outside training, put augmentation only inside training folds and compare recall by disease and district. I would group near-duplicate photos by plant before splitting so a burst of photos cannot cross the boundary. I would compare with a smaller baseline; MobileNetV2 may be unnecessary if that baseline transfers similarly. Holding out a district gives a more realistic check but has higher variance with only three districts, so I would report that uncertainty.",
+    "expected": "verified",
+    "range": [
+      65,
+      95
+    ],
+    "detail": "Credit specific generalisation reasoning despite modest skill labels. Do not infer that the reported CV results were independently verified.",
+    "extraction": {
+      "claims": [
+        {
+          "claim_id": "c1",
+          "skill": "model_evaluation",
+          "raw_label": "MobileNetV2",
+          "strength": "substantiated",
+          "claimed_level": "unstated",
+          "evidence_span": "Random image splitting gave 89% accuracy, but a held-out district gave 69%.",
+          "linked_project_id": "p1"
+        }
+      ],
+      "projects": [
+        {
+          "project_id": "p1",
+          "title": "Leaf photo classifier",
+          "description_span": "Project: Leaf photo classifier. I used MobileNetV2 and TensorFlow Lite. I collected 3,800 leaf photos across three districts. Random image splitting gave 89% accuracy, but a held-out district gave 69%. I added blur and low-light augmentation; held-out district accuracy reached 80%. I kept district labels to compare generalisation, and chose TensorFlow Lite for offline use.",
+          "tools_named": [
+            "MobileNetV2"
+          ],
+          "stated_approach": "Random image splitting gave 89% accuracy, but a held-out district gave 69%.",
+          "task_grounding_potential": "high"
+        }
+      ],
+      "extraction_warnings": []
+    },
+    "task": {
+      "task_id": "t-02_under_seller",
+      "targets_claim_id": "c1",
+      "grounded_in_project_id": "p1",
+      "grounding_quotes": [
+        "MobileNetV2",
+        "Random image splitting gave 89% accuracy, but a held-out district gave 69%."
+      ],
+      "task_prompt": "You named \"MobileNetV2\" and wrote: \"Random image splitting gave 89% accuracy, but a held-out district gave 69%.\" For this exercise, consider a hypothetical change: a new district has different phone lighting. Explain how you would check and address that change within your stated project, name one alternative, and describe a validation check. This is an exercise, not a claim that your original work contains this issue.",
+      "communication_subtask": "Explain your proposed decision to a non-technical project manager in no more than 120 words.",
+      "complication": "a new district has different phone lighting",
+      "issue_source": "hypothetical",
+      "accessible_entry_point": "Quote the relevant step in your stated approach and describe one concrete check."
+    },
+    "probe_answers": [
+      {
+        "probe_id": "q1",
+        "text": "I chose the train-only workflow because held-out information should not determine values used for training; an all-data fit would make the evaluation less independent."
+      },
+      {
+        "probe_id": "q2",
+        "text": "If the training column contains no observed values, I would flag that condition, use a documented fixed fallback or remove the feature, and keep held-out records out of that choice."
+      }
+    ]
+  },
+  {
+    "id": "03_honest_junior",
+    "kind": "Honest junior",
+    "cv": "SYNTHETIC FIXTURE C \u2014 written for this event; not a real person.\nTarget: AI/ML Intern. Skills: Python, pandas and beginner scikit-learn.\nProject: Titanic baseline. I used pandas and logistic regression. Used pandas to fill missing age values with the median. I one-hot encoded the embarked column and reported 78% accuracy. I do not yet have deployment experience. I want to understand whether my preprocessing and evaluation choices were appropriate.",
+    "tool": "pandas",
+    "skill": "data_wrangling",
+    "approach": "Used pandas to fill missing age values with the median.",
+    "initial": "I would count missing age values with df.isna().sum(). I choose the median for age. I would compute it from observed ages and use it to fill the blank records, then check a held-out score. For the project manager: replacing empty ages gives the model usable inputs, and the held-out check tells us whether it is useful.",
+    "revised": "I would count missing ages by column with df.isna().sum(), split into train and held-out data first, and fit a median imputer only on training ages. I would reuse that imputer to transform held-out rows. I choose median rather than mean because extreme ages can move the mean; however median filling can hide missingness patterns. If a training column is entirely empty, I would flag it and use a documented fixed fallback rather than learn from the held-out rows. For the project manager: keep the check independent, like marking an exam with an answer key that was never used to teach the test answers.",
+    "expected": "partial",
+    "range": [
+      30,
+      65
+    ],
+    "detail": "First attempt should be partially evidenced with a specific quoted starting strategy. Revision can move to evidenced if the anchors support it.",
+    "extraction": {
+      "claims": [
+        {
+          "claim_id": "c1",
+          "skill": "data_wrangling",
+          "raw_label": "pandas",
+          "strength": "contextual",
+          "claimed_level": "unstated",
+          "evidence_span": "Used pandas to fill missing age values with the median.",
+          "linked_project_id": "p1"
+        }
+      ],
+      "projects": [
+        {
+          "project_id": "p1",
+          "title": "Titanic baseline",
+          "description_span": "Project: Titanic baseline. I used pandas and logistic regression. Used pandas to fill missing age values with the median. I one-hot encoded the embarked column and reported 78% accuracy. I do not yet have deployment experience. I want to understand whether my preprocessing and evaluation choices were appropriate.",
+          "tools_named": [
+            "pandas"
+          ],
+          "stated_approach": "Used pandas to fill missing age values with the median.",
+          "task_grounding_potential": "high"
+        }
+      ],
+      "extraction_warnings": []
+    },
+    "task": {
+      "task_id": "t-03_honest_junior",
+      "targets_claim_id": "c1",
+      "grounded_in_project_id": "p1",
+      "grounding_quotes": [
+        "pandas",
+        "Used pandas to fill missing age values with the median."
+      ],
+      "task_prompt": "You named \"pandas\" and wrote: \"Used pandas to fill missing age values with the median.\" For this exercise, consider a hypothetical change: held-out rows have a different missing-age pattern. Explain how you would check and address that change within your stated project, name one alternative, and describe a validation check. This is an exercise, not a claim that your original work contains this issue.",
+      "communication_subtask": "Explain your proposed decision to a non-technical project manager in no more than 120 words.",
+      "complication": "held-out rows have a different missing-age pattern",
+      "issue_source": "hypothetical",
+      "accessible_entry_point": "Quote the relevant step in your stated approach and describe one concrete check."
+    },
+    "probe_answers": [
+      {
+        "probe_id": "q1",
+        "text": "I chose median rather than mean because extreme ages can move the mean. Median uses the centre of the observed training ages; if missingness hides a particular age group, I would check that group instead of assuming the fill represents it."
+      },
+      {
+        "probe_id": "q2",
+        "text": "If the training column contains no observed values, I would flag that condition, use a documented fixed fallback or remove the feature, and keep held-out records out of that choice."
+      }
+    ]
+  },
+  {
+    "id": "04_keyword_stuffed",
+    "kind": "Keyword-stuffed",
+    "cv": "SYNTHETIC FIXTURE D \u2014 written for this event; not a real person.\nTarget: AI/ML Intern. Skills: Transformers, GPT, BERT, RAG, LLM, MLOps, PyTorch, TensorFlow, Kubernetes, AWS, Spark, Hadoop, NLP, computer vision, pandas, SQL, data science and predictive analytics.\nProject: Customer insights. In pandas I opened a customer CSV and filled every blank with zero before randomly splitting it. I describe this as an enterprise AI solution, but provide no validation numbers or implementation detail.\nAll other skills are listed without a project operation.",
+    "tool": "pandas",
+    "skill": "data_wrangling",
+    "approach": "In pandas I opened a customer CSV and filled every blank with zero before randomly splitting it.",
+    "initial": "This solution uses transformers, MLOps, predictive analytics and deep learning. It is end to end, scalable and optimized. I use advanced AI and all industry best practices.",
+    "revised": "I use pandas, PyTorch, transformers and MLOps with an end-to-end advanced pipeline. It is optimized and scalable.",
+    "expected": "not_yet",
+    "range": [
+      0,
+      30
+    ],
+    "detail": "One deliberately minimal project operation makes a valid grounded task possible. Buzzwords in the paired answer must not earn technical or substantiation credit. A label-only variant should instead be blocked, not assigned an invented zero.",
+    "extraction": {
+      "claims": [
+        {
+          "claim_id": "c1",
+          "skill": "data_wrangling",
+          "raw_label": "pandas",
+          "strength": "contextual",
+          "claimed_level": "unstated",
+          "evidence_span": "In pandas I opened a customer CSV and filled every blank with zero before randomly splitting it.",
+          "linked_project_id": "p1"
+        }
+      ],
+      "projects": [
+        {
+          "project_id": "p1",
+          "title": "Customer insights",
+          "description_span": "Project: Customer insights. In pandas I opened a customer CSV and filled every blank with zero before randomly splitting it. I describe this as an enterprise AI solution, but provide no validation numbers or implementation detail.",
+          "tools_named": [
+            "pandas"
+          ],
+          "stated_approach": "In pandas I opened a customer CSV and filled every blank with zero before randomly splitting it.",
+          "task_grounding_potential": "medium"
+        }
+      ],
+      "extraction_warnings": []
+    },
+    "task": {
+      "task_id": "t-04_keyword_stuffed",
+      "targets_claim_id": "c1",
+      "grounded_in_project_id": "p1",
+      "grounding_quotes": [
+        "pandas",
+        "In pandas I opened a customer CSV and filled every blank with zero before randomly splitting it."
+      ],
+      "task_prompt": "You named \"pandas\" and wrote: \"In pandas I opened a customer CSV and filled every blank with zero before randomly splitting it.\" For this exercise, consider a hypothetical change: a categorical customer field contains blank values. Explain how you would check and address that change within your stated project, name one alternative, and describe a validation check. This is an exercise, not a claim that your original work contains this issue.",
+      "communication_subtask": "Explain your proposed decision to a non-technical project manager in no more than 120 words.",
+      "complication": "a categorical customer field contains blank values",
+      "issue_source": "hypothetical",
+      "accessible_entry_point": "Quote the relevant step in your stated approach and describe one concrete check."
+    },
+    "probe_answers": [
+      {
+        "probe_id": "q1",
+        "text": "I chose the train-only workflow because held-out information should not determine values used for training; an all-data fit would make the evaluation less independent."
+      },
+      {
+        "probe_id": "q2",
+        "text": "If the training column contains no observed values, I would flag that condition, use a documented fixed fallback or remove the feature, and keep held-out records out of that choice."
+      }
+    ]
+  },
+  {
+    "id": "05_career_switcher",
+    "kind": "Career switcher with adjacent evidence",
+    "cv": "SYNTHETIC FIXTURE E \u2014 written for this event; not a real person.\nTarget: AI/ML Intern. Economics background. Skills: Stata, R, Python, pandas and SQL.\nProject: Household survey analysis. I used Stata to merge 72,000 household records and applied survey weights. I caught a weighting error by comparing weighted and unweighted tables. I wrote scripts so other researchers could rerun every table. I translated the analysis into Python with pandas and statsmodels; coefficients matched to three decimals. I have no production ML experience.",
+    "tool": "Stata",
+    "skill": "experiment_hygiene",
+    "approach": "I caught a weighting error by comparing weighted and unweighted tables.",
+    "initial": "I would check the merge keys and household counts before and after joining, compare weighted totals with the original table, and keep the weights with their matching records. I would run the same sample in Stata and Python and compare coefficients, not just the final chart. An ordinary unweighted average would answer a different question because households were sampled at different rates. For the project manager: a reproducible table lets someone check where the number came from before using it in a policy brief.",
+    "revised": "I would check unique household keys, unmatched rows and survey-weight totals before and after joining, and compare weighted and unweighted results on the same fixed sample. I would reproduce the table independently in Stata and Python with the same handling of missing records and report tolerances. I would also check whether weights belong to the survey round: blindly carrying an old round weight would change the target population. This gives reproducibility but does not by itself establish causal effects.",
+    "expected": "verified",
+    "range": [
+      55,
+      90
+    ],
+    "detail": "Credit reproducibility, validation and weighting reasoning in the adjacent domain. Do not deduct for an economics background or absent deployment claim.",
+    "extraction": {
+      "claims": [
+        {
+          "claim_id": "c1",
+          "skill": "experiment_hygiene",
+          "raw_label": "Stata",
+          "strength": "substantiated",
+          "claimed_level": "unstated",
+          "evidence_span": "I caught a weighting error by comparing weighted and unweighted tables.",
+          "linked_project_id": "p1"
+        }
+      ],
+      "projects": [
+        {
+          "project_id": "p1",
+          "title": "Household survey analysis",
+          "description_span": "Project: Household survey analysis. I used Stata to merge 72,000 household records and applied survey weights. I caught a weighting error by comparing weighted and unweighted tables. I wrote scripts so other researchers could rerun every table. I translated the analysis into Python with pandas and statsmodels; coefficients matched to three decimals. I have no production ML experience.",
+          "tools_named": [
+            "Stata"
+          ],
+          "stated_approach": "I caught a weighting error by comparing weighted and unweighted tables.",
+          "task_grounding_potential": "high"
+        }
+      ],
+      "extraction_warnings": []
+    },
+    "task": {
+      "task_id": "t-05_career_switcher",
+      "targets_claim_id": "c1",
+      "grounded_in_project_id": "p1",
+      "grounding_quotes": [
+        "Stata",
+        "I caught a weighting error by comparing weighted and unweighted tables."
+      ],
+      "task_prompt": "You named \"Stata\" and wrote: \"I caught a weighting error by comparing weighted and unweighted tables.\" For this exercise, consider a hypothetical change: survey weights from two rounds are accidentally mixed. Explain how you would check and address that change within your stated project, name one alternative, and describe a validation check. This is an exercise, not a claim that your original work contains this issue.",
+      "communication_subtask": "Explain your proposed decision to a non-technical project manager in no more than 120 words.",
+      "complication": "survey weights from two rounds are accidentally mixed",
+      "issue_source": "hypothetical",
+      "accessible_entry_point": "Quote the relevant step in your stated approach and describe one concrete check."
+    },
+    "probe_answers": [
+      {
+        "probe_id": "q1",
+        "text": "I chose the train-only workflow because held-out information should not determine values used for training; an all-data fit would make the evaluation less independent."
+      },
+      {
+        "probe_id": "q2",
+        "text": "If the training column contains no observed values, I would flag that condition, use a documented fixed fallback or remove the feature, and keep held-out records out of that choice."
+      }
+    ]
+  },
+  {
+    "id": "06_strong_control",
+    "kind": "Strong control",
+    "cv": "SYNTHETIC FIXTURE F \u2014 written for this event; not a real person.\nTarget: AI/ML Intern. Skills: Python, SQL, scikit-learn, model evaluation.\nProject: Subscriber churn study. I used SQL and scikit-learn on 80,000 synthetic subscriber rows. I removed a cancellation flag that was only available after the prediction date; held-out AUC moved from 0.94 to 0.80. I grouped splits by subscriber, kept preprocessing inside the training pipeline, and compared a logistic-regression baseline with gradient boosting. I chose the baseline because AUC differed by only 0.01 while calibration and explanation were easier. AUC alone does not establish business benefit.",
+    "tool": "scikit-learn",
+    "skill": "model_evaluation",
+    "approach": "I removed a cancellation flag that was only available after the prediction date; held-out AUC moved from 0.94 to 0.80.",
+    "initial": "I would remove the cancellation flag because it arrives after the decision date, construct an as-of feature table and hold out later months grouped by subscriber. I would fit imputation and encoding only inside training folds, then evaluate AUC, precision-recall and calibration on the frozen holdout. I would compare logistic regression with gradient boosting; a 0.01 AUC gain may not justify extra explanation cost. If churn prevalence shifts over time, I would recheck calibration and threshold cost without tuning on the final test set. For a project manager: a late cancellation flag is like using tomorrow\u2019s answer to predict today; a smaller honest result is a better basis for a decision.",
+    "revised": "I would remove every feature unavailable at prediction time, not only the cancellation flag, audit event timestamps in an as-of join, and hold out later months grouped by subscriber. I would fit preprocessing inside each training fold, assess AUC, precision-recall and calibration, and freeze a cost-based threshold before the final holdout. I would test missing timestamps and repeat-subscriber overlap as extra checks. The simpler logistic-regression baseline gives up some nonlinear flexibility but makes calibration and explanation easier when the AUC difference is small.",
+    "expected": "verified",
+    "range": [
+      75,
+      100
+    ],
+    "detail": "Specific tradeoffs, chronology, independent checks and a boundary should outscore the keyword answer. CV numbers remain self-reported, not independently measured.",
+    "extraction": {
+      "claims": [
+        {
+          "claim_id": "c1",
+          "skill": "model_evaluation",
+          "raw_label": "scikit-learn",
+          "strength": "substantiated",
+          "claimed_level": "unstated",
+          "evidence_span": "I removed a cancellation flag that was only available after the prediction date; held-out AUC moved from 0.94 to 0.80.",
+          "linked_project_id": "p1"
+        }
+      ],
+      "projects": [
+        {
+          "project_id": "p1",
+          "title": "Subscriber churn study",
+          "description_span": "Project: Subscriber churn study. I used SQL and scikit-learn on 80,000 synthetic subscriber rows. I removed a cancellation flag that was only available after the prediction date; held-out AUC moved from 0.94 to 0.80. I grouped splits by subscriber, kept preprocessing inside the training pipeline, and compared a logistic-regression baseline with gradient boosting. I chose the baseline because AUC differed by only 0.01 while calibration and explanation were easier. AUC alone does not establish business benefit.",
+          "tools_named": [
+            "scikit-learn"
+          ],
+          "stated_approach": "I removed a cancellation flag that was only available after the prediction date; held-out AUC moved from 0.94 to 0.80.",
+          "task_grounding_potential": "high"
+        }
+      ],
+      "extraction_warnings": []
+    },
+    "task": {
+      "task_id": "t-06_strong_control",
+      "targets_claim_id": "c1",
+      "grounded_in_project_id": "p1",
+      "grounding_quotes": [
+        "scikit-learn",
+        "I removed a cancellation flag that was only available after the prediction date; held-out AUC moved from 0.94 to 0.80."
+      ],
+      "task_prompt": "You named \"scikit-learn\" and wrote: \"I removed a cancellation flag that was only available after the prediction date; held-out AUC moved from 0.94 to 0.80.\" For this exercise, consider a hypothetical change: a cancellation flag is reintroduced by a future feature join. Explain how you would check and address that change within your stated project, name one alternative, and describe a validation check. This is an exercise, not a claim that your original work contains this issue.",
+      "communication_subtask": "Explain your proposed decision to a non-technical project manager in no more than 120 words.",
+      "complication": "a cancellation flag is reintroduced by a future feature join",
+      "issue_source": "hypothetical",
+      "accessible_entry_point": "Quote the relevant step in your stated approach and describe one concrete check."
+    },
+    "probe_answers": [
+      {
+        "probe_id": "q1",
+        "text": "I chose the train-only workflow because held-out information should not determine values used for training; an all-data fit would make the evaluation less independent."
+      },
+      {
+        "probe_id": "q2",
+        "text": "If the training column contains no observed values, I would flag that condition, use a documented fixed fallback or remove the feature, and keep held-out records out of that choice."
+      }
+    ]
+  }
+]

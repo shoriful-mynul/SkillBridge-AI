@@ -1,0 +1,1109 @@
+{
+  "disclosure": "Synthetic rehearsal: fictional answers and curated illustrative scores, not live Gemini.",
+  "records": [
+    {
+      "schema_version": "2.0.0",
+      "assessment_id": "synthetic-rehearsal-c",
+      "role_id": "ai-ml-intern",
+      "rubric_version": "3.0.0",
+      "created_at": "2026-10-10T00:00:00+05:00",
+      "state": "task_ready",
+      "source_text": "SYNTHETIC FIXTURE C \u2014 written for this event; not a real person.\nTarget: AI/ML Intern. Skills: Python, pandas and beginner scikit-learn.\nProject: Titanic baseline. I used pandas and logistic regression. Used pandas to fill missing age values with the median. I one-hot encoded the embarked column and reported 78% accuracy. I do not yet have deployment experience. I want to understand whether my preprocessing and evaluation choices were appropriate.",
+      "claims": [
+        {
+          "claim_id": "c1",
+          "skill": "data_wrangling",
+          "raw_label": "pandas",
+          "strength": "contextual",
+          "claimed_level": "unstated",
+          "evidence_span": "Used pandas to fill missing age values with the median.",
+          "linked_project_id": "p1"
+        }
+      ],
+      "projects": [
+        {
+          "project_id": "p1",
+          "title": "Titanic baseline",
+          "description_span": "Project: Titanic baseline. I used pandas and logistic regression. Used pandas to fill missing age values with the median. I one-hot encoded the embarked column and reported 78% accuracy. I do not yet have deployment experience. I want to understand whether my preprocessing and evaluation choices were appropriate.",
+          "tools_named": [
+            "pandas"
+          ],
+          "stated_approach": "Used pandas to fill missing age values with the median.",
+          "task_grounding_potential": "high"
+        }
+      ],
+      "warnings": [],
+      "task": {
+        "task_id": "t-03_honest_junior",
+        "targets_claim_id": "c1",
+        "grounded_in_project_id": "p1",
+        "grounding_quotes": [
+          "pandas",
+          "Used pandas to fill missing age values with the median."
+        ],
+        "task_prompt": "You named \"pandas\" and wrote: \"Used pandas to fill missing age values with the median.\" For this exercise, consider a hypothetical change: held-out rows have a different missing-age pattern. Explain how you would check and address that change within your stated project, name one alternative, and describe a validation check. This is an exercise, not a claim that your original work contains this issue.",
+        "communication_subtask": "Explain your proposed decision to a non-technical project manager in no more than 120 words.",
+        "complication": "held-out rows have a different missing-age pattern",
+        "issue_source": "hypothetical",
+        "accessible_entry_point": "Quote the relevant step in your stated approach and describe one concrete check."
+      },
+      "attempts": [],
+      "verification": [],
+      "delta": null,
+      "engine": "synthetic_rehearsal",
+      "receipt": ""
+    },
+    {
+      "schema_version": "2.0.0",
+      "assessment_id": "synthetic-rehearsal-c",
+      "role_id": "ai-ml-intern",
+      "rubric_version": "3.0.0",
+      "created_at": "2026-10-10T00:00:00+05:00",
+      "state": "first_review",
+      "source_text": "SYNTHETIC FIXTURE C \u2014 written for this event; not a real person.\nTarget: AI/ML Intern. Skills: Python, pandas and beginner scikit-learn.\nProject: Titanic baseline. I used pandas and logistic regression. Used pandas to fill missing age values with the median. I one-hot encoded the embarked column and reported 78% accuracy. I do not yet have deployment experience. I want to understand whether my preprocessing and evaluation choices were appropriate.",
+      "claims": [
+        {
+          "claim_id": "c1",
+          "skill": "data_wrangling",
+          "raw_label": "pandas",
+          "strength": "contextual",
+          "claimed_level": "unstated",
+          "evidence_span": "Used pandas to fill missing age values with the median.",
+          "linked_project_id": "p1"
+        }
+      ],
+      "projects": [
+        {
+          "project_id": "p1",
+          "title": "Titanic baseline",
+          "description_span": "Project: Titanic baseline. I used pandas and logistic regression. Used pandas to fill missing age values with the median. I one-hot encoded the embarked column and reported 78% accuracy. I do not yet have deployment experience. I want to understand whether my preprocessing and evaluation choices were appropriate.",
+          "tools_named": [
+            "pandas"
+          ],
+          "stated_approach": "Used pandas to fill missing age values with the median.",
+          "task_grounding_potential": "high"
+        }
+      ],
+      "warnings": [],
+      "task": {
+        "task_id": "t-03_honest_junior",
+        "targets_claim_id": "c1",
+        "grounded_in_project_id": "p1",
+        "grounding_quotes": [
+          "pandas",
+          "Used pandas to fill missing age values with the median."
+        ],
+        "task_prompt": "You named \"pandas\" and wrote: \"Used pandas to fill missing age values with the median.\" For this exercise, consider a hypothetical change: held-out rows have a different missing-age pattern. Explain how you would check and address that change within your stated project, name one alternative, and describe a validation check. This is an exercise, not a claim that your original work contains this issue.",
+        "communication_subtask": "Explain your proposed decision to a non-technical project manager in no more than 120 words.",
+        "complication": "held-out rows have a different missing-age pattern",
+        "issue_source": "hypothetical",
+        "accessible_entry_point": "Quote the relevant step in your stated approach and describe one concrete check."
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "text": "I would count missing age values with df.isna().sum(). I choose the median for age. I would compute it from observed ages and use it to fill the blank records, then check a held-out score. For the project manager: replacing empty ages gives the model usable inputs, and the held-out check tells us whether it is useful.",
+          "self_predicted_score": 3.0,
+          "scores": [
+            {
+              "dimension_id": "claim_substantiation",
+              "score": 2,
+              "anchor_matched": "The answer shows one relevant routine operation in the described project, without explaining a substantive decision.",
+              "evidence_spans": [
+                {
+                  "quote": "I would count missing age values with df.isna().sum()",
+                  "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+                }
+              ],
+              "missing_for_next_level": "The answer shows a relevant operation and at least one project-specific decision with observable supporting detail.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "technical_correctness",
+              "score": 2,
+              "anchor_matched": "The central method is valid but an important contained assumption, edge case, or validation detail remains unresolved.",
+              "evidence_spans": [
+                {
+                  "quote": "I choose the median for age",
+                  "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+                }
+              ],
+              "missing_for_next_level": "The described method is technically consistent and handles the task complication with a valid validation procedure; executable evidence is not assumed from prose.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "reasoning_transparency",
+              "score": 1,
+              "anchor_matched": "The answer restates the procedure but does not explain why it fits this project.",
+              "evidence_spans": [
+                {
+                  "quote": "I choose the median for age",
+                  "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+                }
+              ],
+              "missing_for_next_level": "The answer gives a plausible reason but does not connect it to a specific project property or meaningful alternative.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "communication",
+              "score": 2,
+              "anchor_matched": "The main idea is understandable, but its structure or consequence requires the reader to infer an important connection.",
+              "evidence_spans": [
+                {
+                  "quote": "For the project manager: replacing empty ages gives the model usable inputs, and the held-out check tells us whether it is useful.",
+                  "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+                }
+              ],
+              "missing_for_next_level": "The explanation leads with the practical point, uses clear structure, and explains necessary technical terms for the specified audience.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "coachability_delta",
+              "score": null,
+              "anchor_matched": "Not observed yet: a revision is required.",
+              "evidence_spans": [],
+              "missing_for_next_level": "The revision acknowledges the critique in words but leaves the relevant strategy materially unchanged.",
+              "confidence": "medium",
+              "guard_applied": false
+            }
+          ],
+          "feedback": {
+            "opening_quote": "I would count missing age values with df.isna().sum()",
+            "strength_statement": "You made a concrete missing-value inspection step visible.",
+            "strategy_feedback": "Make the reason for your median choice visible: explain why it is a sensible starting strategy for age values. Keep the evaluation independent when you revise.",
+            "next_step_choices": [
+              {
+                "choice_id": "a",
+                "title": "Explain the median choice",
+                "instruction": "Give one plausible reason for using the median to fill a numeric age column. Two sentences are enough.",
+                "dimension_id": "reasoning_transparency",
+                "target_level": 2
+              },
+              {
+                "choice_id": "b",
+                "title": "Use a tiny example",
+                "instruction": "Use three or four made-up ages to explain why the median can be a sensible starting fill.",
+                "dimension_id": "reasoning_transparency",
+                "target_level": 2
+              }
+            ]
+          },
+          "probes": [
+            {
+              "probe_id": "q1",
+              "type": "choice",
+              "anchored_quote": "I choose the median for age",
+              "question": "You wrote \"I choose the median for age\". Why choose that instead of the mean in this project?"
+            },
+            {
+              "probe_id": "q2",
+              "type": "boundary",
+              "anchored_quote": "I would count missing age values with df.isna().sum()",
+              "question": "You wrote \"I would count missing age values with df.isna().sum()\". What changes when a training column has no observed ages?"
+            }
+          ],
+          "probe_answers": [],
+          "integrity": {
+            "ownership_score": null,
+            "confidence": null,
+            "evidence_spans": [],
+            "advisory_note": "Ownership confidence is pending your two follow-up answers. This is not an AI-use detector."
+          },
+          "calibration": {
+            "self_predicted": 3.0,
+            "demonstrated": 1.78,
+            "gap": 1.22,
+            "framing": "Your prediction is above the evidence shown in this attempt. This is calibration on one task, not a statement about honesty or overall ability."
+          },
+          "task_evidence_index": 44.44,
+          "weighted_score": 44.44
+        }
+      ],
+      "verification": [
+        {
+          "claim_id": "c1",
+          "status": "partial",
+          "display_label": "Partially evidenced",
+          "assessed": true,
+          "caveat": "Some supporting evidence is present on this task; further depth can be sampled."
+        }
+      ],
+      "delta": null,
+      "engine": "synthetic_rehearsal",
+      "receipt": ""
+    },
+    {
+      "schema_version": "2.0.0",
+      "assessment_id": "synthetic-rehearsal-c",
+      "role_id": "ai-ml-intern",
+      "rubric_version": "3.0.0",
+      "created_at": "2026-10-10T00:00:00+05:00",
+      "state": "revised_review",
+      "source_text": "SYNTHETIC FIXTURE C \u2014 written for this event; not a real person.\nTarget: AI/ML Intern. Skills: Python, pandas and beginner scikit-learn.\nProject: Titanic baseline. I used pandas and logistic regression. Used pandas to fill missing age values with the median. I one-hot encoded the embarked column and reported 78% accuracy. I do not yet have deployment experience. I want to understand whether my preprocessing and evaluation choices were appropriate.",
+      "claims": [
+        {
+          "claim_id": "c1",
+          "skill": "data_wrangling",
+          "raw_label": "pandas",
+          "strength": "contextual",
+          "claimed_level": "unstated",
+          "evidence_span": "Used pandas to fill missing age values with the median.",
+          "linked_project_id": "p1"
+        }
+      ],
+      "projects": [
+        {
+          "project_id": "p1",
+          "title": "Titanic baseline",
+          "description_span": "Project: Titanic baseline. I used pandas and logistic regression. Used pandas to fill missing age values with the median. I one-hot encoded the embarked column and reported 78% accuracy. I do not yet have deployment experience. I want to understand whether my preprocessing and evaluation choices were appropriate.",
+          "tools_named": [
+            "pandas"
+          ],
+          "stated_approach": "Used pandas to fill missing age values with the median.",
+          "task_grounding_potential": "high"
+        }
+      ],
+      "warnings": [],
+      "task": {
+        "task_id": "t-03_honest_junior",
+        "targets_claim_id": "c1",
+        "grounded_in_project_id": "p1",
+        "grounding_quotes": [
+          "pandas",
+          "Used pandas to fill missing age values with the median."
+        ],
+        "task_prompt": "You named \"pandas\" and wrote: \"Used pandas to fill missing age values with the median.\" For this exercise, consider a hypothetical change: held-out rows have a different missing-age pattern. Explain how you would check and address that change within your stated project, name one alternative, and describe a validation check. This is an exercise, not a claim that your original work contains this issue.",
+        "communication_subtask": "Explain your proposed decision to a non-technical project manager in no more than 120 words.",
+        "complication": "held-out rows have a different missing-age pattern",
+        "issue_source": "hypothetical",
+        "accessible_entry_point": "Quote the relevant step in your stated approach and describe one concrete check."
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "text": "I would count missing age values with df.isna().sum(). I choose the median for age. I would compute it from observed ages and use it to fill the blank records, then check a held-out score. For the project manager: replacing empty ages gives the model usable inputs, and the held-out check tells us whether it is useful.",
+          "self_predicted_score": 3.0,
+          "scores": [
+            {
+              "dimension_id": "claim_substantiation",
+              "score": 2,
+              "anchor_matched": "The answer shows one relevant routine operation in the described project, without explaining a substantive decision.",
+              "evidence_spans": [
+                {
+                  "quote": "I would count missing age values with df.isna().sum()",
+                  "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+                }
+              ],
+              "missing_for_next_level": "The answer shows a relevant operation and at least one project-specific decision with observable supporting detail.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "technical_correctness",
+              "score": 2,
+              "anchor_matched": "The central method is valid but an important contained assumption, edge case, or validation detail remains unresolved.",
+              "evidence_spans": [
+                {
+                  "quote": "I choose the median for age",
+                  "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+                }
+              ],
+              "missing_for_next_level": "The described method is technically consistent and handles the task complication with a valid validation procedure; executable evidence is not assumed from prose.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "reasoning_transparency",
+              "score": 1,
+              "anchor_matched": "The answer restates the procedure but does not explain why it fits this project.",
+              "evidence_spans": [
+                {
+                  "quote": "I choose the median for age",
+                  "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+                }
+              ],
+              "missing_for_next_level": "The answer gives a plausible reason but does not connect it to a specific project property or meaningful alternative.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "communication",
+              "score": 2,
+              "anchor_matched": "The main idea is understandable, but its structure or consequence requires the reader to infer an important connection.",
+              "evidence_spans": [
+                {
+                  "quote": "For the project manager: replacing empty ages gives the model usable inputs, and the held-out check tells us whether it is useful.",
+                  "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+                }
+              ],
+              "missing_for_next_level": "The explanation leads with the practical point, uses clear structure, and explains necessary technical terms for the specified audience.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "coachability_delta",
+              "score": null,
+              "anchor_matched": "Not observed yet: a revision is required.",
+              "evidence_spans": [],
+              "missing_for_next_level": "The revision acknowledges the critique in words but leaves the relevant strategy materially unchanged.",
+              "confidence": "medium",
+              "guard_applied": false
+            }
+          ],
+          "feedback": {
+            "opening_quote": "I would count missing age values with df.isna().sum()",
+            "strength_statement": "You made a concrete missing-value inspection step visible.",
+            "strategy_feedback": "Make the reason for your median choice visible: explain why it is a sensible starting strategy for age values. Keep the evaluation independent when you revise.",
+            "next_step_choices": [
+              {
+                "choice_id": "a",
+                "title": "Explain the median choice",
+                "instruction": "Give one plausible reason for using the median to fill a numeric age column. Two sentences are enough.",
+                "dimension_id": "reasoning_transparency",
+                "target_level": 2
+              },
+              {
+                "choice_id": "b",
+                "title": "Use a tiny example",
+                "instruction": "Use three or four made-up ages to explain why the median can be a sensible starting fill.",
+                "dimension_id": "reasoning_transparency",
+                "target_level": 2
+              }
+            ]
+          },
+          "probes": [
+            {
+              "probe_id": "q1",
+              "type": "choice",
+              "anchored_quote": "I choose the median for age",
+              "question": "You wrote \"I choose the median for age\". Why choose that instead of the mean in this project?"
+            },
+            {
+              "probe_id": "q2",
+              "type": "boundary",
+              "anchored_quote": "I would count missing age values with df.isna().sum()",
+              "question": "You wrote \"I would count missing age values with df.isna().sum()\". What changes when a training column has no observed ages?"
+            }
+          ],
+          "probe_answers": [],
+          "integrity": {
+            "ownership_score": null,
+            "confidence": null,
+            "evidence_spans": [],
+            "advisory_note": "Ownership confidence is pending your two follow-up answers. This is not an AI-use detector."
+          },
+          "calibration": {
+            "self_predicted": 3.0,
+            "demonstrated": 1.78,
+            "gap": 1.22,
+            "framing": "Your prediction is above the evidence shown in this attempt. This is calibration on one task, not a statement about honesty or overall ability."
+          },
+          "task_evidence_index": 44.44,
+          "weighted_score": 44.44
+        },
+        {
+          "attempt": 2,
+          "text": "I would count missing ages by column with df.isna().sum(), split into train and held-out data first, and fit a median imputer only on training ages. I would reuse that imputer to transform held-out rows. I choose median rather than mean because extreme ages can move the mean; however median filling can hide missingness patterns. If a training column is entirely empty, I would flag it and use a documented fixed fallback rather than learn from the held-out rows. For the project manager: keep the check independent, like marking an exam with an answer key that was never used to teach the test answers.",
+          "self_predicted_score": 3.5,
+          "scores": [
+            {
+              "dimension_id": "claim_substantiation",
+              "score": 3,
+              "anchor_matched": "The answer shows a relevant operation and at least one project-specific decision with observable supporting detail.",
+              "evidence_spans": [
+                {
+                  "quote": "I would count missing ages by column with df.isna().sum(), split into train and held-out data first, and fit a median imputer only on training ages",
+                  "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+                }
+              ],
+              "missing_for_next_level": "The answer applies the targeted skill to a non-trivial project complication, handles it explicitly, and limits the claim to the level actually demonstrated.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "technical_correctness",
+              "score": 3,
+              "anchor_matched": "The described method is technically consistent and handles the task complication with a valid validation procedure; executable evidence is not assumed from prose.",
+              "evidence_spans": [
+                {
+                  "quote": "I would reuse that imputer to transform held-out rows",
+                  "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+                }
+              ],
+              "missing_for_next_level": "The method meets level 3 and additionally anticipates and handles a distinct relevant edge case, explaining how it would be checked.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "reasoning_transparency",
+              "score": 3,
+              "anchor_matched": "The answer connects its choice to a project-specific constraint and explains why at least one alternative is less suitable.",
+              "evidence_spans": [
+                {
+                  "quote": "If a training column is entirely empty, I would flag it and use a documented fixed fallback rather than learn from the held-out rows",
+                  "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+                }
+              ],
+              "missing_for_next_level": "The answer meets level 3 and explains a concrete cost, uncertainty, or boundary at which the selected approach should change.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "communication",
+              "score": 3,
+              "anchor_matched": "The explanation leads with the practical point, uses clear structure, and explains necessary technical terms for the specified audience.",
+              "evidence_spans": [
+                {
+                  "quote": "For the project manager: keep the check independent, like marking an exam with an answer key that was never used to teach the test answers.",
+                  "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+                }
+              ],
+              "missing_for_next_level": "The explanation meets level 3 and includes a concrete project example or analogy plus an actionable implication without overstating certainty.",
+              "confidence": "medium",
+              "guard_applied": false
+            },
+            {
+              "dimension_id": "coachability_delta",
+              "score": 3,
+              "anchor_matched": "The revision addresses the critique and applies the same principle consistently across the proposed workflow.",
+              "evidence_spans": [
+                {
+                  "quote": "I would count missing ages by column with df.isna().sum(), split into train and held-out data first, and fit a median imputer only on training ages",
+                  "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+                }
+              ],
+              "missing_for_next_level": "The revision meets level 3 and identifies and addresses a related limitation that was not named in the critique.",
+              "confidence": "medium",
+              "guard_applied": false
+            }
+          ],
+          "feedback": {
+            "opening_quote": "I would count missing ages by column with df.isna().sum(), split into train and held-out data first, and fit a median imputer only on training ages",
+            "strength_statement": "You made a concrete missing-value inspection step visible.",
+            "strategy_feedback": "Your revision makes the training boundary and a concrete edge-case check visible. You can next examine when median filling changes the data distribution.",
+            "next_step_choices": [
+              {
+                "choice_id": "a",
+                "title": "Define a change condition",
+                "instruction": "Explain when missing ages in one group make a single median insufficient, and name a check before changing strategy.",
+                "dimension_id": "reasoning_transparency",
+                "target_level": 4
+              },
+              {
+                "choice_id": "b",
+                "title": "Make a tradeoff explicit",
+                "instruction": "Show what group differences median filling can hide and what evidence would make you choose a different approach.",
+                "dimension_id": "reasoning_transparency",
+                "target_level": 4
+              }
+            ]
+          },
+          "probes": [
+            {
+              "probe_id": "q1",
+              "type": "choice",
+              "anchored_quote": "I would reuse that imputer to transform held-out rows",
+              "question": "You wrote \"I would reuse that imputer to transform held-out rows\". Why reuse the training imputer rather than fit a new one on the held-out data?"
+            },
+            {
+              "probe_id": "q2",
+              "type": "boundary",
+              "anchored_quote": "I would count missing ages by column with df.isna().sum(), split into train and held-out data first, and fit a median imputer only on training ages",
+              "question": "You wrote \"I would count missing ages by column with df.isna().sum(), split into train and held-out data first, and fit a median imputer only on training ages\". What changes when a training column has no observed ages?"
+            }
+          ],
+          "probe_answers": [],
+          "integrity": {
+            "ownership_score": null,
+            "confidence": null,
+            "evidence_spans": [],
+            "advisory_note": "Ownership confidence is pending your two follow-up answers. This is not an AI-use detector."
+          },
+          "calibration": {
+            "self_predicted": 3.5,
+            "demonstrated": 3.0,
+            "gap": 0.5,
+            "framing": "Your prediction is close to the evidence shown in this attempt. This is calibration on one task, not a statement about honesty or overall ability."
+          },
+          "task_evidence_index": 75.0,
+          "weighted_score": 75.0
+        }
+      ],
+      "verification": [
+        {
+          "claim_id": "c1",
+          "status": "verified",
+          "display_label": "Evidenced on this task",
+          "assessed": true,
+          "caveat": "Evidenced at the demonstrated level on this one task. Not a general proficiency certification."
+        }
+      ],
+      "delta": {
+        "before": 44.44,
+        "after": 75.0,
+        "change": 30.56,
+        "label": "Change in evidence on the same task; not an employability score."
+      },
+      "engine": "synthetic_rehearsal",
+      "receipt": ""
+    }
+  ],
+  "probe_answers": [
+    {
+      "probe_id": "q1",
+      "text": "I chose median rather than mean because extreme ages can move the mean. Median uses the centre of the observed training ages; if missingness hides a particular age group, I would check that group instead of assuming the fill represents it."
+    },
+    {
+      "probe_id": "q2",
+      "text": "If the training column contains no observed values, I would flag that condition, use a documented fixed fallback or remove the feature, and keep held-out records out of that choice."
+    }
+  ],
+  "ownership_record": {
+    "schema_version": "2.0.0",
+    "assessment_id": "synthetic-rehearsal-c",
+    "role_id": "ai-ml-intern",
+    "rubric_version": "3.0.0",
+    "created_at": "2026-10-10T00:00:00+05:00",
+    "state": "first_review",
+    "source_text": "SYNTHETIC FIXTURE C \u2014 written for this event; not a real person.\nTarget: AI/ML Intern. Skills: Python, pandas and beginner scikit-learn.\nProject: Titanic baseline. I used pandas and logistic regression. Used pandas to fill missing age values with the median. I one-hot encoded the embarked column and reported 78% accuracy. I do not yet have deployment experience. I want to understand whether my preprocessing and evaluation choices were appropriate.",
+    "claims": [
+      {
+        "claim_id": "c1",
+        "skill": "data_wrangling",
+        "raw_label": "pandas",
+        "strength": "contextual",
+        "claimed_level": "unstated",
+        "evidence_span": "Used pandas to fill missing age values with the median.",
+        "linked_project_id": "p1"
+      }
+    ],
+    "projects": [
+      {
+        "project_id": "p1",
+        "title": "Titanic baseline",
+        "description_span": "Project: Titanic baseline. I used pandas and logistic regression. Used pandas to fill missing age values with the median. I one-hot encoded the embarked column and reported 78% accuracy. I do not yet have deployment experience. I want to understand whether my preprocessing and evaluation choices were appropriate.",
+        "tools_named": [
+          "pandas"
+        ],
+        "stated_approach": "Used pandas to fill missing age values with the median.",
+        "task_grounding_potential": "high"
+      }
+    ],
+    "warnings": [],
+    "task": {
+      "task_id": "t-03_honest_junior",
+      "targets_claim_id": "c1",
+      "grounded_in_project_id": "p1",
+      "grounding_quotes": [
+        "pandas",
+        "Used pandas to fill missing age values with the median."
+      ],
+      "task_prompt": "You named \"pandas\" and wrote: \"Used pandas to fill missing age values with the median.\" For this exercise, consider a hypothetical change: held-out rows have a different missing-age pattern. Explain how you would check and address that change within your stated project, name one alternative, and describe a validation check. This is an exercise, not a claim that your original work contains this issue.",
+      "communication_subtask": "Explain your proposed decision to a non-technical project manager in no more than 120 words.",
+      "complication": "held-out rows have a different missing-age pattern",
+      "issue_source": "hypothetical",
+      "accessible_entry_point": "Quote the relevant step in your stated approach and describe one concrete check."
+    },
+    "attempts": [
+      {
+        "attempt": 1,
+        "text": "I would count missing age values with df.isna().sum(). I choose the median for age. I would compute it from observed ages and use it to fill the blank records, then check a held-out score. For the project manager: replacing empty ages gives the model usable inputs, and the held-out check tells us whether it is useful.",
+        "self_predicted_score": 3.0,
+        "scores": [
+          {
+            "dimension_id": "claim_substantiation",
+            "score": 2,
+            "anchor_matched": "The answer shows one relevant routine operation in the described project, without explaining a substantive decision.",
+            "evidence_spans": [
+              {
+                "quote": "I would count missing age values with df.isna().sum()",
+                "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+              }
+            ],
+            "missing_for_next_level": "The answer shows a relevant operation and at least one project-specific decision with observable supporting detail.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "technical_correctness",
+            "score": 2,
+            "anchor_matched": "The central method is valid but an important contained assumption, edge case, or validation detail remains unresolved.",
+            "evidence_spans": [
+              {
+                "quote": "I choose the median for age",
+                "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+              }
+            ],
+            "missing_for_next_level": "The described method is technically consistent and handles the task complication with a valid validation procedure; executable evidence is not assumed from prose.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "reasoning_transparency",
+            "score": 1,
+            "anchor_matched": "The answer restates the procedure but does not explain why it fits this project.",
+            "evidence_spans": [
+              {
+                "quote": "I choose the median for age",
+                "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+              }
+            ],
+            "missing_for_next_level": "The answer gives a plausible reason but does not connect it to a specific project property or meaningful alternative.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "communication",
+            "score": 2,
+            "anchor_matched": "The main idea is understandable, but its structure or consequence requires the reader to infer an important connection.",
+            "evidence_spans": [
+              {
+                "quote": "For the project manager: replacing empty ages gives the model usable inputs, and the held-out check tells us whether it is useful.",
+                "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+              }
+            ],
+            "missing_for_next_level": "The explanation leads with the practical point, uses clear structure, and explains necessary technical terms for the specified audience.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "coachability_delta",
+            "score": null,
+            "anchor_matched": "Not observed yet: a revision is required.",
+            "evidence_spans": [],
+            "missing_for_next_level": "The revision acknowledges the critique in words but leaves the relevant strategy materially unchanged.",
+            "confidence": "medium",
+            "guard_applied": false
+          }
+        ],
+        "feedback": {
+          "opening_quote": "I would count missing age values with df.isna().sum()",
+          "strength_statement": "You made a concrete missing-value inspection step visible.",
+          "strategy_feedback": "Make the reason for your median choice visible: explain why it is a sensible starting strategy for age values. Keep the evaluation independent when you revise.",
+          "next_step_choices": [
+            {
+              "choice_id": "a",
+              "title": "Explain the median choice",
+              "instruction": "Give one plausible reason for using the median to fill a numeric age column. Two sentences are enough.",
+              "dimension_id": "reasoning_transparency",
+              "target_level": 2
+            },
+            {
+              "choice_id": "b",
+              "title": "Use a tiny example",
+              "instruction": "Use three or four made-up ages to explain why the median can be a sensible starting fill.",
+              "dimension_id": "reasoning_transparency",
+              "target_level": 2
+            }
+          ]
+        },
+        "probes": [
+          {
+            "probe_id": "q1",
+            "type": "choice",
+            "anchored_quote": "I choose the median for age",
+            "question": "You wrote \"I choose the median for age\". Why choose that instead of the mean in this project?"
+          },
+          {
+            "probe_id": "q2",
+            "type": "boundary",
+            "anchored_quote": "I would count missing age values with df.isna().sum()",
+            "question": "You wrote \"I would count missing age values with df.isna().sum()\". What changes when a training column has no observed ages?"
+          }
+        ],
+        "probe_answers": [
+          {
+            "probe_id": "q1",
+            "text": "I chose median rather than mean because extreme ages can move the mean. Median uses the centre of the observed training ages; if missingness hides a particular age group, I would check that group instead of assuming the fill represents it."
+          },
+          {
+            "probe_id": "q2",
+            "text": "If the training column contains no observed values, I would flag that condition, use a documented fixed fallback or remove the feature, and keep held-out records out of that choice."
+          }
+        ],
+        "integrity": {
+          "ownership_score": 3,
+          "confidence": "high",
+          "evidence_spans": [
+            {
+              "quote": "I chose median rather than mean because extreme ages can move the mean. Median uses the centre of the observed training ages; if missingness hides a particular age group, I would check that group instead of assuming the fill represents it.",
+              "why_it_supports": "Curated illustration of the specific choice and its boundary; not live scoring."
+            },
+            {
+              "quote": "If the training column contains no observed values, I would flag that condition, use a documented fixed fallback or remove the feature, and keep held-out records out of that choice.",
+              "why_it_supports": "Curated illustration of the missing-data boundary; not live scoring."
+            }
+          ],
+          "advisory_note": "This illustrative explanation accounts for the specific choice, an alternative and a boundary. It does not establish authorship. Nerves, time pressure or language can affect this short probe."
+        },
+        "calibration": {
+          "self_predicted": 3.0,
+          "demonstrated": 1.78,
+          "gap": 1.22,
+          "framing": "Your prediction is above the evidence shown in this attempt. This is calibration on one task, not a statement about honesty or overall ability."
+        },
+        "task_evidence_index": 44.44,
+        "weighted_score": 44.44
+      }
+    ],
+    "verification": [
+      {
+        "claim_id": "c1",
+        "status": "partial",
+        "display_label": "Partially evidenced",
+        "assessed": true,
+        "caveat": "Some supporting evidence is present on this task; further depth can be sampled."
+      }
+    ],
+    "delta": null,
+    "engine": "synthetic_rehearsal",
+    "receipt": ""
+  },
+  "revision_probe_answers": [
+    {
+      "probe_id": "q1",
+      "text": "I reuse the training imputer so the held-out data does not determine a learned preprocessing value. Fitting a new one on held-out rows would no longer simulate applying the training pipeline to future records."
+    },
+    {
+      "probe_id": "q2",
+      "text": "If the training column contains no observed values, I would flag that condition, use a documented fixed fallback or remove the feature, and keep held-out records out of that choice."
+    }
+  ],
+  "ownership_record_revision": {
+    "schema_version": "2.0.0",
+    "assessment_id": "synthetic-rehearsal-c",
+    "role_id": "ai-ml-intern",
+    "rubric_version": "3.0.0",
+    "created_at": "2026-10-10T00:00:00+05:00",
+    "state": "revised_review",
+    "source_text": "SYNTHETIC FIXTURE C \u2014 written for this event; not a real person.\nTarget: AI/ML Intern. Skills: Python, pandas and beginner scikit-learn.\nProject: Titanic baseline. I used pandas and logistic regression. Used pandas to fill missing age values with the median. I one-hot encoded the embarked column and reported 78% accuracy. I do not yet have deployment experience. I want to understand whether my preprocessing and evaluation choices were appropriate.",
+    "claims": [
+      {
+        "claim_id": "c1",
+        "skill": "data_wrangling",
+        "raw_label": "pandas",
+        "strength": "contextual",
+        "claimed_level": "unstated",
+        "evidence_span": "Used pandas to fill missing age values with the median.",
+        "linked_project_id": "p1"
+      }
+    ],
+    "projects": [
+      {
+        "project_id": "p1",
+        "title": "Titanic baseline",
+        "description_span": "Project: Titanic baseline. I used pandas and logistic regression. Used pandas to fill missing age values with the median. I one-hot encoded the embarked column and reported 78% accuracy. I do not yet have deployment experience. I want to understand whether my preprocessing and evaluation choices were appropriate.",
+        "tools_named": [
+          "pandas"
+        ],
+        "stated_approach": "Used pandas to fill missing age values with the median.",
+        "task_grounding_potential": "high"
+      }
+    ],
+    "warnings": [],
+    "task": {
+      "task_id": "t-03_honest_junior",
+      "targets_claim_id": "c1",
+      "grounded_in_project_id": "p1",
+      "grounding_quotes": [
+        "pandas",
+        "Used pandas to fill missing age values with the median."
+      ],
+      "task_prompt": "You named \"pandas\" and wrote: \"Used pandas to fill missing age values with the median.\" For this exercise, consider a hypothetical change: held-out rows have a different missing-age pattern. Explain how you would check and address that change within your stated project, name one alternative, and describe a validation check. This is an exercise, not a claim that your original work contains this issue.",
+      "communication_subtask": "Explain your proposed decision to a non-technical project manager in no more than 120 words.",
+      "complication": "held-out rows have a different missing-age pattern",
+      "issue_source": "hypothetical",
+      "accessible_entry_point": "Quote the relevant step in your stated approach and describe one concrete check."
+    },
+    "attempts": [
+      {
+        "attempt": 1,
+        "text": "I would count missing age values with df.isna().sum(). I choose the median for age. I would compute it from observed ages and use it to fill the blank records, then check a held-out score. For the project manager: replacing empty ages gives the model usable inputs, and the held-out check tells us whether it is useful.",
+        "self_predicted_score": 3.0,
+        "scores": [
+          {
+            "dimension_id": "claim_substantiation",
+            "score": 2,
+            "anchor_matched": "The answer shows one relevant routine operation in the described project, without explaining a substantive decision.",
+            "evidence_spans": [
+              {
+                "quote": "I would count missing age values with df.isna().sum()",
+                "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+              }
+            ],
+            "missing_for_next_level": "The answer shows a relevant operation and at least one project-specific decision with observable supporting detail.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "technical_correctness",
+            "score": 2,
+            "anchor_matched": "The central method is valid but an important contained assumption, edge case, or validation detail remains unresolved.",
+            "evidence_spans": [
+              {
+                "quote": "I choose the median for age",
+                "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+              }
+            ],
+            "missing_for_next_level": "The described method is technically consistent and handles the task complication with a valid validation procedure; executable evidence is not assumed from prose.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "reasoning_transparency",
+            "score": 1,
+            "anchor_matched": "The answer restates the procedure but does not explain why it fits this project.",
+            "evidence_spans": [
+              {
+                "quote": "I choose the median for age",
+                "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+              }
+            ],
+            "missing_for_next_level": "The answer gives a plausible reason but does not connect it to a specific project property or meaningful alternative.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "communication",
+            "score": 2,
+            "anchor_matched": "The main idea is understandable, but its structure or consequence requires the reader to infer an important connection.",
+            "evidence_spans": [
+              {
+                "quote": "For the project manager: replacing empty ages gives the model usable inputs, and the held-out check tells us whether it is useful.",
+                "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+              }
+            ],
+            "missing_for_next_level": "The explanation leads with the practical point, uses clear structure, and explains necessary technical terms for the specified audience.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "coachability_delta",
+            "score": null,
+            "anchor_matched": "Not observed yet: a revision is required.",
+            "evidence_spans": [],
+            "missing_for_next_level": "The revision acknowledges the critique in words but leaves the relevant strategy materially unchanged.",
+            "confidence": "medium",
+            "guard_applied": false
+          }
+        ],
+        "feedback": {
+          "opening_quote": "I would count missing age values with df.isna().sum()",
+          "strength_statement": "You made a concrete missing-value inspection step visible.",
+          "strategy_feedback": "Make the reason for your median choice visible: explain why it is a sensible starting strategy for age values. Keep the evaluation independent when you revise.",
+          "next_step_choices": [
+            {
+              "choice_id": "a",
+              "title": "Explain the median choice",
+              "instruction": "Give one plausible reason for using the median to fill a numeric age column. Two sentences are enough.",
+              "dimension_id": "reasoning_transparency",
+              "target_level": 2
+            },
+            {
+              "choice_id": "b",
+              "title": "Use a tiny example",
+              "instruction": "Use three or four made-up ages to explain why the median can be a sensible starting fill.",
+              "dimension_id": "reasoning_transparency",
+              "target_level": 2
+            }
+          ]
+        },
+        "probes": [
+          {
+            "probe_id": "q1",
+            "type": "choice",
+            "anchored_quote": "I choose the median for age",
+            "question": "You wrote \"I choose the median for age\". Why choose that instead of the mean in this project?"
+          },
+          {
+            "probe_id": "q2",
+            "type": "boundary",
+            "anchored_quote": "I would count missing age values with df.isna().sum()",
+            "question": "You wrote \"I would count missing age values with df.isna().sum()\". What changes when a training column has no observed ages?"
+          }
+        ],
+        "probe_answers": [],
+        "integrity": {
+          "ownership_score": null,
+          "confidence": null,
+          "evidence_spans": [],
+          "advisory_note": "Ownership confidence is pending your two follow-up answers. This is not an AI-use detector."
+        },
+        "calibration": {
+          "self_predicted": 3.0,
+          "demonstrated": 1.78,
+          "gap": 1.22,
+          "framing": "Your prediction is above the evidence shown in this attempt. This is calibration on one task, not a statement about honesty or overall ability."
+        },
+        "task_evidence_index": 44.44,
+        "weighted_score": 44.44
+      },
+      {
+        "attempt": 2,
+        "text": "I would count missing ages by column with df.isna().sum(), split into train and held-out data first, and fit a median imputer only on training ages. I would reuse that imputer to transform held-out rows. I choose median rather than mean because extreme ages can move the mean; however median filling can hide missingness patterns. If a training column is entirely empty, I would flag it and use a documented fixed fallback rather than learn from the held-out rows. For the project manager: keep the check independent, like marking an exam with an answer key that was never used to teach the test answers.",
+        "self_predicted_score": 3.5,
+        "scores": [
+          {
+            "dimension_id": "claim_substantiation",
+            "score": 3,
+            "anchor_matched": "The answer shows a relevant operation and at least one project-specific decision with observable supporting detail.",
+            "evidence_spans": [
+              {
+                "quote": "I would count missing ages by column with df.isna().sum(), split into train and held-out data first, and fit a median imputer only on training ages",
+                "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+              }
+            ],
+            "missing_for_next_level": "The answer applies the targeted skill to a non-trivial project complication, handles it explicitly, and limits the claim to the level actually demonstrated.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "technical_correctness",
+            "score": 3,
+            "anchor_matched": "The described method is technically consistent and handles the task complication with a valid validation procedure; executable evidence is not assumed from prose.",
+            "evidence_spans": [
+              {
+                "quote": "I would reuse that imputer to transform held-out rows",
+                "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+              }
+            ],
+            "missing_for_next_level": "The method meets level 3 and additionally anticipates and handles a distinct relevant edge case, explaining how it would be checked.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "reasoning_transparency",
+            "score": 3,
+            "anchor_matched": "The answer connects its choice to a project-specific constraint and explains why at least one alternative is less suitable.",
+            "evidence_spans": [
+              {
+                "quote": "If a training column is entirely empty, I would flag it and use a documented fixed fallback rather than learn from the held-out rows",
+                "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+              }
+            ],
+            "missing_for_next_level": "The answer meets level 3 and explains a concrete cost, uncertainty, or boundary at which the selected approach should change.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "communication",
+            "score": 3,
+            "anchor_matched": "The explanation leads with the practical point, uses clear structure, and explains necessary technical terms for the specified audience.",
+            "evidence_spans": [
+              {
+                "quote": "For the project manager: keep the check independent, like marking an exam with an answer key that was never used to teach the test answers.",
+                "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+              }
+            ],
+            "missing_for_next_level": "The explanation meets level 3 and includes a concrete project example or analogy plus an actionable implication without overstating certainty.",
+            "confidence": "medium",
+            "guard_applied": false
+          },
+          {
+            "dimension_id": "coachability_delta",
+            "score": 3,
+            "anchor_matched": "The revision addresses the critique and applies the same principle consistently across the proposed workflow.",
+            "evidence_spans": [
+              {
+                "quote": "I would count missing ages by column with df.isna().sum(), split into train and held-out data first, and fit a median imputer only on training ages",
+                "why_it_supports": "Curated illustration of this rubric anchor; not a live AI score."
+              }
+            ],
+            "missing_for_next_level": "The revision meets level 3 and identifies and addresses a related limitation that was not named in the critique.",
+            "confidence": "medium",
+            "guard_applied": false
+          }
+        ],
+        "feedback": {
+          "opening_quote": "I would count missing ages by column with df.isna().sum(), split into train and held-out data first, and fit a median imputer only on training ages",
+          "strength_statement": "You made a concrete missing-value inspection step visible.",
+          "strategy_feedback": "Your revision makes the training boundary and a concrete edge-case check visible. You can next examine when median filling changes the data distribution.",
+          "next_step_choices": [
+            {
+              "choice_id": "a",
+              "title": "Define a change condition",
+              "instruction": "Explain when missing ages in one group make a single median insufficient, and name a check before changing strategy.",
+              "dimension_id": "reasoning_transparency",
+              "target_level": 4
+            },
+            {
+              "choice_id": "b",
+              "title": "Make a tradeoff explicit",
+              "instruction": "Show what group differences median filling can hide and what evidence would make you choose a different approach.",
+              "dimension_id": "reasoning_transparency",
+              "target_level": 4
+            }
+          ]
+        },
+        "probes": [
+          {
+            "probe_id": "q1",
+            "type": "choice",
+            "anchored_quote": "I would reuse that imputer to transform held-out rows",
+            "question": "You wrote \"I would reuse that imputer to transform held-out rows\". Why reuse the training imputer rather than fit a new one on the held-out data?"
+          },
+          {
+            "probe_id": "q2",
+            "type": "boundary",
+            "anchored_quote": "I would count missing ages by column with df.isna().sum(), split into train and held-out data first, and fit a median imputer only on training ages",
+            "question": "You wrote \"I would count missing ages by column with df.isna().sum(), split into train and held-out data first, and fit a median imputer only on training ages\". What changes when a training column has no observed ages?"
+          }
+        ],
+        "probe_answers": [
+          {
+            "probe_id": "q1",
+            "text": "I reuse the training imputer so the held-out data does not determine a learned preprocessing value. Fitting a new one on held-out rows would no longer simulate applying the training pipeline to future records."
+          },
+          {
+            "probe_id": "q2",
+            "text": "If the training column contains no observed values, I would flag that condition, use a documented fixed fallback or remove the feature, and keep held-out records out of that choice."
+          }
+        ],
+        "integrity": {
+          "ownership_score": 3,
+          "confidence": "high",
+          "evidence_spans": [
+            {
+              "quote": "I reuse the training imputer so the held-out data does not determine a learned preprocessing value. Fitting a new one on held-out rows would no longer simulate applying the training pipeline to future records.",
+              "why_it_supports": "Curated illustration of the specific choice and its boundary; not live scoring."
+            },
+            {
+              "quote": "If the training column contains no observed values, I would flag that condition, use a documented fixed fallback or remove the feature, and keep held-out records out of that choice.",
+              "why_it_supports": "Curated illustration of the missing-data boundary; not live scoring."
+            }
+          ],
+          "advisory_note": "This illustrative explanation accounts for the specific choice, an alternative and a boundary. It does not establish authorship. Nerves, time pressure or language can affect this short probe."
+        },
+        "calibration": {
+          "self_predicted": 3.5,
+          "demonstrated": 3.0,
+          "gap": 0.5,
+          "framing": "Your prediction is close to the evidence shown in this attempt. This is calibration on one task, not a statement about honesty or overall ability."
+        },
+        "task_evidence_index": 75.0,
+        "weighted_score": 75.0
+      }
+    ],
+    "verification": [
+      {
+        "claim_id": "c1",
+        "status": "verified",
+        "display_label": "Evidenced on this task",
+        "assessed": true,
+        "caveat": "Evidenced at the demonstrated level on this one task. Not a general proficiency certification."
+      }
+    ],
+    "delta": {
+      "before": 44.44,
+      "after": 75.0,
+      "change": 30.56,
+      "label": "Change in evidence on the same task; not an employability score."
+    },
+    "engine": "synthetic_rehearsal",
+    "receipt": ""
+  }
+}

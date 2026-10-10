@@ -1,0 +1,4 @@
+SYNTHETIC FIXTURE D — written for this event; not a real person.
+Target: AI/ML Intern. Skills: Transformers, GPT, BERT, RAG, LLM, MLOps, PyTorch, TensorFlow, Kubernetes, AWS, Spark, Hadoop, NLP, computer vision, pandas, SQL, data science and predictive analytics.
+Project: Customer insights. In pandas I opened a customer CSV and filled every blank with zero before randomly splitting it. I describe this as an enterprise AI solution, but provide no validation numbers or implementation detail.
+All other skills are listed without a project operation.

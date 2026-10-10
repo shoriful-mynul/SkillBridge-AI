@@ -1,75 +1,71 @@
 # SkillBridge AI — Team Gradient
 
-Candidate-owned, project-grounded skill practice for AICON’26, EdTech & Workforce. One role in depth: AI/ML Intern. Read [the complete A–J build specification](docs/BUILD_SPEC.md).
+Project-grounded skill practice for AICON’26, EdTech & Workforce. Choose AI/ML Intern, Data Analyst Intern or Frontend Developer Intern. Review source claims, practise one task tied to your own tools and decisions, explain two follow-ups, choose a next step and revise once.
 
-## Implemented flow
+## This version
 
-React retains the earlier forest-green visual direction with newly authored application code: text → structured claims → task quoting the candidate’s tools and approach → self-prediction → single-dimension scoring → two adaptive probes → chosen revision → comparable evidence change. The rubric is JSON data. Python checks quotes, thresholds, aggregation, calibration and ordering. No database, document parser, vector store, candidate accounts, telemetry, rankings or hiring decisions are implemented.
+The original forest-green React workspace is retained. Gemini requests, schema validation, quote guards, thresholds, score aggregation and signed assessment receipts now run in the JavaScript server/Worker. No separate Python service is required. Original Python files and the old build specification are retained as historical reference; their hosting instructions do not describe this version.
 
-The private Sites frontend has a clearly labeled synthetic rehearsal with curated fictional answers and illustrative scores. Custom assessment uses the real FastAPI/Gemini route only. Missing configuration or an outage preserves the draft and creates no score.
+Added: three distinct role rubrics, role-specific fictional rehearsals, text-based PDF import (5 MB / 30 pages), editable text preview, explicit Gemini consent, optional device-only input draft, JSON export and a print-friendly evidence report.
 
-Current verification: Python HTTP flow and provider payload tests use contract doubles; a frontend handler/state test exercises the complete labeled rehearsal; the frontend builds for Sites. No live Gemini assessment or reliability evaluation has run: no API key or hosted Python service was supplied. Browser visual/click verification was unavailable. Complete the official-window preflight before presenting live AI.
+## Run locally (Windows PowerShell)
 
-## Stack and hosting boundary
+Node >=22.13. From the project folder:
 
-React 19/TypeScript through the Sites Vinext starter; Python 3.12/FastAPI/Pydantic/httpx/Uvicorn, pinned in `requirements.txt`; Gemini Generate Content REST API, default `gemini-3.8-flash`, configurable with `GEMINI_MODEL`. Scores use temperature 0.0, one dimension’s anchors, JSON Schema output and Python revalidation.
-
-Sites hosts a JS Worker, not Python. Host the provided Docker/FastAPI service on a team-controlled HTTPS runtime and configure the same-origin gateway. No external Python hosting service has been provisioned. Secrets never enter React or this repository.
-
-## Local backend and evaluation
-
-```sh
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-cp .env.example .env
-# Fill .env privately with your server key and stable signing/shared secrets.
-set -a
-source .env
-set +a
-python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000
+```powershell
+npm install
 ```
 
-In a second terminal using the same environment:
+Create an ignored `.dev.vars` file in the project root with:
 
-```sh
-python -m pytest tests -q
-node --test tests/frontend-loop.mjs
+```text
+GEMINI_API_KEY=<your server key>
+GEMINI_MODEL=gemini-3.8-flash
+ASSESSMENT_SIGNING_KEY=<stable random signing secret>
+```
+
+Generate the signing secret privately with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`. Never commit actual values. Verify your key has access to the configured model. Restart the dev process after changing secrets.
+
+```powershell
+npm run dev
+```
+
+Open the URL printed in the terminal. The rubric and all rehearsals work without Gemini. “Live Gemini service configured” means secrets exist, not that a real provider call was tested. API failures preserve drafts and earlier results and never become synthetic live scores.
+
+## Validation
+
+```powershell
+node --test tests/server-engine.cjs tests/frontend-loop.mjs
 node node_modules/typescript/bin/tsc --noEmit
-python -m evals.run
+npm run build
 ```
 
-Windows: activate `.venv\Scripts\Activate.ps1` and set the same environment variables in PowerShell. Evaluation makes real provider calls. Without a key it exits 2 with `status: not_run`; incomplete runs also exit 2. It writes ignored `evals/results/raw-runs.json` and `metrics.json`, never rehearsal numbers. `evals/human_labels.csv` is intentionally blank for two independent raters.
+Server tests use contract doubles. Frontend tests exercise real handlers/state with a React hook harness; they are not browser or screenshot tests. No live Gemini request has been run by the builder because no API key was supplied. Role rubrics are authored practice criteria, not validated psychometrics. The old Python evaluation runner covers only the historical Python engine, not this JavaScript runtime; do not use its metrics to claim this engine is validated.
 
-Docker contains no secrets. Its production configuration requires the service token. Keep TLS and the shared token at the host boundary and disable request-body logging. Local development has no candidate account system. The assessment signing key prevents browser tampering with returned context; it is not candidate authentication. Use a stable key across workers or restarts invalidate sessions.
+## Hosted configuration
 
-## Private Sites configuration
+Configure `GEMINI_API_KEY`, `GEMINI_MODEL`, and `ASSESSMENT_SIGNING_KEY` as Sites server environment secrets. No secret belongs in the hosting manifest, browser code or GitHub. Keep the signing key stable across workers and restarts; rotating it invalidates existing assessments. The deployed Site is private by default.
 
-| Runtime | Variable | Purpose |
-| --- | --- | --- |
-| Sites | `FASTAPI_BASE_URL` | Team-controlled HTTPS origin, no path prefix |
-| Sites + Python | `BACKEND_SHARED_SECRET` | Identical random server-to-server token |
-| Python | `GEMINI_API_KEY` | Team-owned API key, server only |
-| Python | `GEMINI_MODEL` | Record actual model used in evaluation |
-| Python | `ASSESSMENT_SIGNING_KEY` | Stable random stateless receipt key |
-| Python | `DEPLOYMENT_ENV` | `production` on hosted service |
+## Score interpretation
 
-Node requires 22.13+. In Sites, use the supported Sites install/build workflow and preserve the starter build integration. `npm run build` remains available standalone. The gateway requires HTTPS, including development: test FastAPI directly on loopback or connect React to the team’s HTTPS development backend. Private Site access is platform-managed, separate from the absent candidate account system. Do not widen access without owner approval.
+The original five dimensions use the original 0–4 anchored scale. A score above 1 needs a literal current-answer quote. A quote does not prove technical correctness or code execution. Coachability is null on attempt 1. Before/after uses the same four initially observable dimensions and normalized weights; critique uptake is separate. Follow-up confidence does not establish authorship or detect AI use.
 
-## Interpretation
+## Data
 
-A score above 1 needs a literal current-answer quote. Existence of a quote does not prove technical correctness or code execution. Internal `verified` displays “Evidenced on this task”; other claims remain not assessed. Ownership is 0–3 confidence after two answers, always with nerves/time-pressure/language as innocent explanations. No AI-use detection or misconduct accusation is made.
+No assessment database, candidate account system, rankings or request-body telemetry. PDF bytes are processed for text and not stored. Live submissions and answers go to Gemini; provider policies are distinct from the app not having a database. Optional browser draft saving is off by default and stores only source text and role, not scores, secrets or trusted assessment context. Exported reports contain candidate text. Rehearsals are fictional and clearly marked in the workspace and report.
 
-Coachability is null on attempt 1; initial weights renormalize over the other four dimensions. The before/after index always uses those same four weights on both attempts, while critique uptake is shown separately. This is one task’s evidence change, not employability, lasting learning or validated psychometrics.
+## Competition disclosure
 
-## Freshness and disclosure
+The supplied original pack and visual reference predate this revision. This migration and enhancements were created with Codex assistance. Preserve accurate authorship/timing disclosure and follow organizer rules for preparatory material. Do not describe all code as created inside the official build window unless that is true.
 
-This is a new Sites project separate from the earlier SkillProof repository. Only the visual direction is retained; its implementation/classifier was not copied. The user’s settled brief and attached `skillproof-starter.zip` were design/reference material. This implementation, prompts, rubric, synthetic profiles and paired answers were authored with Codex assistance before the supplied 09:00 official build window. A new repository alone does not establish eligibility under the prohibition on pre-existing work. Confirm allowed preparatory material with organizers and author eligible competition work within the official window; do not present this package as code written inside it.
+## Five-minute demo
 
-Disclosed boilerplate/libraries: Sites Vinext starter and Sites Worker/build integration; React/React DOM, TypeScript, Vite/Vinext, Tailwind, Cloudflare tooling, FastAPI, Pydantic, httpx, Uvicorn, pytest and jsonschema. Frontend versions and stock dependencies are retained in `package.json`/`pnpm-lock.yaml`, including unused UI/database scaffolding; optional databases/uploads are disabled (`d1`/`r2` null). License notices under `build/` and `vendor/` remain. Gemini is an external proprietary model API, not an open-source library. No earlier team application code or classifier is included.
+- 0:00–0:35: A CV names skills; learners need a way to practise and inspect evidence.
+- 0:35–1:10: Choose a target role and show project input and exact source claims.
+- 1:10–1:50: Show the task tied to a real tool and decision, with one hypothetical complication.
+- 1:50–2:45: Show an answer, self-prediction, rubric scores and literal evidence.
+- 2:45–3:20: Answer the two follow-ups; explain that this is not AI-use detection.
+- 3:20–4:20: Choose feedback, revise and show comparable evidence change.
+- 4:20–5:00: Export report, limitations and future human evaluation.
 
-All fixture profiles/answers are synthetic and authored for this design; no scraped CVs or third-party personal data. Add team CVs only with consent and outside the committed synthetic eval set. State stays in browser memory; voluntary exports contain candidate text. In live mode the AI provider receives submitted text; provider retention is distinct from the app having no database.
-
-## Primary references
-
-[Gemini model](https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash), [structured output](https://ai.google.dev/gemini-api/docs/generate-content/structured-output), [FastAPI](https://fastapi.tiangolo.com/), [Pydantic](https://docs.pydantic.dev/latest/), [React](https://react.dev/). Research-informed humane principles and honest validity limitations are in the build spec.
+If provider configuration or quota blocks live AI, explicitly switch to “Synthetic rehearsal · not live AI”. Rehearsal scores are illustrative, not evaluation results.

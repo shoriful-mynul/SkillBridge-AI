@@ -1,0 +1,11 @@
+export type Span={quote:string;why_it_supports:string};
+export type Score={dimension_id:string;score:number|null;anchor_matched:string;evidence_spans:Span[];missing_for_next_level:string;confidence:string;guard_applied:boolean};
+export type Claim={claim_id:string;skill:string;raw_label:string;strength:string;claimed_level:string;evidence_span:string;linked_project_id:string|null};
+export type Project={project_id:string;title:string;description_span:string;tools_named:string[];stated_approach:string;task_grounding_potential:string};
+export type Task={task_id:string;targets_claim_id:string;grounded_in_project_id:string;grounding_quotes:string[];task_prompt:string;communication_subtask:string;complication:string;issue_source:string;accessible_entry_point:string};
+export type Choice={choice_id:string;title:string;instruction:string;dimension_id:string;target_level:number};
+export type Probe={probe_id:string;type:string;anchored_quote:string;question:string};
+export type Integrity={ownership_score:number|null;confidence:string|null;evidence_spans:Span[];advisory_note:string};
+export type Attempt={attempt:number;text:string;self_predicted_score:number;scores:Score[];feedback:{opening_quote:string;strength_statement:string;strategy_feedback:string;next_step_choices:Choice[]};probes:Probe[];probe_answers:{probe_id:string;text:string}[];integrity:Integrity;calibration:{self_predicted:number;demonstrated:number;gap:number;framing:string};task_evidence_index:number;weighted_score:number};
+export type Assessment={schema_version:string;assessment_id:string;role_id:string;rubric_version:string;created_at:string;state:string;source_text:string;claims:Claim[];projects:Project[];warnings:string[];task:Task|null;attempts:Attempt[];verification:{claim_id:string;status:string;display_label:string;assessed:boolean;caveat:string}[];delta:{before:number;after:number;change:number;label:string}|null;engine:'live_gemini'|'synthetic_rehearsal';receipt:string;model?:string};
+export type Rehearsal={disclosure:string;records:Assessment[];probe_answers:{probe_id:string;text:string}[];revision_probe_answers:{probe_id:string;text:string}[];ownership_record:Assessment;ownership_record_revision:Assessment};
