@@ -8,8 +8,24 @@ type Config={GEMINI_API_KEY?:string;GEMINI_MODEL?:string;ASSESSMENT_SIGNING_KEY?
 type Generate=<S extends z.ZodTypeAny>(prompt:string,user:unknown,contract:S,shape:unknown,temp?:number)=>Promise<z.output<S>>;
 const obj=(properties:Record<string,unknown>)=>({type:'object',properties,required:Object.keys(properties)});
 const defs=schema.$defs as unknown as Record<string,Record<string,unknown>>;
-function expand(v:unknown):unknown{if(Array.isArray(v))return v.map(expand);if(v&&typeof v==='object'){const o=v as Record<string,unknown>;if(typeof o.$ref==='string')return expand(defs[o.$ref.split('/').at(-1)!]);return Object.fromEntries(Object.entries(o).filter(([k])=>!['title','default','$defs'].includes(k)).map(([k,w])=>[k,expand(w)]));}return v;}
-const shapes={extract:obj({claims:{type:'array',items:expand(defs.Claim),maxItems:40},projects:{type:'array',items:expand(defs.Project),maxItems:8},extraction_warnings:{type:'array',items:{type:'string'}}}),task:expand(defs.Task),score:expand(defs.Score),feedback:expand(defs.Feedback),probes:obj({probes:{type:'array',items:expand(defs.Probe),minItems:2,maxItems:2}}),ownership:obj({ownership_score:{type:'integer',minimum:0,maximum:3},evidence_spans:{type:'array',items:expand(defs.Span)},reasoning:{type:'string'}})};
+function expand(v:unknown):unknown{
+ if(Array.isArray(v))return v.map(expand);
+ if(v&&typeof v==='object'){
+  const o=v as Record<string,unknown>;
+  if(typeof o.$ref==='string')return expand(defs[o.$ref.split('/').at(-1)!]);
+  const result:Record<string,unknown>={};
+  for(const [key,value] of Object.entries(o)){
+   // Remove schema annotations only at schema nodes. Property names are data,
+   // even when a field is literally named title, default, or description.
+   if(['title','default','$defs'].includes(key))continue;
+   if(key==='properties')result[key]=Object.fromEntries(Object.entries(value as Record<string,unknown>).map(([name,child])=>[name,expand(child)]));
+   else result[key]=expand(value);
+  }
+  return result;
+ }
+ return v;
+}
+export const shapes={extract:obj({claims:{type:'array',items:expand(defs.Claim),maxItems:40},projects:{type:'array',items:expand(defs.Project),maxItems:8},extraction_warnings:{type:'array',items:{type:'string'}}}),task:expand(defs.Task),score:expand(defs.Score),feedback:expand(defs.Feedback),probes:obj({probes:{type:'array',items:expand(defs.Probe),minItems:2,maxItems:2}}),ownership:obj({ownership_score:{type:'integer',minimum:0,maximum:3},evidence_spans:{type:'array',items:expand(defs.Span)},reasoning:{type:'string'}})};
 function prompt(name:string,values:Record<string,unknown>={}){let p=prompts[name];for(const [k,v]of Object.entries(values))p=p.replaceAll('{{'+k+'}}',typeof v==='string'?v:JSON.stringify(v));if(p.includes('{{'))throw Error('Incomplete system prompt.');return p;}
 export class AIError extends Error{}
 export function gemini(config:Config):Generate{return async(p,user,contract,shape,temp=0)=>{if(!config.GEMINI_API_KEY?.trim())throw new AIError('Live Gemini is not configured. Use the labeled rehearsal or configure the server secret.');const model=config.GEMINI_MODEL||'gemini-3.8-flash';if(!/^[a-zA-Z0-9._-]+$/.test(model))throw new AIError('Invalid server model configuration.');for(let i=0;i<2;i++){let r:Response;try{r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':config.GEMINI_API_KEY},body:JSON.stringify({systemInstruction:{parts:[{text:p}]},contents:[{role:'user',parts:[{text:JSON.stringify(user)}]}],generationConfig:{temperature:temp,responseMimeType:'application/json',responseJsonSchema:shape}}),signal:AbortSignal.timeout(30000)});}catch{if(i===0)continue;throw new AIError('Gemini timed out. Your draft and earlier results are preserved.');}if([429,500,502,503,504].includes(r.status)&&i===0){await new Promise(resolve=>setTimeout(resolve,700));continue;}if(!r.ok){let detail='';try{const failure=await r.json() as {error?:{message?:string}};detail=(failure.error?.message||'').replaceAll(config.GEMINI_API_KEY,'[redacted]').replace(/AIza[\w-]+/g,'[redacted]').replace(/https?:\/\/[^\s]+/g,'[URL redacted]').slice(0,700);}catch{}throw new AIError(r.status===400?`Gemini rejected the request (HTTP 400): ${detail||'Invalid request parameter.'} No score was created.`:r.status===429?'Gemini usage limit reached. Try again shortly.':r.status===401||r.status===403?'The server Gemini key does not have access. Check key permissions and model access.':r.status===404?'The configured Gemini model is unavailable. Update GEMINI_MODEL on the server.':`Gemini could not finish this step (HTTP ${r.status}). No score was created.`);}try{const j=await r.json() as {candidates?:{content?:{parts?:{text?:string}[]}}[]};const text=j.candidates?.[0]?.content?.parts?.map(x=>x.text||'').join('');if(!text)throw Error();return contract.parse(JSON.parse(text));}catch{throw new AIError('Gemini returned an incomplete or invalid assessment. No new score was created.');}}throw new AIError('Gemini is unavailable.');};}
