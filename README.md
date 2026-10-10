@@ -1,93 +1,220 @@
-# SkillBridge AI — Team Gradient
+# SkillBridge AI
 
-## Current FastAPI application
+**Project-grounded skill practice for students**
 
-The current application, including the target-role selector, PDF input, final performance graphs and branching roadmap, is in [`skillbridge-ai/skillbridge-ai/`](skillbridge-ai/skillbridge-ai/). Its [README](skillbridge-ai/skillbridge-ai/README.md) contains the current setup instructions.
+**Team Gradient · AICON’26 Build With AI · EdTech & Workforce · NUST**
 
-Run it from that folder:
+SkillBridge AI helps students explain the technical decisions behind their own projects. It turns a project-linked CV claim into a focused task, asks follow-up questions, provides feedback supported by answer quotations, and compares the evidence before and after a student-chosen revision.
 
-```sh
-cd skillbridge-ai/skillbridge-ai
-python -m pip install -r requirements.txt
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
-```
+The report belongs to the student. It describes evidence on one task, rather than certifying a skill or recommending a hiring decision.
 
-Open http://127.0.0.1:8000. The current FastAPI application serves its plain HTML/CSS/JavaScript frontend itself and needs no npm or frontend build step. The graphs and roadmap appear after **Score my revision**; **Saved for later** has no revision score to compare.
+## Team Gradient
 
-## Earlier JavaScript implementation retained from PR #1
+SkillBridge AI is a group project developed by four team members:
 
-The root-level JavaScript application and its dependencies are retained below as an earlier implementation. The root-level npm/pnpm, Sites and signing-key instructions apply to that application, not to the current FastAPI application above. Its runtime does not include the newer FastAPI final-screen graphs and roadmap.
+| # | Team member |
+|---|---|
+| 1 | Shoriful Islam |
+| 2 | Fatima Salam |
+| 3 | Jabir Sharif |
+| 4 | Zoya Jabeen |
 
-Project-grounded skill practice for AICON’26, EdTech & Workforce. Choose AI/ML Intern, Data Analyst Intern or Frontend Developer Intern. Review source claims, practise one task tied to your own tools and decisions, explain two follow-ups, choose a next step and revise once.
+## Problem and approach
 
-## This version
+A CV can list a tool without explaining why it was chosen, how its result was checked, or which constraints affected the decision. Students need an opportunity to practise those explanations and act on specific feedback.
 
-The original forest-green React workspace is retained. Gemini requests, schema validation, quote guards, thresholds, score aggregation and signed assessment receipts now run in the JavaScript server/Worker. No separate Python service is required. Original Python files and the old build specification are retained as historical reference; their hosting instructions do not describe this version.
+SkillBridge AI connects that practice to the student's stated work:
 
-Added: three distinct role rubrics, role-specific fictional rehearsals, text-based PDF import (5 MB / 30 pages), editable text preview, explicit Gemini consent, optional device-only input draft, JSON export and a print-friendly evidence report.
+1. Choose a target role and provide project or CV text.
+2. Review extracted claims and their source evidence.
+3. Select an eligible claim linked to a sufficiently described project.
+4. Predict the expected score and answer a grounded technical task.
+5. Respond to two follow-up probes about the explanation.
+6. Review dimension scores and feedback.
+7. Choose whether to revise.
+8. Inspect the final comparison, performance graphs, and optional roadmap.
 
-## Run locally (Windows PowerShell)
+## Implemented features
 
-Node >=22.13. From the project folder:
+| Feature | Purpose |
+|---|---|
+| Three target roles | AI/ML Intern, Data Analyst Intern, and Frontend Developer Intern |
+| Project and CV input | Paste text or import a text-based PDF with an editable preview |
+| Source-linked claim review | Inspect quotations and select an eligible project-linked claim |
+| Grounded tasks | Practise a decision connected to the student's stated project and tools |
+| Self-prediction | Compare the expected score with demonstrated evidence |
+| Follow-up probes | Explain choices and boundaries in the submitted answer |
+| Rubric feedback | Inspect scores, supporting quotations, and next-level evidence |
+| Guided revision | Respond to feedback through a student-chosen revision |
+| Performance graphs | Compare dimensions and distance to the two Evidenced gates |
+| Branching roadmap | Explore growth options or a small seven-day practice plan |
+| Student-owned exports | Download Markdown reports, save sessions for replay, or print to PDF |
 
-```powershell
-npm install
-```
+PDF import supports selectable text, up to 5 MB and 30 pages. It does not perform OCR on scanned documents.
 
-Create an ignored `.dev.vars` file in the project root with:
+The **What changed** graphs and roadmap appear after **Score my revision**. Choosing **Saved for later** records the initial attempt without inventing a revision comparison.
+
+## Current application and repository layout
+
+The current application is in:
 
 ```text
-GEMINI_API_KEY=<your server key>
-GEMINI_MODEL=gemini-3.8-flash
-ASSESSMENT_SIGNING_KEY=<stable random signing secret>
+skillbridge-ai/skillbridge-ai/
 ```
 
-Generate the signing secret privately with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`. Never commit actual values. Verify your key has access to the configured model. Restart the dev process after changing secrets.
+All current application commands must run from that directory.
+
+| Location | Contents |
+|---|---|
+| `skillbridge-ai/skillbridge-ai/app/` | FastAPI routes, pipeline, schemas, provider adapters, and deterministic checks |
+| `skillbridge-ai/skillbridge-ai/static/` | Plain HTML, CSS, and JavaScript frontend |
+| `skillbridge-ai/skillbridge-ai/prompts/` | Six system prompts, including the revision roadmap |
+| `skillbridge-ai/skillbridge-ai/rubrics/` | Three role-specific rubric files |
+| `skillbridge-ai/skillbridge-ai/tests/` | Automated application and guardrail checks |
+| `skillbridge-ai/skillbridge-ai/demo/` | Synthetic demonstration input |
+| `skillbridge-ai/skillbridge-ai/fixtures/` | Synthetic evaluation fixtures |
+| `skillbridge-ai/skillbridge-ai/evals/` | Optional provider-based evaluation scripts |
+
+An earlier JavaScript implementation remains at the repository root. Its npm/pnpm and signing-key setup is separate from the current FastAPI application. See [the earlier implementation reference](docs/LEGACY_JAVASCRIPT.md).
+
+## Technology and responsibilities
+
+The current application uses **Python 3.10+, FastAPI, Pydantic, httpx, python-dotenv, pypdf, and Google Gemini**. FastAPI serves the frontend and API from one process. The frontend needs no Node.js, npm, build step, database, or external CDN.
+
+**AI responsibilities:** claim extraction, task generation, follow-up probes, dimension-level assessment, feedback, and roadmap generation.
+
+**Application responsibilities:** schema validation, source-quote checks, grounding rules, score caps, weighted aggregation, verification status, roadmap branching, and generated-language checks.
+
+Live AI requires internet access, a configured provider key, and available quota. Local frontend assets, saved-session replay, and labelled mock tests do not imply offline live AI generation.
+
+## Run locally
+
+Clone the repository and enter the current application directory:
+
+```sh
+git clone https://github.com/shoriful-mynul/SkillBridge-AI.git
+cd SkillBridge-AI/skillbridge-ai/skillbridge-ai
+python -m venv .venv
+```
+
+Install dependencies on Windows PowerShell:
 
 ```powershell
-npm run dev
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-Open the URL printed in the terminal. The rubric and all rehearsals work without Gemini. “Live Gemini service configured” means secrets exist, not that a real provider call was tested. API failures preserve drafts and earlier results and never become synthetic live scores.
+On macOS or Linux:
 
-## Validation
+```sh
+.venv/bin/python -m pip install -r requirements.txt
+```
+
+Create a file named `.env` beside the application's `requirements.txt`:
+
+```dotenv
+LLM_PROVIDER=gemini
+GEMINI_API_KEY=REPLACE_WITH_YOUR_PRIVATE_API_KEY
+GEMINI_MODEL=REPLACE_WITH_YOUR_TESTED_MODEL_ID
+GEMINI_FALLBACK_MODEL=REPLACE_WITH_YOUR_TESTED_MODEL_ID
+```
+
+Replace every placeholder. Use a model available to your API key. If a separate fallback has not been tested, use the same model ID for both model variables. Keep real API keys out of GitHub, screenshots, and exported reports.
+
+Start the application on Windows:
 
 ```powershell
-node --test tests/server-engine.cjs tests/frontend-loop.mjs
-node node_modules/typescript/bin/tsc --noEmit
-npm run build
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
-Server tests use contract doubles. Frontend tests exercise real handlers/state with a React hook harness; they are not browser or screenshot tests. No live Gemini request has been run by the builder because no API key was supplied. Role rubrics are authored practice criteria, not validated psychometrics. The old Python evaluation runner covers only the historical Python engine, not this JavaScript runtime; do not use its metrics to claim this engine is validated.
+On macOS or Linux:
 
-## Hosted configuration
+```sh
+.venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+```
 
-Configure `GEMINI_API_KEY`, `GEMINI_MODEL`, and `ASSESSMENT_SIGNING_KEY` as Sites server environment secrets. No secret belongs in the hosting manifest, browser code or GitHub. Keep the signing key stable across workers and restarts; rotating it invalidates existing assessments. The deployed Site is private by default.
+Open **http://127.0.0.1:8000** and select **Check connection** before running a live assessment.
 
-## Score interpretation
+## Assessment and evidence rules
 
-The original five dimensions use the original 0–4 anchored scale. A score above 1 needs a literal current-answer quote. A quote does not prove technical correctness or code execution. Coachability is null on attempt 1. Before/after uses the same four initially observable dimensions and normalized weights; critique uptake is separate. Follow-up confidence does not establish authorship or detect AI use.
+Scores use anchored criteria on a **0–4 scale**.
 
-## Data
+| Dimension | Rubric weight |
+|---|---|
+| Claim Substantiation | 0.30 |
+| Technical Correctness | 0.25 |
+| Reasoning Transparency | 0.20 |
+| Communication | 0.15 |
+| Coachability Delta | 0.10; revision only |
 
-No assessment database, candidate account system, rankings or request-body telemetry. PDF bytes are processed for text and not stored. Live submissions and answers go to Gemini; provider policies are distinct from the app not having a database. Optional browser draft saving is off by default and stores only source text and role, not scores, secrets or trusted assessment context. Exported reports contain candidate text. Rehearsals are fictional and clearly marked in the workspace and report.
+The **0–100 evidence index** compares the same four base dimensions on both attempts, with their weights normalized. Coachability is reported separately.
 
-## Competition disclosure
+A score above 1 requires a supporting quotation that can be found in the submission. Unverifiable evidence is removed, and unsupported scores are capped.
 
-The supplied original pack and visual reference predate this revision. This migration and enhancements were created with Codex assistance. Preserve accurate authorship/timing disclosure and follow organizer rules for preparatory material. Do not describe all code as created inside the official build window unless that is true.
+The status **Evidenced on this task** requires both:
 
-## Five-minute demo
+- Claim Substantiation at least 3.
+- Technical Correctness at least 3.
 
-- 0:00–0:35: A CV names skills; learners need a way to practise and inspect evidence.
-- 0:35–1:10: Choose a target role and show project input and exact source claims.
-- 1:10–1:50: Show the task tied to a real tool and decision, with one hypothetical complication.
-- 1:50–2:45: Show an answer, self-prediction, rubric scores and literal evidence.
-- 2:45–3:20: Answer the two follow-ups; explain that this is not AI-use detection.
-- 3:20–4:20: Choose feedback, revise and show comparable evidence change.
-- 4:20–5:00: Export report, limitations and future human evaluation.
+Other results use **Partially evidenced** or **Not yet evidenced** framing. A quotation establishes what was written; it does not establish that code ran or that the explanation is technically correct.
 
-If provider configuration or quota blocks live AI, explicitly switch to “Synthetic rehearsal · not live AI”. Rehearsal scores are illustrative, not evaluation results.
+### Branching roadmap
 
-## Local live-button troubleshooting
+The server chooses the branch from the scored revision:
 
-The live button now validates input and consent on click and displays explicit server errors rather than staying silently disabled after a health check. The setup panel names missing secrets and includes Recheck connection. Keep `.dev.vars` beside `package.json` (not `.dev.vars.txt`), save actual values, restart `npm run dev`, and refresh. The health check does not send a provider request and never proves model access. Eleven automated tests pass, including the live-button request/error/draft-preservation path. No real provider call was possible without a supplied API key.
+- **Both gates at least 3:** a verified source quotation, exactly two growth options from the lowest-scoring dimensions, two or three repeatable habits, and another eligible claim or guidance on adding CV project evidence.
+- **Either gate below 3:** literal gate scores, seven small optional practice actions with checkable outcomes, next-level evidence, an adjacent grounded claim option, and an explanation of any score cap.
+
+Roadmap prose is checked and kept under 320 words. Unsuitable content receives one correction request before a checked fallback is attempted. A roadmap error preserves the scored report and can be retried without rescoring.
+
+## Render deployment
+
+Create a **Web Service** connected to this repository.
+
+| Setting | Value |
+|---|---|
+| Branch | `main` |
+| Root Directory | `skillbridge-ai/skillbridge-ai` |
+| Runtime | Python 3 |
+| Build Command | `pip install -r requirements.txt` |
+| Start Command | `uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 1` |
+| Health Check Path | `/api/health` |
+
+Configure the provider variables from the local setup in Render's **Environment** settings. A single worker preserves request access to the same in-memory task store.
+
+After deployment, check `/api/health`, run **Check connection**, and complete an assessment through the final report. A healthy server or detected API key alone does not establish provider access or assessment quality.
+
+Free-instance cold starts can delay the first request. Open the application before a demonstration and retain an exported session as a clearly labelled replay option.
+
+## Testing and evaluation
+
+From the current application directory:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q
+```
+
+Use `.venv/bin/python -m pytest -q` on macOS or Linux.
+
+The latest recorded development run passed **50 tests**, covering source checks, gates, scoring rules, API flow, roadmap branches, correction/fallback behavior, and an optional Node-based check of graph markup, exports, and retry behavior. JavaScript syntax checking also passed. Node is optional for that development check and is not needed to run the application.
+
+For an offline wiring demonstration, set `LLM_PROVIDER=mock` in the application `.env`. Mock output is a deterministic test double, clearly labelled **TEST MODE**, and must not be presented as live AI output.
+
+The optional `python -m evals.run` command uses the configured provider and consumes API quota. Automated checks and synthetic fixtures are engineering evidence, not a student study or validation of learning outcomes.
+
+## Privacy and practical limits
+
+- The frontend requests consent before sending project text to the AI provider.
+- The application has no assessment database or candidate-account system; live task state is held in process memory.
+- Restarting, redeploying, or losing the server process clears active task state.
+- Reports and saved sessions contain submitted text; students choose whether to export or share them.
+- AI provider retention policies are separate from the application's storage design.
+- Provider errors, model availability, quotas, and connectivity can interrupt live requests.
+- Follow-up confidence is advisory. It is not AI-use detection or proof of authorship.
+
+The report describes evidence on one task. It is not a certification, an employability score, a ranking, a hiring recommendation, or proof of lasting learning.
+
+## Development disclosure and next steps
+
+AI coding assistance was used during development. Repository history retains earlier drafts and implementations. The team should describe contributions and preparation timing accurately; this README does not assert that every file was authored within a particular competition window.
+
+Next evaluation priorities are a small student pilot, independently rated explanations, rubric calibration, and usability feedback. These are planned activities, not completed educational validation.
