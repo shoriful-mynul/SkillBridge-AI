@@ -17,7 +17,7 @@ const STRENGTH_NAMES = { asserted: "Listed only", contextual: "Used in a project
 const S = {
   roleId: "ai-ml-intern", roles: [], consent: false, health: null, conn: null, stage: "cv", cv: "", extraction: null, claimId: null, task: null,
   selfPrediction: null, answer: "", comm: "", probes: null, probeAnswers: ["", ""],
-  s1: null, ownership: null, fb1: null, revAnswer: "", revComm: "", s2: null, fb2: null,
+  s1: null, ownership: null, fb1: null, revAnswer: "", revComm: "", s2: null, fb2: null, roadmap: null, roadmapError: null,
   finishedEarly: false, busy: false, error: null, progress: null, replay: null,
 };
 
@@ -353,6 +353,91 @@ function panelRevise() {
   </section>`;
 }
 
+/* ---------------- final-screen graphs and roadmap ---------------- */
+function performanceGraphs(first, revised) {
+  const prior = new Map(first.scores.map(s => [s.dimension_id, s.score]));
+  const rows = revised.scores;
+  const descriptions = rows.map(s => `${s.label}: ${prior.has(s.dimension_id) ? `first ${prior.get(s.dimension_id)}, revised ${s.score}, change ${s.score - prior.get(s.dimension_id)}` : `first not observed, revised ${s.score}`}`);
+  const description = `Scores out of 4 on this task. ${descriptions.join(". ")}. Hollow dots are first attempts; filled dots are revisions.`;
+  const x = n => 24 + Math.max(0, Math.min(4, Number(n))) * 67;
+  const axis = [0, 1, 2, 3, 4].map(n => `<text x="${x(n)}" y="21" text-anchor="middle">${n}</text>`).join("");
+  const marks = rows.map((s, i) => {
+    const y = 92 + i * 100, b = prior.get(s.dimension_id), has = prior.has(s.dimension_id);
+    const change = has ? s.score - b : null;
+    // Two lines keep long dimension labels legible at the 360-wide viewBox.
+    const labelWords = String(s.label).split(/\s+/), lines = [""];
+    for (const word of labelWords) {
+      if ((lines[lines.length - 1] + " " + word).trim().length > 34) lines.push(word);
+      else lines[lines.length - 1] = (lines[lines.length - 1] + " " + word).trim();
+    }
+    return `<g><text class="graph-label" x="12" y="${y - 50}">${lines.map((line, j) => `<tspan x="12" dy="${j ? 15 : 0}">${esc(line)}</tspan>`).join("")}</text>
+      <line class="graph-axis" x1="24" x2="292" y1="${y}" y2="${y}"/>
+      ${has ? `<line class="graph-link" x1="${x(b)}" x2="${x(s.score)}" y1="${y}" y2="${y}"/>
+        <circle class="graph-before" cx="${x(b)}" cy="${y}" r="7"/>
+        <text x="${x(b)}" y="${y + 20}" text-anchor="middle">${b}</text>` : `<text x="24" y="${y + 20}">First: not observed</text>`}
+      <circle class="graph-after" cx="${x(s.score)}" cy="${y}" r="4"/>
+      <text x="${x(s.score)}" y="${y - 10}" text-anchor="middle">${s.score}</text>
+      <text x="338" y="${y + 4}" text-anchor="end">${has ? `${change > 0 ? "+" : ""}${change}` : "n/a"}</text></g>`;
+  }).join("");
+  const gates = revised.scores.filter(s => ["claim_substantiation", "technical_correctness"].includes(s.dimension_id));
+  const gateDescription = gates.map(s => `${s.label} ${s.score} out of 4; threshold 3; ${s.score >= 3 ? "met" : `${3 - s.score} point${3 - s.score === 1 ? "" : "s"} to threshold`}`).join(". ");
+  const bars = gates.map((s, i) => {
+    const y = 56 + i * 85, met = s.score >= 3;
+    return `<g><text class="graph-label" x="12" y="${y - 22}">${esc(s.label)}</text>
+      <rect class="graph-track" x="24" y="${y}" width="268" height="15" rx="3"/>
+      <rect class="${met ? "graph-met" : "graph-progress"}" x="24" y="${y}" width="${x(s.score) - 24}" height="15" rx="3"/>
+      <line class="graph-threshold" x1="${x(3)}" x2="${x(3)}" y1="${y - 7}" y2="${y + 21}"/>
+      <text x="24" y="${y + 38}">${s.score}/4 · ${met ? "Met (needs 3)" : `Needs 3: ${3 - s.score} to go`}</text>
+      <text x="${x(3)}" y="${y - 9}" text-anchor="middle">3</text></g>`;
+  }).join("");
+  return `<div class="performance-graphs"><h3>Evidence by dimension</h3>
+    <p class="small">Hollow: first · Filled: revised · Right: change. Coachability starts with the revision.</p>
+    <svg class="performance-chart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 ${rows.length * 100 + 35}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${esc(description)}"><title>${esc(description)}</title>${axis}${marks}</svg>
+    <h3>Distance to Evidenced on this task</h3>
+    <svg class="performance-chart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 190" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${esc(gateDescription)}"><title>${esc(gateDescription)}</title>${bars}</svg>
+    <p class="small">Both gating dimensions need 3. These bars show task evidence, not general proficiency.</p></div>`;
+}
+
+function roadmapPanel() {
+  const r = S.roadmap;
+  if (!r) return `<section class="roadmap"><h3>Optional next steps</h3><p>${esc(S.roadmapError || (S.busy ? "Preparing your optional roadmap…" : "No roadmap was recorded for this session."))}</p>
+    ${!S.replay ? `<button class="btn ghost" data-act="retry-roadmap" ${S.busy ? "disabled" : ""}>Retry roadmap only</button>` : ""}</section>`;
+  const next = `<h4>${r.branch === "verified" ? "Another claim you could prove" : "An adjacent option to try first"}</h4><p><strong>${esc(r.next_claim.label)}</strong> · ${esc(r.next_claim.why)}</p>`;
+  return `<section class="roadmap"><h3>${r.branch === "verified" ? "Build on the evidence on this task" : "Options for what is not yet evidenced on this task"}</h3>
+    ${r.branch === "verified" ? `<blockquote>${esc(r.opening_strength.quote)}</blockquote><p>${esc(r.opening_strength.statement)}</p>
+      <h4>What would make this stronger</h4><ul>${r.growth_areas.map(g => `<li><strong>${esc(g.label)}</strong>: ${esc(g.action)}${g.next_level_evidence ? `<p class="small">Next-level evidence: ${esc(g.next_level_evidence)}</p>` : ""}</li>`).join("")}</ul>
+      <h4>How you could keep it up</h4><ul>${r.habits.map(h => `<li>${esc(h)}</li>`).join("")}</ul>` :
+      `<ul>${r.gating_dimensions.map(g => `<li>${esc(g.explanation)}</li>`).join("")}</ul>
+      <h4>An optional seven-day plan</h4><ol class="roadmap-days">${r.days.map(d => `<li><strong>Day ${d.day}</strong>: ${esc(d.action)} <span class="small">Check: ${esc(d.outcome)}</span></li>`).join("")}</ol>
+      <h4>What would flip this</h4><p>${esc(r.what_would_flip.evidence)}</p><p class="small">${esc(r.what_would_flip.framing)}</p>`}
+    ${r.cap_note ? `<p class="note">${esc(r.cap_note)}</p>` : ""}${next}
+    <p>${esc(r.choice)}</p><p class="small">${esc(r.caveat)}</p>${metaLine([r.meta?.model])}</section>`;
+}
+
+async function requestRoadmap() {
+  S.roadmapError = null;
+  try {
+    S.roadmap = await api("/api/roadmap", { task_id: S.task.task_id, answer: S.revAnswer, communication: S.revComm });
+  } catch (e) {
+    S.roadmapError = `Your scored report is preserved. ${e.message}`;
+  }
+}
+
+function roadmapMarkdown(r) {
+  const lines = ["## Optional roadmap on this task", ""];
+  if (r.branch === "verified") {
+    lines.push(`> ${r.opening_strength.quote}`, r.opening_strength.statement, "", "### What would make this stronger");
+    for (const g of r.growth_areas) lines.push(`- ${g.label}: ${g.action}`, `  Next-level evidence: ${g.next_level_evidence || "Consolidate the top anchor."}`);
+    lines.push("", "### Habits", ...r.habits.map(h => `- ${h}`));
+  } else {
+    lines.push(...r.gating_dimensions.map(g => g.explanation), "", "### Optional seven-day plan");
+    for (const d of r.days) lines.push(`${d.day}. ${d.action} Check: ${d.outcome}`);
+    lines.push("", "### What would flip this", r.what_would_flip.evidence, r.what_would_flip.framing);
+  }
+  lines.push("", r.cap_note, "", "### Another grounded option", `${r.next_claim.label}: ${r.next_claim.why}`, "", r.choice, r.caveat, "");
+  return lines.join("\n");
+}
+
 function panelFinal() {
   if (!S.s2) {
     return `<section class="panel">
@@ -380,6 +465,7 @@ function panelFinal() {
     <p class="small" style="margin-top:14px">Now</p>
     <div class="verdict ${esc(s2.verification.status)}">${esc(s2.verification.label)}</div>
     <p class="small">${esc(s2.verification.caveat)}</p>
+    ${performanceGraphs(s1, s2)}
     <table class="compare"><thead><tr><th>Part</th><th>First</th><th>Revised</th><th>Change</th></tr></thead><tbody>${rows}</tbody></table>
     ${coach ? `<h3 style="margin-top:22px">How you used the feedback</h3>${dimBlock(coach)}` : ""}
     <h3 style="margin-top:22px">Feedback on your revision</h3>
@@ -389,6 +475,7 @@ function panelFinal() {
     <h3 style="margin-top:22px">What this task was testing</h3>
     <div class="reveal"><p>${esc(r.embedded_complication)}</p>
       ${r.expected_strong_answer ? `<details><summary>See a strong answer</summary><p style="margin-top:8px">${esc(r.expected_strong_answer)}</p></details>` : ""}</div>
+    ${roadmapPanel()}
     ${exportRow()}
     <div class="actions"><button class="btn ghost" data-act="restart" ${S.replay ? "disabled" : ""}>Start a new assessment</button></div>
     ${metaLine([...(s2.models_used || []), fb.meta?.model])}
@@ -478,7 +565,7 @@ const actions = {
   async "build-task"() {
     await run(["Building a task from your own project"], async (step) => {
       S.task = await timed(step, 0, api("/api/task", { extraction: S.extraction, claim_id: S.claimId }));
-      Object.assign(S, { selfPrediction: null, answer: "", comm: "", probes: null, probeAnswers: ["", ""], s1: null, ownership: null, fb1: null, s2: null, fb2: null, revAnswer: "", revComm: "", finishedEarly: false });
+      Object.assign(S, { selfPrediction: null, answer: "", comm: "", probes: null, probeAnswers: ["", ""], s1: null, ownership: null, fb1: null, s2: null, fb2: null, roadmap: null, roadmapError: null, revAnswer: "", revComm: "", finishedEarly: false });
       S.stage = "task";
     });
     render(true);
@@ -520,28 +607,35 @@ const actions = {
       task_id: S.task.task_id, attempt: 2, answer: S.revAnswer, communication: S.revComm,
       previous_answer: S.answer, previous_communication: S.comm, critique: S.fb1.highest_leverage_gap,
     };
-    await run(["Scoring five parts, including how you used the feedback", "Writing feedback on your revision"], async (step) => {
+    await run(["Scoring five parts, including how you used the feedback", "Writing feedback on your revision", "Offering a grounded roadmap"], async (step) => {
       const s2 = await timed(step, 0, api("/api/score", body));
       const fb = await timed(step, 1, api("/api/feedback", { task_id: S.task.task_id, attempt: 2, answer: S.revAnswer, communication: S.revComm, scores: s2.scores, self_prediction: null }));
-      Object.assign(S, { s2, fb2: fb, stage: "final" });
+      Object.assign(S, { s2, fb2: fb, stage: "final", roadmap: null });
+      await timed(step, 2, requestRoadmap());
     });
     render(true);
   },
+  async "retry-roadmap"() {
+    if (S.busy || S.replay || !S.s2) return;
+    await run(["Retrying the roadmap without rescoring"], async step => {
+      await timed(step, 0, requestRoadmap());
+    });
+  },
   restart() {
-    Object.assign(S, { stage: "cv", extraction: null, claimId: null, task: null, selfPrediction: null, answer: "", comm: "", probes: null, probeAnswers: ["", ""], s1: null, ownership: null, fb1: null, revAnswer: "", revComm: "", s2: null, fb2: null, finishedEarly: false, error: null, progress: null });
+    Object.assign(S, { stage: "cv", extraction: null, claimId: null, task: null, selfPrediction: null, answer: "", comm: "", probes: null, probeAnswers: ["", ""], s1: null, ownership: null, fb1: null, revAnswer: "", revComm: "", s2: null, fb2: null, roadmap: null, roadmapError: null, finishedEarly: false, error: null, progress: null });
     render(true);
   },
   "print-report"() { window.print(); },
   "download-report"() { download(`skillbridge-evidence-report.md`, reportMarkdown(), "text/markdown"); },
   "save-session"() {
-    const keep = ["roleId", "cv", "extraction", "claimId", "task", "selfPrediction", "answer", "comm", "probes", "probeAnswers", "s1", "ownership", "fb1", "revAnswer", "revComm", "s2", "fb2", "finishedEarly", "stage"];
+    const keep = ["roleId", "cv", "extraction", "claimId", "task", "selfPrediction", "answer", "comm", "probes", "probeAnswers", "s1", "ownership", "fb1", "revAnswer", "revComm", "s2", "fb2", "roadmap", "roadmapError", "finishedEarly", "stage"];
     const data = { app: "SkillBridge AI", version: S.health?.version || "", recorded_at: new Date().toLocaleString(), model: modelsUsed().join(", ") || S.health?.model || "", state: Object.fromEntries(keep.map((k) => [k, S[k]])) };
     download(`skillbridge-session-${Date.now()}.json`, JSON.stringify(data, null, 2), "application/json");
   },
 };
 
 function modelsUsed() {
-  return [...new Set([...(S.s1?.models_used || []), ...(S.s2?.models_used || []), S.fb1?.meta?.model, S.fb2?.meta?.model].filter(Boolean))];
+  return [...new Set([...(S.s1?.models_used || []), ...(S.s2?.models_used || []), S.fb1?.meta?.model, S.fb2?.meta?.model, S.roadmap?.meta?.model].filter(Boolean))];
 }
 
 function download(name, text, type) {
@@ -580,6 +674,8 @@ function reportMarkdown() {
     dimTable(S.s2.scores);
     L.push("", "### Feedback on the revision", S.fb2?.full_prose || "", "");
     if (S.s2.reveal?.embedded_complication) L.push("## What the task was testing", S.s2.reveal.embedded_complication, "");
+    if (S.roadmap) L.push(roadmapMarkdown(S.roadmap));
+    else if (S.roadmapError) L.push("## Roadmap notice", S.roadmapError, "");
   } else if (S.finishedEarly) {
     L.push("## Next step", "The candidate chose to practise before revising.", "");
   }

@@ -236,6 +236,27 @@ class FeedbackOut(BaseModel):
 
 
 # ---------------------------------------------------------------- API requests
+class RoadmapGrowth(BaseModel):
+    dimension_id: str
+    action: str
+
+
+class RoadmapDay(BaseModel):
+    day: int = Field(ge=1, le=7)
+    action: str
+    outcome: str
+
+
+class RoadmapOut(BaseModel):
+    branch: Literal["verified", "practice"]
+    opening_strength: OpeningStrength
+    growth_areas: list[RoadmapGrowth]
+    habits: list[str]
+    days: list[RoadmapDay]
+    next_claim_reason: str
+    choice: str
+
+
 class ExtractRequest(BaseModel):
     cv_text: str = Field(min_length=80, max_length=20000)
 
@@ -268,3 +289,8 @@ class FeedbackRequest(Submission):
     attempt: Literal[1, 2] = 1
     scores: list[dict]
     self_prediction: Optional[float] = None
+
+
+
+class RoadmapRequest(Submission):
+    pass
