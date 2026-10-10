@@ -1,0 +1,30 @@
+HASSAN TARIQ
+Machine Learning Engineer | AI Specialist | Data Scientist
+BSCS, Virtual University of Pakistan | 2024
+
+PROFESSIONAL SUMMARY
+Results-driven and highly motivated Machine Learning Engineer with hands-on
+expertise in cutting-edge AI technologies. Proven track record of leveraging
+advanced machine learning algorithms, deep learning architectures, and big data
+technologies to deliver scalable, production-grade, end-to-end AI solutions that
+drive business value and operational excellence.
+
+CORE COMPETENCIES
+Machine Learning | Deep Learning | Artificial Intelligence | Neural Networks |
+Convolutional Neural Networks | Recurrent Neural Networks | LSTM | Transformers |
+BERT | GPT | Large Language Models | Generative AI | Reinforcement Learning |
+Natural Language Processing | Computer Vision | Predictive Analytics |
+Data Mining | Feature Engineering | Hyperparameter Tuning | Model Deployment |
+MLOps | CI/CD | Python | TensorFlow | PyTorch | Scikit-learn | Keras | OpenCV |
+Hugging Face | LangChain | Vector Databases | RAG | Prompt Engineering
+
+EXPERIENCE
+Freelance ML Consultant (2024 - present)
+Delivered end-to-end machine learning solutions for multiple clients utilizing
+state-of-the-art deep learning frameworks and industry best practices.
+Optimized model performance and improved accuracy metrics significantly.
+
+PROJECTS
+AI Chatbot - Built an intelligent conversational AI leveraging LLMs and RAG.
+Face Recognition System - Implemented computer vision solution with high accuracy.
+Stock Price Predictor - Developed predictive model using LSTM networks.

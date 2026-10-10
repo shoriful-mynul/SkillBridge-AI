@@ -1,0 +1,24 @@
+HAMZA KHAN
+BS Computer Science, COMSATS University Islamabad | CGPA 3.36 | Expected 2026
+hamza.khan.demo@example.com | Islamabad
+(Synthetic profile written for the SkillBridge AI demo. Not a real person.)
+
+SKILLS
+Python, pandas, NumPy, scikit-learn, Matplotlib, SQL, Git, Machine Learning, Deep Learning, NLP
+
+PROJECTS
+Student Dropout Early-Warning Model
+Built a model to flag first-year students at risk of dropping out, using 3,400 anonymised student records from our department (attendance, quiz marks, assignment submission times and fee status). Cleaned the data in pandas, filled missing quiz marks with the column mean, and trained a random forest in scikit-learn on a random 80/20 train-test split. The model reached 92% accuracy on the test set. About 7% of students in the records actually dropped out. I presented the results to our department's student affairs office.
+
+Course Recommendation Chatbot
+Made a chatbot that suggests elective courses.
+
+Attendance Dashboard
+Created a Matplotlib dashboard showing weekly attendance trends for each section, using SQL queries on the department's attendance database.
+
+EXPERIENCE
+Teaching Assistant, Programming Fundamentals (1 semester)
+Ran weekly Python lab sessions for 35 students and checked assignments.
+
+CERTIFICATIONS
+Google Data Analytics (Coursera)

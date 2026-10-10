@@ -1,0 +1,26 @@
+MUHAMMAD BILAL AHMED
+BS Software Engineering, COMSATS Islamabad | CGPA 3.44 | 2025
+bilal.ahmed.se@example.com
+
+SKILLS
+Python, SQL, some machine learning
+
+PROJECTS
+Final Year Project - Crop Disease Detection
+Made a mobile app that takes a photo of a leaf and tells the farmer which
+disease it is. I collected 4,200 images myself from three districts in Punjab
+because the public datasets were all from other countries and the lighting was
+different. Trained a MobileNetV2 model with transfer learning. Got 87% accuracy
+on my test set but it dropped to 71% when I tested it on photos farmers actually
+took on their own phones, so I added augmentation for blur and low light and it
+came back up to 81%. Deployed with TensorFlow Lite so it works offline because
+village internet is unreliable.
+
+University Timetable Optimizer
+Wrote a Python script to solve our department's room clash problem. Used
+constraint satisfaction. It reduced manual scheduling from about two days to
+twenty minutes for the admin office.
+
+EXPERIENCE
+Teaching Assistant, Data Structures (2 semesters)
+Held weekly lab sessions for 40 students, graded assignments.
