@@ -23,3 +23,12 @@ test('all provider schemas retain field names and every required property is def
 test('real Gemini adapter path sends a valid extraction schema including project title',async()=>{
  const old=global.fetch;global.fetch=async(url,options)=>{const body=JSON.parse(options.body);const projects=body.generationConfig.responseJsonSchema.properties.projects.items;assert.ok(projects.required.includes('title'));assert.equal(projects.properties.title.type,'string');return new Response(JSON.stringify({candidates:[{content:{parts:[{text:JSON.stringify({claims:fixture.records[0].claims,projects:fixture.records[0].projects,extraction_warnings:[]})}]}}]}),{status:200});};try{const a=await operate('create',{role_id:'ai-ml-intern',text:fixture.records[0].source_text,consent:true},{...config,GEMINI_API_KEY:'test-only-key'});assert.equal(a.state,'claims_ready');assert.ok(a.projects[0].title);}finally{global.fetch=old;}
 });
+
+test('extraction schema rejection gets one JSON-mode retry with unchanged local validation',async()=>{
+ const old=global.fetch;let calls=0;const {shapes}=require('../server/engine.ts'),C=require('../server/contracts.ts');
+ global.fetch=async(url,options)=>{calls++;const b=JSON.parse(options.body);if(calls===1){assert.ok(b.generationConfig.responseJsonSchema);return new Response(JSON.stringify({error:{status:'INVALID_ARGUMENT',message:'Request contains an invalid argument.'}}),{status:400});}assert.equal(b.generationConfig.responseJsonSchema,undefined);assert.equal(b.generationConfig.responseMimeType,'application/json');assert.ok(b.systemInstruction.parts[0].text.includes('Schema:'));return new Response(JSON.stringify({candidates:[{content:{parts:[{text:'{"claims":[],"projects":[],"extraction_warnings":[]}'}]}}]}),{status:200});};
+ try{const r=await gemini({GEMINI_API_KEY:'test-secret'})('extract',{},C.Extraction,shapes.extract);assert.deepEqual(r.claims,[]);assert.equal(calls,2);}finally{global.fetch=old;}
+});
+test('extraction JSON-mode retry rejects invalid output rather than fabricating claims',async()=>{
+ const old=global.fetch;let calls=0;const {shapes}=require('../server/engine.ts'),C=require('../server/contracts.ts');global.fetch=async()=>++calls===1?new Response(JSON.stringify({error:{status:'INVALID_ARGUMENT'}}),{status:400}):new Response(JSON.stringify({candidates:[{content:{parts:[{text:'{"claims":"wrong"}'}]}}]}),{status:200});try{await assert.rejects(gemini({GEMINI_API_KEY:'test-secret'})('extract',{},C.Extraction,shapes.extract),/invalid assessment/);assert.equal(calls,2);}finally{global.fetch=old;}
+});
