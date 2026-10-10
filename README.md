@@ -1,5 +1,23 @@
 # SkillBridge AI — Team Gradient
 
+## Current FastAPI application
+
+The current application, including the target-role selector, PDF input, final performance graphs and branching roadmap, is in [`skillbridge-ai/skillbridge-ai/`](skillbridge-ai/skillbridge-ai/). Its [README](skillbridge-ai/skillbridge-ai/README.md) contains the current setup instructions.
+
+Run it from that folder:
+
+```sh
+cd skillbridge-ai/skillbridge-ai
+python -m pip install -r requirements.txt
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+```
+
+Open http://127.0.0.1:8000. The current FastAPI application serves its plain HTML/CSS/JavaScript frontend itself and needs no npm or frontend build step. The graphs and roadmap appear after **Score my revision**; **Saved for later** has no revision score to compare.
+
+## Earlier JavaScript implementation retained from PR #1
+
+The root-level JavaScript application and its dependencies are retained below as an earlier implementation. The root-level npm/pnpm, Sites and signing-key instructions apply to that application, not to the current FastAPI application above. Its runtime does not include the newer FastAPI final-screen graphs and roadmap.
+
 Project-grounded skill practice for AICON’26, EdTech & Workforce. Choose AI/ML Intern, Data Analyst Intern or Frontend Developer Intern. Review source claims, practise one task tied to your own tools and decisions, explain two follow-ups, choose a next step and revise once.
 
 ## This version

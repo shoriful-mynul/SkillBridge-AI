@@ -1,0 +1,173 @@
+{
+  "role_id": "ai-ml-intern",
+  "role_title": "AI/ML Intern",
+  "rubric_version": "1.1.0",
+  "scale": {
+    "min": 0,
+    "max": 4,
+    "note": "Anchored ordinal scale. A score is only valid if the scorer can quote evidence from the submission, except where evidence_required is false."
+  },
+  "skill_taxonomy": [
+    "python_fundamentals",
+    "data_wrangling",
+    "classical_ml",
+    "deep_learning",
+    "model_evaluation",
+    "sql",
+    "experiment_hygiene",
+    "technical_communication"
+  ],
+  "dimensions": [
+    {
+      "id": "claim_substantiation",
+      "label": "Claim Substantiation",
+      "weight": 0.3,
+      "question": "Did the submitted work actually demonstrate the specific skill the candidate claimed on their CV?",
+      "evidence_required": true,
+      "requires_resubmission": false,
+      "anchors": {
+        "0": "No part of the submission touches the claimed skill. The work is off-task or empty.",
+        "1": "The submission gestures at the claimed skill but demonstrates no operation that requires it. Naming a library is not using it.",
+        "2": "The submission exercises the claimed skill at a surface level only - a single routine operation, with no decision made by the candidate.",
+        "3": "The submission exercises the claimed skill in a way that required at least one non-obvious choice, and that choice is visible in the work.",
+        "4": "The submission exercises the claimed skill on a non-trivial case, handles a complication correctly, and the claimed proficiency level is fully warranted by what is shown."
+      }
+    },
+    {
+      "id": "technical_correctness",
+      "label": "Technical Correctness",
+      "weight": 0.25,
+      "question": "Is the work actually right? Would it run, and would the result be valid?",
+      "evidence_required": true,
+      "requires_resubmission": false,
+      "anchors": {
+        "0": "Fundamentally wrong. Would not run, or the result would be invalid in a way that defeats the task's purpose.",
+        "1": "Major error present - a data leak, a wrong metric for the problem, an inverted condition, or logic that silently produces a wrong answer.",
+        "2": "Broadly correct approach with a real but contained defect: an unhandled edge case, a missing validation split, an off-by-one, an unchecked assumption.",
+        "3": "Correct and would run as written. Minor stylistic or efficiency issues only, nothing affecting the result.",
+        "4": "Correct, and additionally anticipates a failure mode the task did not point at - empty input, class imbalance, leakage, dtype mismatch."
+      }
+    },
+    {
+      "id": "reasoning_transparency",
+      "label": "Reasoning Transparency",
+      "weight": 0.2,
+      "question": "Can the candidate explain WHY they chose this approach, including what they traded away?",
+      "evidence_required": true,
+      "requires_resubmission": false,
+      "anchors": {
+        "0": "No reasoning offered. Answer only.",
+        "1": "Reasoning is restated procedure - describes what was done, not why. 'I used train_test_split to split the data.'",
+        "2": "A reason is given but it is generic and would apply to any problem. 'Random Forest because it is robust.'",
+        "3": "Reasoning is specific to this problem's properties and names at least one alternative considered.",
+        "4": "Reasoning is specific, names the alternative, AND states the cost of the choice made - what this approach gives up, or under what conditions it would be the wrong call."
+      }
+    },
+    {
+      "id": "communication",
+      "label": "Communication",
+      "weight": 0.15,
+      "question": "Is the explanation calibrated to the audience the task specified?",
+      "evidence_required": true,
+      "requires_resubmission": false,
+      "anchors": {
+        "0": "Unintelligible, or ignores the specified audience entirely.",
+        "1": "Dense with unexplained jargon. A non-expert reader would not extract the point.",
+        "2": "Understandable but unstructured - the reader has to assemble the point themselves.",
+        "3": "Clear and appropriately pitched. Jargon is either avoided or explained on first use. Leads with the point.",
+        "4": "Clear, well-structured, and uses a concrete analogy or example that would let the specified audience act on the information."
+      }
+    },
+    {
+      "id": "coachability_delta",
+      "label": "Coachability Delta",
+      "weight": 0.1,
+      "question": "After receiving specific critique, did the candidate's second attempt address it?",
+      "evidence_required": true,
+      "requires_resubmission": true,
+      "null_when": "Only one submission exists. Report null and renormalise remaining weights.",
+      "anchors": {
+        "0": "Resubmission ignores the critique entirely, or changes something unrelated.",
+        "1": "Acknowledges the critique in words but the work is materially unchanged.",
+        "2": "Addresses the critique literally and narrowly - patches the exact instance named, misses the same error elsewhere in the work.",
+        "3": "Addresses the critique and applies the underlying principle to the rest of the submission.",
+        "4": "Addresses the critique, generalises it, and identifies a related weakness the feedback did not mention."
+      }
+    }
+  ],
+  "verification_status": {
+    "note": "Status is the headline output, not the weighted score. Computed per claimed skill.",
+    "rules": [
+      {
+        "status": "verified",
+        "label": "Evidenced",
+        "condition": "claim_substantiation >= 3 AND technical_correctness >= 3",
+        "display_caveat": "Evidenced at the demonstrated level on {{task_count}} task(s). Not a general proficiency certification."
+      },
+      {
+        "status": "partial",
+        "label": "Partially evidenced",
+        "condition": "claim_substantiation >= 2 AND technical_correctness >= 2",
+        "display_caveat": "Some supporting evidence found. Depth not yet demonstrated."
+      },
+      {
+        "status": "not_yet",
+        "label": "Not yet evidenced",
+        "condition": "otherwise",
+        "display_caveat": "This attempt did not produce evidence for this claim. It is not a judgement about the candidate."
+      }
+    ]
+  },
+  "scoring_protocol": {
+    "temperature": "provider default",
+    "temperature_note": "Google's Gemini 3 guidance strongly recommends keeping temperature at its default (1.0); lower values can cause looping or degraded output. So we do not rely on temperature 0 for consistency. Consistency comes from three design choices, and it is MEASURED rather than assumed: (1) one dimension per call with only that dimension's anchors in context, (2) quote-gating enforced in code, (3) 3-run variance reported by evals/run.py. OpenAI-compatible providers use temperature 0.",
+    "one_dimension_per_call": true,
+    "repeat_runs_for_variance": 3,
+    "rationale": "Bundled multi-dimension scoring drifts. Score each dimension in its own call with only that dimension's anchors in context.",
+    "quote_gate": "Enforced in code: a score above 1 requires at least one quote that literally exists in the submission. Unverifiable quotes are removed and the score is capped at 1.",
+    "forbidden_in_output": [
+      "any trait or personality inference",
+      "any comparison to other candidates",
+      "any hire/no-hire recommendation",
+      "the words: failed, inadequate, poor, weak, unqualified, lacks"
+    ]
+  },
+  "integrity_signals": {
+    "note": "Reported as confidence, never as accusation. No AI-detection is attempted or claimed.",
+    "signals": [
+      {
+        "id": "task_grounding",
+        "description": "Task was generated from this candidate's own claimed project, so a fabricated claim cannot be answered from general knowledge.",
+        "weight": "primary"
+      },
+      {
+        "id": "probe_consistency",
+        "description": "Candidate's answers to two adaptive follow-up questions about their own submission.",
+        "weight": "primary"
+      },
+      {
+        "id": "calibration_gap",
+        "description": "Self-predicted score minus demonstrated score.",
+        "weight": "supporting"
+      },
+      {
+        "id": "timing_pattern",
+        "description": "Time to first keystroke and paste events.",
+        "weight": "weak, advisory only"
+      }
+    ]
+  },
+  "index": {
+    "note": "Evidence index 0-100 for the before/after comparison. Always computed over the same four dimensions on both attempts so the delta is comparable. Coachability is reported separately. Internal routing only; never an employability score.",
+    "dimensions": [
+      "claim_substantiation",
+      "technical_correctness",
+      "reasoning_transparency",
+      "communication"
+    ]
+  },
+  "grounding_gate": {
+    "note": "Enforced in code. A claim is eligible for a task only if it links to a project that the AI rates medium or high grounding potential AND whose description has at least 15 words. Thin one-line projects cannot support a fair, non-transferable task.",
+    "min_project_words": 15
+  }
+}

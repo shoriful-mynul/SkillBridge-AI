@@ -1,0 +1,26 @@
+SANA RIAZ
+BS Data Science, FAST-NUCES | 3rd year, expected 2027 | CGPA 3.58
+sana.riaz.ds@example.com
+
+SKILLS
+Python (pandas, numpy, matplotlib) - coursework and personal projects
+SQL - basic SELECT, JOIN, GROUP BY
+scikit-learn - linear regression, logistic regression, decision trees
+Currently learning: neural networks
+
+PROJECTS
+Titanic Survival Prediction (course project)
+Used logistic regression on the Kaggle Titanic dataset. Handled missing age
+values with the median. Got 78% accuracy. Learned about one-hot encoding for
+the embarked column.
+
+Student Performance Analysis (personal)
+Analysed a public dataset of 1,000 student records to see which factors
+correlated with final grades. Made plots in matplotlib. Found study time had
+the strongest correlation. I did not build a predictive model for this one.
+
+COURSEWORK
+Introduction to Machine Learning (A-), Database Systems (A), Statistics (B+)
+
+EXTRACURRICULAR
+Member, FAST Data Science Society

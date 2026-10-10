@@ -1,0 +1,27 @@
+AYESHA MALIK
+BS Computer Science, NUST Islamabad | CGPA 3.21 | Expected 2026
+ayesha.malik.cs@example.com | Islamabad
+
+TECHNICAL SKILLS
+Python, R, Java, C++, SQL, NoSQL, TensorFlow, PyTorch, Keras, scikit-learn,
+Pandas, NumPy, Hadoop, Spark, Docker, Kubernetes, AWS, Azure, Git, Tableau,
+Power BI, Machine Learning, Deep Learning, NLP, Computer Vision, Data Science,
+Big Data Analytics, MLOps
+
+PROJECTS
+Movie Recommendation System
+Built a recommendation system using machine learning in Python.
+
+Sentiment Analysis Tool
+Developed an NLP model for sentiment analysis of tweets using deep learning.
+
+Sales Dashboard
+Created a dashboard to visualize sales data.
+
+EXPERIENCE
+Data Science Intern, local startup (2 months, summer 2025)
+Worked on data analysis tasks and assisted the team with machine learning models.
+
+CERTIFICATIONS
+Coursera Machine Learning
+Udemy Complete Python Bootcamp

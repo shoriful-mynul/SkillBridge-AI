@@ -1,0 +1,19 @@
+{
+  "note": "A fixed task with two synthetic answers. Holding the task constant lets us measure the scorer alone: how much its scores move across repeat runs (variance) and whether it separates a strong answer from a weak one. Answers are synthetic inputs written by the team; all scores are real model outputs.",
+  "task_prompt": "In your Student Dropout Early-Warning Model you trained a random forest in scikit-learn on a random 80/20 split and reported 92% accuracy, while about 7% of students actually dropped out. Explain whether 92% accuracy shows the model is useful for flagging at-risk students, what you would measure instead, and one change you would make to how you split the data.",
+  "communication_subtask": "In under 120 words, explain to the student affairs office why a high accuracy number can be misleading for this model.",
+  "embedded_complication": "Class imbalance: with a 7% dropout rate, predicting 'no dropout' for everyone scores about 93% accuracy, so 92% may mean the model catches almost no at-risk students. A random split may also leave very few dropouts in the test set.",
+  "accessible_entry_point": "Notice that most students do not drop out.",
+  "expected_strong_answer": "92% accuracy is below the 93% a model gets by predicting nobody drops out, so accuracy says little here. Report recall (share of real dropouts caught), precision and F1 for the dropout class, or PR-AUC, and look at the confusion matrix. Use a stratified split so the test set keeps the 7% rate, and consider class weights or threshold tuning.",
+  "probe_seeds": ["Why recall rather than precision?", "What if the dropout rate fell to 2%?"],
+  "answers": {
+    "strong": {
+      "answer": "No. With only 7% of students dropping out, a model that predicts 'nobody drops out' already gets about 93% accuracy, so our 92% could mean the model catches almost no at-risk students. I would look at the confusion matrix and report recall for the dropout class (how many real dropouts we flag), plus precision and F1 so staff are not flooded with false alarms. PR-AUC is also better than ROC-AUC with this imbalance. For the split, I would use a stratified split so the test set keeps the 7% dropout rate; a random split can leave only a handful of dropouts to test on. I would also try class weights in the random forest and tune the decision threshold for recall.",
+      "communication": "A smoke alarm that never rings is right almost every day, but useless on the day there is a fire. Our model is similar: because few students drop out, guessing 'stays' for everyone already looks 93% right. What matters is how many at-risk students we actually catch, so we should judge the model on that."
+    },
+    "weak": {
+      "answer": "92% accuracy is very good so the model is useful. To improve it I would collect more data and try a neural network or XGBoost because they are usually more accurate than random forest. I would also do more hyperparameter tuning.",
+      "communication": "The model is 92% accurate which means it is right most of the time, so the student affairs office can trust its predictions."
+    }
+  }
+}

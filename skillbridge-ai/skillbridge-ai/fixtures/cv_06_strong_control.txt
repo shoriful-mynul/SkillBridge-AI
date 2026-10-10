@@ -1,0 +1,34 @@
+ZAINAB QURESHI
+BS Electrical Engineering, UET Lahore | CGPA 3.81 | 2025
+zainab.qureshi.ee@example.com | github.com/example-zq
+
+SKILLS
+Python (4 years), PyTorch, scikit-learn, SQL (PostgreSQL), C++, Git, Docker (basic)
+
+PROJECTS
+Urdu Speech Keyword Spotting (final year project, 2 students)
+Trained a small CNN to detect 12 Urdu command words on-device. Public Urdu
+speech data was scarce, so we recorded 3,100 utterances from 47 speakers across
+two cities to get accent spread. Baseline MFCC + CNN reached 91% on our held-out
+speakers but only 74% on a third city we had not recorded, which told us we were
+fitting accent rather than phoneme. Added SpecAugment and speaker-disjoint
+cross-validation; held-out-city accuracy reached 86%. Quantised to int8 for a
+Cortex-M4, 41ms inference, 180KB.
+Code: github.com/example-zq/urdu-kws
+
+Load Forecasting for a Campus Microgrid
+Compared ARIMA, gradient boosting, and an LSTM on 2 years of 15-minute campus
+load data. Gradient boosting won (MAPE 4.2% vs LSTM 4.9%) and trained in a
+fraction of the time, so we shipped that. Wrote up why the LSTM underperformed:
+with 70k samples and strong daily seasonality, the tree model with lag features
+had the better inductive bias.
+
+EXPERIENCE
+ML Intern, telecom analytics team, Lahore (summer 2024, 10 weeks)
+Built a churn feature pipeline over 1.2M subscriber records in PostgreSQL.
+Found and fixed a target leak - the original feature set included a
+cancellation-request flag set before the label date. Removing it dropped
+reported AUC from 0.93 to 0.79, which was the real number.
+
+PUBLICATIONS
+Co-author, workshop paper on low-resource Urdu ASR, submitted 2025.

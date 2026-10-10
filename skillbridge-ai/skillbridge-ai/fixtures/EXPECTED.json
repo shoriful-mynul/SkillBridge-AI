@@ -1,0 +1,56 @@
+{
+  "note": "Expected verdicts. These make the fixtures an eval set rather than demo props. Record what the system ACTUALLY returns next to each, and the gaps are your findings.",
+  "fixtures": [
+    {
+      "file": "cv_01_overclaimer.txt",
+      "profile": "27 asserted skills, 3 thin projects, 2 months experience",
+      "expected": "Most claims extract as 'asserted'. Expect a high unevidenced rate. Task grounding potential LOW on all three projects - descriptions have no technical decision to probe. This fixture tests whether your extractor correctly flags that it CANNOT generate a grounded task, rather than inventing one.",
+      "watch_for": "If the system happily generates a task here, your grounding check is not working.",
+      "expected_gate_passed": false
+    },
+    {
+      "file": "cv_02_undersell.txt",
+      "profile": "3 asserted skills, deep substantiated project work",
+      "expected": "Few claims, mostly 'substantiated'. Task grounding HIGH - the 87%-to-71% generalisation gap is a rich probe target. Should score well on reasoning once probed.",
+      "watch_for": "Does your system find more skill than the CV claims? That is the undersell case and a strong demo beat.",
+      "expected_gate_passed": true
+    },
+    {
+      "file": "cv_03_honest_junior.txt",
+      "profile": "Accurate, modest, genuinely junior",
+      "expected": "Claims match evidence. Expect partial verification at beginner-intermediate. Feedback must land as encouraging, not deflating - this is your humane-layer test case.",
+      "watch_for": "If the report reads as discouraging for an honest beginner, prompt 04 needs work. Demo this one.",
+      "expected_gate_passed": true
+    },
+    {
+      "file": "cv_04_keyword_stuffed.txt",
+      "profile": "ATS-gamed, 30+ buzzwords, zero specifics",
+      "expected": "Near-total 'asserted' extraction. Grounding potential LOW across the board. Highest unevidenced rate of the set.",
+      "watch_for": "Extraction warnings should fire loudly. This is your 'problem exists' slide.",
+      "expected_gate_passed": false
+    },
+    {
+      "file": "cv_05_career_switcher.txt",
+      "profile": "Strong adjacent evidence, no ML production experience, self-aware",
+      "expected": "Hardest case. Real rigour evidence (reproducibility, catching a weighting error) in a non-ML domain. Tests whether your rubric can credit transferable evidence instead of pattern-matching job titles.",
+      "watch_for": "If this scores near the keyword-stuffer, your rubric is reading labels not evidence. This is the fairness case a judge may probe.",
+      "expected_gate_passed": true
+    },
+    {
+      "file": "cv_06_strong_control.txt",
+      "profile": "Control. Specific, quantified, states tradeoffs, admits a real failure",
+      "expected": "Should verify at the top of the scale. Rich grounding - the accent-vs-phoneme diagnosis and the target-leak fix are ideal probe targets.",
+      "watch_for": "If this does not clearly outscore fixture 01 and 04, your scoring is not discriminating and nothing else in the demo matters. Check this one FIRST.",
+      "expected_gate_passed": true
+    }
+  ],
+  "metrics_to_compute": [
+    "asserted_only_rate per fixture = asserted claims / claims that survived the quote check",
+    "evidence_strength_index per fixture = (substantiated + 0.5 * contextual) / claims",
+    "discrimination = evidence_strength_index(cv_06) - evidence_strength_index(cv_04). Must be clearly positive.",
+    "fairness = evidence_strength_index(cv_05) - evidence_strength_index(cv_04). Should be clearly positive: transferable evidence beats keywords.",
+    "gate_accuracy = fixtures whose grounding gate result matches expected_gate_passed / 6",
+    "scorer_variance = standard deviation of each dimension's score across 3 runs on the same submission (evals/eval_task.json)",
+    "scorer_separation = mean index of the strong answer minus the weak answer"
+  ]
+}

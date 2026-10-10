@@ -1,0 +1,30 @@
+FATIMA ZEHRA
+MSc Economics, Quaid-i-Azam University | 2022
+Transitioning to data science
+fatima.zehra.econ@example.com
+
+SKILLS
+Stata (4 years), R (2 years), Python (6 months, self-taught), SQL (6 months),
+Excel including Power Query, econometrics, panel data methods, survey design
+
+EXPERIENCE
+Research Associate, economic policy think tank, Islamabad (2022 - 2025)
+Cleaned and merged household survey data from PSLM rounds covering about
+76,000 households. Wrote reproducible Stata scripts so three other researchers
+could rerun the analysis. Ran fixed-effects regressions for a study on female
+labour force participation; the paper is under review. Caught a weighting error
+in a published figure that had been reused in two policy briefs, and wrote up
+the correction.
+
+Teaching Assistant, Econometrics I (2021 - 2022)
+
+TRANSITION PROJECTS
+Converted my MSc thesis panel regression from Stata to Python (pandas, statsmodels)
+to learn the ecosystem. Results matched to 3 decimal places.
+
+Completed Kaggle's Intro to Machine Learning and Intermediate Machine Learning.
+Built a house price regression model, 0.14 RMSLE on the public leaderboard.
+
+NOTE
+I have no production ML or software engineering experience. I am applying to
+learn that side.

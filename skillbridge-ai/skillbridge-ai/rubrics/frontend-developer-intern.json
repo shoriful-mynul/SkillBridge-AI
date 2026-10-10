@@ -1,0 +1,173 @@
+{
+  "role_id": "frontend-developer-intern",
+  "role_title": "Frontend Developer Intern",
+  "rubric_version": "1.2.0",
+  "scale": {
+    "min": 0,
+    "max": 4,
+    "note": "Anchored ordinal scale. A score is only valid if the scorer can quote evidence from the submission, except where evidence_required is false."
+  },
+  "skill_taxonomy": [
+    "html_css",
+    "javascript",
+    "react",
+    "state_management",
+    "accessibility",
+    "responsive_design",
+    "testing",
+    "technical_communication"
+  ],
+  "dimensions": [
+    {
+      "id": "claim_substantiation",
+      "label": "Claim Substantiation",
+      "weight": 0.3,
+      "question": "Does this answer demonstrate the targeted claim in its stated project? For this role consider a user interaction, component state, keyboard access, responsive layout, and rendering behavior.",
+      "evidence_required": true,
+      "requires_resubmission": false,
+      "anchors": {
+        "0": "No relevant operation or explanation in this attempt addresses the targeted claim.",
+        "1": "The answer names a tool or skill but shows no operation, decision, or project-specific use of it.",
+        "2": "The answer shows one relevant routine operation in the described project, without explaining a substantive decision.",
+        "3": "Shows a concrete component, state, layout or accessibility decision in this project, with supporting detail.",
+        "4": "The answer applies the targeted skill to a non-trivial project complication, handles it explicitly, and limits the claim to the level actually demonstrated."
+      }
+    },
+    {
+      "id": "technical_correctness",
+      "label": "Technical Correctness",
+      "weight": 0.25,
+      "question": "Is the proposed method valid for the stated task and complication? For this role consider a user interaction, component state, keyboard access, responsive layout, and rendering behavior.",
+      "evidence_required": true,
+      "requires_resubmission": false,
+      "anchors": {
+        "0": "The proposed method is off-task or internally inconsistent enough that it cannot address the stated objective.",
+        "1": "The method contains a major role-relevant defect: broken state transitions, inaccessible controls, or incorrect event handling.",
+        "2": "The central method is valid but an important contained assumption, edge case, or validation detail remains unresolved.",
+        "3": "Describes valid component state and event behavior, semantic controls, keyboard access and a reproducible interaction check without claiming code was executed.",
+        "4": "Describes valid component state and event behavior, semantic controls, keyboard access and a reproducible interaction check without claiming code was executed. Additionally handles a distinct edge case and explains an observable check."
+      }
+    },
+    {
+      "id": "reasoning_transparency",
+      "label": "Reasoning Transparency",
+      "weight": 0.2,
+      "question": "Are the reason, alternative, and tradeoff visible in this answer? For this role consider a user interaction, component state, keyboard access, responsive layout, and rendering behavior.",
+      "evidence_required": true,
+      "requires_resubmission": false,
+      "anchors": {
+        "0": "The answer provides a conclusion or action without an accompanying reason.",
+        "1": "The answer restates the procedure but does not explain why it fits this project.",
+        "2": "The answer gives a plausible reason but does not connect it to a specific project property or meaningful alternative.",
+        "3": "Connects the choice to a user interaction, component state, keyboard access, responsive layout, and rendering behavior and explains a less suitable alternative.",
+        "4": "The answer meets level 3 and explains a concrete cost, uncertainty, or boundary at which the selected approach should change."
+      }
+    },
+    {
+      "id": "communication",
+      "label": "Communication",
+      "weight": 0.15,
+      "question": "Can the specified non-technical audience understand and act on the explanation? For this role consider a user interaction, component state, keyboard access, responsive layout, and rendering behavior.",
+      "evidence_required": true,
+      "requires_resubmission": false,
+      "anchors": {
+        "0": "The answer does not convey a task-relevant point to the specified audience.",
+        "1": "The explanation relies on unexplained technical terms or omits the practical consequence of the proposed method.",
+        "2": "The main idea is understandable, but its structure or consequence requires the reader to infer an important connection.",
+        "3": "The explanation leads with the practical point, uses clear structure, and explains necessary technical terms for the specified audience.",
+        "4": "The explanation meets level 3 and includes a concrete project example or analogy plus an actionable implication without overstating certainty."
+      }
+    },
+    {
+      "id": "coachability_delta",
+      "label": "Coachability Delta",
+      "weight": 0.1,
+      "question": "Does the revision use the critique to change the strategy in this task? For this role consider a user interaction, component state, keyboard access, responsive layout, and rendering behavior.",
+      "evidence_required": true,
+      "requires_resubmission": true,
+      "null_when": "Only one submission exists. Report null and renormalise remaining weights.",
+      "anchors": {
+        "0": "The revision makes no task-relevant change in response to the critique.",
+        "1": "The revision acknowledges the critique in words but leaves the relevant strategy materially unchanged.",
+        "2": "The revision corrects the exact instance identified by the critique but does not apply its underlying principle elsewhere.",
+        "3": "The revision addresses the critique and applies the same principle consistently across the proposed workflow.",
+        "4": "The revision meets level 3 and identifies and addresses a related limitation that was not named in the critique."
+      }
+    }
+  ],
+  "verification_status": {
+    "note": "Status is the headline output, not the weighted score. Computed per claimed skill.",
+    "rules": [
+      {
+        "status": "verified",
+        "label": "Evidenced",
+        "condition": "claim_substantiation >= 3 AND technical_correctness >= 3",
+        "display_caveat": "Evidenced at the demonstrated level on {{task_count}} task(s). Not a general proficiency certification."
+      },
+      {
+        "status": "partial",
+        "label": "Partially evidenced",
+        "condition": "claim_substantiation >= 2 AND technical_correctness >= 2",
+        "display_caveat": "Some supporting evidence found. Depth not yet demonstrated."
+      },
+      {
+        "status": "not_yet",
+        "label": "Not yet evidenced",
+        "condition": "otherwise",
+        "display_caveat": "This attempt did not produce evidence for this claim. It is not a judgement about the candidate."
+      }
+    ]
+  },
+  "scoring_protocol": {
+    "temperature": "provider default",
+    "temperature_note": "Google's Gemini 3 guidance strongly recommends keeping temperature at its default (1.0); lower values can cause looping or degraded output. So we do not rely on temperature 0 for consistency. Consistency comes from three design choices, and it is MEASURED rather than assumed: (1) one dimension per call with only that dimension's anchors in context, (2) quote-gating enforced in code, (3) 3-run variance reported by evals/run.py. OpenAI-compatible providers use temperature 0.",
+    "one_dimension_per_call": true,
+    "repeat_runs_for_variance": 3,
+    "rationale": "Bundled multi-dimension scoring drifts. Score each dimension in its own call with only that dimension's anchors in context.",
+    "quote_gate": "Enforced in code: a score above 1 requires at least one quote that literally exists in the submission. Unverifiable quotes are removed and the score is capped at 1.",
+    "forbidden_in_output": [
+      "any trait or personality inference",
+      "any comparison to other candidates",
+      "any hire/no-hire recommendation",
+      "the words: failed, inadequate, poor, weak, unqualified, lacks"
+    ]
+  },
+  "integrity_signals": {
+    "note": "Reported as confidence, never as accusation. No AI-detection is attempted or claimed.",
+    "signals": [
+      {
+        "id": "task_grounding",
+        "description": "Task was generated from this candidate's own claimed project, so a fabricated claim cannot be answered from general knowledge.",
+        "weight": "primary"
+      },
+      {
+        "id": "probe_consistency",
+        "description": "Candidate's answers to two adaptive follow-up questions about their own submission.",
+        "weight": "primary"
+      },
+      {
+        "id": "calibration_gap",
+        "description": "Self-predicted score minus demonstrated score.",
+        "weight": "supporting"
+      },
+      {
+        "id": "timing_pattern",
+        "description": "Time to first keystroke and paste events.",
+        "weight": "weak, advisory only"
+      }
+    ]
+  },
+  "index": {
+    "note": "Evidence index 0-100 for the before/after comparison. Always computed over the same four dimensions on both attempts so the delta is comparable. Coachability is reported separately. Internal routing only; never an employability score.",
+    "dimensions": [
+      "claim_substantiation",
+      "technical_correctness",
+      "reasoning_transparency",
+      "communication"
+    ]
+  },
+  "grounding_gate": {
+    "note": "Enforced in code. A claim is eligible for a task only if it links to a project that the AI rates medium or high grounding potential AND whose description has at least 15 words. Thin one-line projects cannot support a fair, non-transferable task.",
+    "min_project_words": 15
+  }
+}
