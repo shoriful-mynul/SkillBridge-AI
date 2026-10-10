@@ -15,7 +15,7 @@ const SKILL_NAMES = {
 const STRENGTH_NAMES = { asserted: "Listed only", contextual: "Used in a project", substantiated: "Backed by a result" };
 
 const S = {
-  health: null, conn: null, stage: "cv", cv: "", extraction: null, claimId: null, task: null,
+  roleId: "ai-ml-intern", roles: [], consent: false, health: null, conn: null, stage: "cv", cv: "", extraction: null, claimId: null, task: null,
   selfPrediction: null, answer: "", comm: "", probes: null, probeAnswers: ["", ""],
   s1: null, ownership: null, fb1: null, revAnswer: "", revComm: "", s2: null, fb2: null,
   finishedEarly: false, busy: false, error: null, progress: null, replay: null,
@@ -173,14 +173,15 @@ function panelCv() {
   return `<section class="panel">
     <h1>Show what you can actually do</h1>
     <p class="lead">Paste your CV as plain text. SkillBridge reads the skills you claim, builds one short task from your own project, and then shows you the exact lines in your answer that prove the skill, or what isn't shown yet.</p>
-    <div class="row"><span class="small">Role being assessed</span><span class="chip ok">${esc(S.health?.role || "AI/ML Intern")}</span></div>
-    <label class="field" for="cv">CV text</label>
+    <div class="row"><span class="small">Target role</span><select id="target-role" ${dis} aria-label="Target role">${S.roles.map(r=>`<option value="${esc(r.role_id)}" ${r.role_id===S.roleId?"selected":""}>${esc(r.title)}</option>`).join("")}</select></div>
+    <label class="upload-zone">Upload a text-based PDF <span>Up to 5 MB · preview and edit before sending to AI</span><input id="pdf-input" type="file" accept=".pdf,application/pdf" ${dis}></label>
+    <label class="field" for="cv">Project or CV text</label>
     <textarea id="cv" class="cv" placeholder="Paste your CV here as plain text" ${S.replay ? "readonly" : ""}>${esc(S.cv)}</textarea>
     <div class="actions">
-      <button class="btn" data-act="read-cv" ${dis}>Read my CV</button>
+      <button class="btn" data-act="read-cv" ${dis}>Understand my project</button>
       <button class="btn ghost" data-act="load-demo" ${dis}>Load demo CV</button>
     </div>
-    <p class="small" style="margin-top:12px">Your text goes to the AI provider for this assessment only. The SkillBridge server keeps no database.</p>
+    <p class="small" style="margin-top:12px"><label class="consent"><input id="consent" type="checkbox" ${S.consent?"checked":""} ${dis}> I agree to send this text to the configured AI provider. Remove personal details first.</label> Your text goes to the AI provider for this assessment only. The SkillBridge server keeps no database.</p>
     ${progressList()}${errorBox()}
   </section>`;
 }
@@ -398,7 +399,7 @@ function exportRow() {
   return `<div class="actions" style="border-top:1px solid var(--line);padding-top:16px">
     <button class="btn ghost" data-act="download-report">Download evidence report</button>
     <button class="btn ghost" data-act="save-session" ${S.replay ? "disabled" : ""}>Save session for replay</button>
-    <span class="small">The report is yours to keep and share.</span></div>`;
+    <button class="btn ghost" data-act="print-report">Print / Save PDF</button><span class="small">The report is yours to keep and share.</span></div>`;
 }
 
 /* ---------------- main render ---------------- */
@@ -415,6 +416,8 @@ function render(scroll) {
   if (cur > 5 && S.s2) parts.push(summary("Revision", "Scored"));
   const panel = { cv: panelCv, claims: panelClaims, task: panelTask, probes: panelProbes, results: panelResults, revise: panelRevise, final: panelFinal }[S.stage]();
   $("#main").innerHTML = parts.join("") + panel;
+  const role = S.roles.find(r=>r.role_id===S.roleId);
+  $("#focus").innerHTML = `<span class="eyebrow">EVIDENCE, NOT ASSUMPTIONS</span><h2>${esc(role?.title||"AI/ML Intern")}</h2><p>${S.task?esc(S.task.project.title):"One project. One grounded challenge. A clearer next step."}</p><div class="focus-divider"></div><p>Read your claims → defend a decision → use the feedback → revise.</p><p class="small">A quote proves what was written, not that code ran. Practice only, not hiring screening or certification.</p>`;
   if (scroll) {
     const last = $("#main").lastElementChild;
     if (last) last.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
@@ -463,8 +466,9 @@ const actions = {
   },
   async "read-cv"() {
     S.cv = $("#cv").value;
+    if (!S.consent) { S.error = {message: "Please confirm consent before sending your text to AI."}; render(); return; }
     await run(["Reading your CV and checking every quote against it"], async (step) => {
-      S.extraction = await timed(step, 0, api("/api/extract", { cv_text: S.cv }));
+      S.extraction = await timed(step, 0, api("/api/extract", { cv_text: S.cv, role_id: S.roleId }));
       S.claimId = S.extraction.default_claim_id;
       S.stage = "claims";
     });
@@ -527,9 +531,10 @@ const actions = {
     Object.assign(S, { stage: "cv", extraction: null, claimId: null, task: null, selfPrediction: null, answer: "", comm: "", probes: null, probeAnswers: ["", ""], s1: null, ownership: null, fb1: null, revAnswer: "", revComm: "", s2: null, fb2: null, finishedEarly: false, error: null, progress: null });
     render(true);
   },
+  "print-report"() { window.print(); },
   "download-report"() { download(`skillbridge-evidence-report.md`, reportMarkdown(), "text/markdown"); },
   "save-session"() {
-    const keep = ["cv", "extraction", "claimId", "task", "selfPrediction", "answer", "comm", "probes", "probeAnswers", "s1", "ownership", "fb1", "revAnswer", "revComm", "s2", "fb2", "finishedEarly", "stage"];
+    const keep = ["roleId", "cv", "extraction", "claimId", "task", "selfPrediction", "answer", "comm", "probes", "probeAnswers", "s1", "ownership", "fb1", "revAnswer", "revComm", "s2", "fb2", "finishedEarly", "stage"];
     const data = { app: "SkillBridge AI", version: S.health?.version || "", recorded_at: new Date().toLocaleString(), model: modelsUsed().join(", ") || S.health?.model || "", state: Object.fromEntries(keep.map((k) => [k, S[k]])) };
     download(`skillbridge-session-${Date.now()}.json`, JSON.stringify(data, null, 2), "application/json");
   },
@@ -556,7 +561,7 @@ function reportMarkdown() {
   };
   L.push("# SkillBridge AI evidence report", "");
   L.push(`Recorded: ${S.replay?.recorded_at || new Date().toLocaleString()}  `);
-  L.push(`Role: ${S.health?.role || "AI/ML Intern"}  `);
+  L.push(`Role: ${S.roles.find(r=>r.role_id===S.roleId)?.title || "AI/ML Intern"}  `);
   L.push(`Scored by: ${modelsUsed().join(", ") || "n/a"}`, "");
   L.push("> This report describes the evidence from one task. It is not a grade, a ranking or a hiring recommendation.", "");
   if (S.task) {
@@ -590,6 +595,9 @@ document.addEventListener("click", (e) => {
 });
 
 document.addEventListener("change", (e) => {
+  if (e.target.id === "target-role") { S.roleId=e.target.value; S.extraction=null; S.claimId=null; render(); }
+  if (e.target.id === "consent") S.consent=e.target.checked;
+  if (e.target.id === "pdf-input") importPdf(e.target.files[0]);
   if (e.target.name === "claim") { S.claimId = e.target.value; render(); }
 });
 
@@ -648,6 +656,18 @@ function alertBanner(msg) {
 
 /* ---------------- boot ---------------- */
 (async function boot() {
-  try { S.health = await api("/api/health"); } catch { S.health = null; }
+  try { S.health = await api("/api/health"); S.roles=(await api("/api/roles")).roles; } catch { S.health = null; }
   render();
 })();
+
+
+async function importPdf(file) {
+  if (!file || S.busy || S.replay) return;
+  await run(["Extracting PDF text for your review"], async () => {
+    if (file.size > 5 * 1024 * 1024) throw new Error("Choose a PDF smaller than 5 MB.");
+    const encoded = await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result.split(",")[1]);reader.onerror=()=>reject(new Error("Could not read file."));reader.readAsDataURL(file);});
+    const result=await api("/api/import-pdf", {file_base64:encoded});
+    S.cv=result.text;
+  });
+  render();
+}

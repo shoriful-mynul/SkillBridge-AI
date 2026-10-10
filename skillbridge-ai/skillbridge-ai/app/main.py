@@ -4,7 +4,10 @@ Run:  uvicorn app.main:app --port 8000   then open http://127.0.0.1:8000
 """
 from __future__ import annotations
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Depends, HTTPException
+import base64
+import io
+from pypdf import PdfReader
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -16,7 +19,24 @@ from .schemas import (ExtractRequest, FeedbackRequest, ProbeEvalRequest, ScoreRe
                       Submission, TaskRequest)
 
 VERSION = "1.0.0"
-app = FastAPI(title="SkillBridge AI", version=VERSION, docs_url="/api/docs", redoc_url=None)
+async def role_context(request: Request):
+    role_id = "ai-ml-intern"
+    if request.method == "POST" and request.url.path not in ("/api/import-pdf", "/api/check-connection"):
+        body = await request.json()
+        if isinstance(body, dict):
+            role_id = body.get("role_id") or body.get("extraction", {}).get("role_id", role_id)
+            if body.get("task_id"):
+                record = pipeline.STORE._d.get(body["task_id"])
+                role_id = record.get("role_id", "ai-ml-intern") if record else "ai-ml-intern"
+    if role_id not in pipeline.ROLE_IDS:
+        raise HTTPException(422, "Unknown target role")
+    token = pipeline.ACTIVE_ROLE.set(role_id)
+    try:
+        yield
+    finally:
+        pipeline.ACTIVE_ROLE.reset(token)
+
+app = FastAPI(dependencies=[Depends(role_context)],title="SkillBridge AI", version=VERSION, docs_url="/api/docs", redoc_url=None)
 app.mount("/static", StaticFiles(directory=ROOT / "static"), name="static")
 
 
@@ -135,3 +155,36 @@ async def probes_evaluate(req: ProbeEvalRequest):
 async def feedback(req: FeedbackRequest):
     return await pipeline.write_feedback(req.task_id, req.attempt, req.answer, req.communication,
                                          req.scores, req.self_prediction)
+
+
+
+@app.get("/api/roles")
+async def roles():
+    return {"roles": [{"role_id": rid, "title": pipeline._load_rubric(rid)["role_title"],
+                       "rubric_version": pipeline._load_rubric(rid)["rubric_version"]}
+                      for rid in pipeline.ROLE_IDS]}
+
+
+@app.post("/api/import-pdf")
+async def import_pdf(request: Request):
+    body = await request.json()
+    encoded = body.get("file_base64", "") if isinstance(body, dict) else ""
+    if not isinstance(encoded, str) or len(encoded) > 7_000_000:
+        return _error(422, "pdf", "Please choose a PDF smaller than 5 MB.")
+    try:
+        data = base64.b64decode(encoded, validate=True)
+        if len(data) > 5 * 1024 * 1024 or not data.startswith(b"%PDF-"):
+            raise ValueError("Invalid PDF")
+        reader = PdfReader(io.BytesIO(data))
+        if reader.is_encrypted:
+            return _error(422, "pdf", "Password-protected PDFs are not supported. Paste the text instead.")
+        if len(reader.pages) > 30:
+            return _error(422, "pdf", "Choose a PDF with at most 30 pages.")
+        text = "\n".join((page.extract_text() or "") for page in reader.pages).strip()
+        if len(text) < 80:
+            return _error(422, "pdf", "No usable text found. Scanned PDFs need OCR; paste your text instead.")
+        if len(text) > 20000:
+            return _error(422, "pdf", "This PDF exceeds 20,000 characters. Paste only the relevant project details.")
+        return {"text": text, "pages": len(reader.pages)}
+    except Exception:
+        return _error(422, "pdf", "Could not read this PDF. Paste your project text instead.")
